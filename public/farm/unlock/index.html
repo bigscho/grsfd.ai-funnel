@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>grsfd farm · Unlock your territory report</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  * { box-sizing: border-box; }
+
+  .nav { background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; }
+  .nav img { height: 28px; }
+  .nav .back { color: var(--dark-fg); opacity: .7; font-size: 13px;
+    font-family: var(--font-mono); background: none; border: none; cursor: pointer; }
+  .nav .back:hover { opacity: 1; color: var(--accent); }
+
+  .rail { background: var(--dark); padding: 0 32px 14px; }
+  .rail-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55); }
+  .rail-step { display: flex; align-items: center; gap: 8px; }
+  .rail-step .n { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); font-weight: 700; font-size: 10px; }
+  .rail-step.done .n { background: var(--accent); color: var(--dark); }
+  .rail-step.active .n { background: #fff; color: var(--dark); }
+  .rail-step.active { color: #fff; }
+  .rail-line { flex: 1; height: 1px; background: rgba(255,255,255,.15); max-width: 80px; }
+
+  /* ===== HERO ===== */
+  .hero { max-width: 1200px; margin: 0 auto; padding: 56px 24px 28px;
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+
+  .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  .hero-eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+
+  h1 { font-family: var(--font-display); font-size: clamp(36px, 4.2vw, 52px);
+    font-weight: 500; letter-spacing: -0.022em; line-height: 1.05; margin: 0 0 14px; color: var(--fg); }
+  h1 em { font-style: italic; color: var(--primary); }
+  .sub { font-size: 17px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 22px; max-width: 520px; }
+
+  .terr-chip { display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px 14px;
+    border-radius: 14px; background: var(--bg-elevated); border: 1.5px solid var(--border);
+    margin-bottom: 24px; max-width: 100%; }
+  .terr-chip .k { font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--fg-muted); margin-right: 4px; }
+  .terr-pill { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--fg);
+    background: var(--muted); padding: 4px 10px; border-radius: 999px; }
+  .terr-chip button { background: none; border: none; color: var(--primary); font-family: var(--font-mono);
+    font-size: 11px; cursor: pointer; text-decoration: underline; margin-left: 6px; }
+
+  /* Stats strip (blurred) */
+  .preview-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 10px; }
+  .preview-stat { background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden; }
+  .preview-stat .lbl { font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+  .preview-stat .val { font-family: var(--font-display); font-size: clamp(32px, 4.2vw, 42px);
+    font-weight: 500; letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+    filter: blur(10px); user-select: none; }
+  .preview-stat .note { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted);
+    letter-spacing: .06em; margin-top: 8px; text-transform: uppercase; }
+  .preview-stat .lock { position: absolute; top: 16px; right: 16px; width: 16px; height: 16px;
+    color: var(--fg-muted); opacity: .45; }
+
+  /* ===== RIGHT: opt-in form ===== */
+  .form-panel { background: var(--bg-elevated);
+    border: 1.5px solid var(--primary); border-radius: 16px; padding: 28px 28px 24px;
+    box-shadow: 0 16px 48px hsla(155, 60%, 14%, .12), 0 4px 12px hsla(155, 60%, 14%, .06);
+    position: relative; }
+  .form-panel::before { content: ''; position: absolute; inset: -1.5px; border-radius: 16px;
+    padding: 1.5px; background: var(--grad-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: .5; }
+  .form-panel .gate-eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  .form-panel .gate-eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+  .form-panel h2 { font-family: var(--font-display); font-size: 26px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.1; margin: 0 0 8px; color: var(--fg); }
+  .form-panel .blurb { font-size: 14px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 20px; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  .field label { font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); }
+  .field input { font-family: var(--font-body); font-size: 15px; color: var(--fg);
+    padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--bg); outline: none; transition: border-color .15s, box-shadow .15s; }
+  .field input:focus-visible { border-color: var(--accent); box-shadow: var(--shadow-glow); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field.required label::after { content: ' *'; color: var(--destructive); }
+
+  .btn { font-family: var(--font-body); font-weight: 600; font-size: 16px;
+    padding: 14px 20px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); width: 100%; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  .btn-primary:disabled { opacity: .65; cursor: progress; }
+
+  .legal { font-size: 11px; color: var(--fg-subtle); line-height: 1.5; margin-top: 12px; text-align: center; }
+  .legal a { color: var(--primary); border-bottom: none; }
+
+  .trust-row { display: flex; justify-content: center; gap: 18px; margin-top: 16px;
+    padding-top: 14px; border-top: 1px dashed var(--border); }
+  .trust-item { display: flex; align-items: center; gap: 6px; font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-muted); }
+  .trust-item svg { width: 12px; height: 12px; color: var(--accent); }
+
+  /* ===== LOWER: teased territory card ===== */
+  .lower { max-width: 1200px; margin: 0 auto; padding: 0 24px 96px; }
+  .lower-divider { text-align: center; margin: 28px 0 24px; font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--fg-subtle); position: relative; }
+  .lower-divider::before, .lower-divider::after { content: ''; position: absolute; top: 50%; width: 40%;
+    height: 1px; background: var(--border); }
+  .lower-divider::before { left: 0; } .lower-divider::after { right: 0; }
+
+  .report-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; position: relative; max-width: 820px; margin: 0 auto; box-shadow: var(--shadow-sm); }
+  .report-card::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px;
+    background: linear-gradient(to bottom, transparent, var(--bg-elevated) 90%);
+    pointer-events: none; z-index: 2; }
+
+  .map-wrap { aspect-ratio: 16/9; background: linear-gradient(135deg, hsl(155,20%,92%), hsl(155,20%,96%));
+    position: relative; overflow: hidden; }
+  .map-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .map-grid { stroke: var(--border); stroke-width: 0.5; opacity: .6; }
+  .zip-region { fill: var(--primary); fill-opacity: .18; stroke: var(--primary); stroke-width: 1.5; stroke-opacity: .6; }
+  .zip-label { fill: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+    text-anchor: middle; filter: blur(4px); }
+  .pin { fill: var(--accent); }
+
+  .map-meta { position: absolute; top: 14px; left: 14px; padding: 8px 12px;
+    background: rgba(255,255,255,.9); backdrop-filter: blur(6px); border-radius: 999px;
+    border: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; color: var(--fg); font-weight: 600;
+    letter-spacing: .04em; display: flex; gap: 10px; align-items: center; z-index: 1; }
+  .map-meta .swatch { width: 8px; height: 8px; background: var(--primary); border-radius: 2px; opacity: .6; }
+
+  .breakdown-head { padding: 18px 22px 10px; border-top: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--fg-muted); }
+  .breakdown-rows { padding: 0 22px 20px; }
+  .br-row { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center;
+    padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  .br-row:last-child { border-bottom: none; }
+  .br-zip { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fg);
+    background: var(--muted); padding: 3px 10px; border-radius: 6px; }
+  .br-name { font-size: 13px; color: var(--fg-muted); filter: blur(4px); user-select: none; }
+  .br-count { font-family: var(--font-mono); font-size: 13px; color: var(--fg); font-weight: 600;
+    filter: blur(4px); user-select: none; }
+
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 32px 16px 16px; }
+    .form-panel { order: -1; }
+    .preview-strip { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-screen-label="Funnel 01 · farm opt-in">
+
+<nav class="nav">
+  <img src="/assets/logos/grsfd-ondark.png" alt="grsfd farm">
+  <button class="back" onclick="history.back()">← Back to home</button>
+</nav>
+
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-step done"><span class="n">✓</span> Territory captured</div>
+    <div class="rail-line"></div>
+    <div class="rail-step active"><span class="n">2</span> Unlock report</div>
+    <div class="rail-line"></div>
+    <div class="rail-step"><span class="n">3</span> Book strategy call</div>
+  </div>
+</div>
+
+<!-- ===== ABOVE THE FOLD ===== -->
+<section class="hero">
+
+  <div>
+    <div class="hero-eyebrow"><span class="dot"></span> Preview · your territory</div>
+    <h1>Your farm territory — <em>ready to unlock.</em></h1>
+    <p class="sub">Enter your info and we'll email your ZIP-level homeowner breakdown plus the monthly send volume we recommend to keep your sender reputation intact while you stay top-of-mind.</p>
+
+    <div class="terr-chip">
+      <span class="k">Territory</span>
+      <span class="terr-pill">85251</span>
+      <span class="terr-pill">85254</span>
+      <span class="terr-pill">85255</span>
+      <span class="terr-pill">85258</span>
+      <span class="terr-pill">+2 more</span>
+      <button onclick="history.back()">change</button>
+    </div>
+
+    <div class="preview-strip">
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Neighbors Reached</div>
+        <div class="val">888,888</div>
+        <div class="note">Verified homeowner emails</div>
+      </div>
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Recommended / month</div>
+        <div class="val">88,888</div>
+        <div class="note">Paced across waves</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opt-in form -->
+  <aside class="form-panel">
+    <div class="gate-eyebrow">Unlock your report</div>
+    <h2>See your full territory.</h2>
+    <p class="blurb">Enter your info and we'll email the full breakdown, plus book you a 20-min walkthrough with a grsfd strategist.</p>
+
+    <form id="optin" novalidate>
+      <div class="field-row">
+        <div class="field required">
+          <label>First name</label>
+          <input name="firstName" autocomplete="given-name" required/>
+        </div>
+        <div class="field required">
+          <label>Last name</label>
+          <input name="lastName" autocomplete="family-name" required/>
+        </div>
+      </div>
+      <div class="field required">
+        <label>Work email</label>
+        <input name="email" type="email" autocomplete="email" placeholder="you@brokerage.com" required/>
+      </div>
+      <div class="field required">
+        <label>Phone</label>
+        <input name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required/>
+      </div>
+      <div class="field required">
+        <label>Territory ZIP codes</label>
+        <input name="zip" placeholder="85251, 85254, 85255" required/>
+      </div>
+      <button class="btn btn-primary" type="submit">
+        <span class="btn-label">Unlock report + book call →</span>
+      </button>
+      <div class="legal">
+        By submitting, you agree to receive outreach from grsfd.
+        We don't sell your data. <a>Privacy</a> · <a>Terms</a>
+      </div>
+    </form>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        SOC 2 · in progress
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        CAN-SPAM compliant
+      </div>
+    </div>
+  </aside>
+
+</section>
+
+<!-- ===== BELOW THE FOLD ===== -->
+<section class="lower">
+  <div class="lower-divider">Preview of your report</div>
+
+  <div class="report-card">
+    <div class="map-wrap">
+      <div class="map-meta"><span class="swatch"></span>Territory preview</div>
+      <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" class="map-grid" fill="none"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="225" fill="url(#grid)"/>
+        <polygon points="40,50 130,40 150,110 60,130" class="zip-region"/>
+        <polygon points="130,40 230,50 220,120 150,110" class="zip-region"/>
+        <polygon points="230,50 320,60 315,130 220,120" class="zip-region"/>
+        <polygon points="60,130 150,110 160,190 70,200" class="zip-region"/>
+        <polygon points="150,110 220,120 230,190 160,190" class="zip-region"/>
+        <polygon points="220,120 315,130 325,200 230,190" class="zip-region"/>
+        <text x="95" y="88" class="zip-label">████</text>
+        <text x="185" y="88" class="zip-label">████</text>
+        <text x="270" y="96" class="zip-label">████</text>
+        <text x="110" y="160" class="zip-label">████</text>
+        <text x="185" y="160" class="zip-label">████</text>
+        <text x="275" y="166" class="zip-label">████</text>
+        <g class="pins">
+          <circle cx="85" cy="75" r="2" class="pin"/>
+          <circle cx="175" cy="82" r="2" class="pin"/>
+          <circle cx="265" cy="90" r="2" class="pin"/>
+          <circle cx="110" cy="155" r="2" class="pin"/>
+          <circle cx="190" cy="160" r="2" class="pin"/>
+          <circle cx="270" cy="165" r="2" class="pin"/>
+        </g>
+      </svg>
+    </div>
+    <div class="breakdown-head">Breakdown · by ZIP</div>
+    <div class="breakdown-rows">
+      <div class="br-row"><span class="br-zip">85251</span><span class="br-name">███████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85254</span><span class="br-name">█████████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85255</span><span class="br-name">████████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85258</span><span class="br-name">██████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85260</span><span class="br-name">██████████████</span><span class="br-count">█,███</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Pre-fill zip from querystring (e.g. /farm/unlock?zip=85251)
+  const zip = new URLSearchParams(location.search).get('zip');
+  if (zip) {
+    const zipInput = document.querySelector('input[name="zip"]');
+    if (zipInput) zipInput.value = zip;
+  }
+
+  document.getElementById('optin').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type=submit]');
+    const label = btn.querySelector('.btn-label');
+    btn.disabled = true;
+    label.textContent = 'Unlocking…';
+
+    const data = Object.fromEntries(new FormData(e.target));
+    // Form zip wins; fall back to URL param if present and form is empty
+    const zipValue = (data.zip && String(data.zip).trim()) || zip || '';
+    const payload = { ...data, zip: zipValue, source: 'grsfd-farm' };
+
+    try {
+      const res = await fetch('/api/optin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('Submit failed');
+    } catch (err) {
+      console.error(err);
+      label.textContent = 'Something went wrong — try again';
+      btn.disabled = false;
+      return;
+    }
+
+    const qs = new URLSearchParams({ ...(zip ? { zip } : {}), ...data }).toString();
+    location.href = '/farm/unlock/results?' + qs;
+  });
+</script>
+</body>
+</html>
