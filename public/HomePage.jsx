@@ -288,7 +288,7 @@ function AhaResult({ mlsId, address, radius }) {
           <div style={{ fontSize: 12, color: 'var(--fg-muted)', marginBottom: 12, lineHeight: 1.4 }}>
             First campaign $99. We fire it the next time your MLS shows a close.
           </div>
-          <a href="/unlock" style={{ ...buttonPrimary, padding: '9px 14px', fontSize: 13, borderBottom: 'none', color: '#fff', width: '100%', justifyContent: 'center' }}>
+          <a href="#" style={{ ...buttonPrimary, padding: '9px 14px', fontSize: 13, borderBottom: 'none', color: '#fff', width: '100%', justifyContent: 'center' }}>
             Claim promo →
           </a>
         </div>
@@ -301,7 +301,7 @@ function AhaResult({ mlsId, address, radius }) {
           <div style={{ fontSize: 12, color: 'var(--fg-muted)', marginBottom: 12, lineHeight: 1.4 }}>
             Show up and walk away with the full neighbor list — free.
           </div>
-          <a href="/unlock" style={{ ...buttonGhost, padding: '9px 14px', fontSize: 13, borderBottom: 'none', width: '100%', justifyContent: 'center' }}>
+          <a href="#" style={{ ...buttonGhost, padding: '9px 14px', fontSize: 13, borderBottom: 'none', width: '100%', justifyContent: 'center' }}>
             Pick a time →
           </a>
         </div>

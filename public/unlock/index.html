@@ -306,7 +306,8 @@
 <script>
   // Pre-fill MLS from querystring into the form field
   const mls = new URLSearchParams(location.search).get('mls');
-  if (mls) document.getElementById('mls-input').value = mls;
+  const mlsInput = document.getElementById('mls-input');
+  if (mls && mlsInput) mlsInput.value = mls;
 
   document.getElementById('optin').addEventListener('submit', async (e) => {
     e.preventDefault();

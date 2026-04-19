@@ -328,7 +328,6 @@
     label.textContent = 'Unlocking…';
 
     const data = Object.fromEntries(new FormData(e.target));
-    // Form zip wins; fall back to URL param if present and form is empty
     const zipValue = (data.zip && String(data.zip).trim()) || zip || '';
     const payload = { ...data, zip: zipValue, source: 'grsfd-farm' };
 
@@ -346,7 +345,7 @@
       return;
     }
 
-    const qs = new URLSearchParams({ ...(zip ? { zip } : {}), ...data }).toString();
+    const qs = new URLSearchParams({ ...(zipValue ? { zip: zipValue } : {}), ...data }).toString();
     location.href = '/farm/unlock/results?' + qs;
   });
 </script>

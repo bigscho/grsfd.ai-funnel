@@ -228,7 +228,7 @@ function FarmResult({ zips, email }) {
           <div style={{ fontSize: 12, color: 'var(--fg-muted)', marginBottom: 12, lineHeight: 1.45 }}>
             We've also included a calendar link. Book a 20-min call and we'll walk you through how Farm would run across these zips.
           </div>
-          <a href="/farm/unlock" style={{
+          <a href="#" style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '9px 14px', borderRadius: 8,
             background: 'var(--primary)', color: '#fff',
