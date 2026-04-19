@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>grsfd — full funnel prototype</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<template id="__bundler_thumbnail" data-bg-color="#0f1f17">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#0f1f17"/>
+    <g transform="translate(600 400)">
+      <circle r="180" fill="none" stroke="#c4f078" stroke-width="6" opacity="0.9"/>
+      <circle r="120" fill="none" stroke="#c4f078" stroke-width="4" opacity="0.55"/>
+      <circle r="60" fill="#c4f078" opacity="0.95"/>
+      <circle r="8" fill="#0f1f17"/>
+    </g>
+    <text x="600" y="660" text-anchor="middle" font-family="Georgia, serif" font-size="44" font-style="italic" fill="#ffffff" opacity="0.85">grsfd</text>
+    <text x="600" y="710" text-anchor="middle" font-family="monospace" font-size="16" letter-spacing="4" fill="#c4f078" opacity="0.7">LOADING</text>
+  </svg>
+</template>
+<style id="global-tokens">
+/* ============================================================
+   Grassfed Design System — Colors & Type
+   ============================================================
+   Daytime light-mode palette; dark brand-green for navbar/footer.
+   Imports Space Grotesk (display) and Inter (body) from Google Fonts.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ---------- Core palette (HSL + HEX parity for tooling) ---------- */
+  --bg:              hsl(50, 10%, 96%);        /* #F6F5F1 warm off-white */
+  --bg-elevated:     hsl(0, 0%, 100%);         /* #FFFFFF cards */
+  --fg:              hsl(168, 55%, 23%);       /* #1A5A50 brand green text */
+  --fg-muted:        hsl(155, 20%, 40%);       /* #527A6B captions / meta */
+  --fg-subtle:       hsl(155, 15%, 55%);       /* #7E9890 hints */
+
+  --primary:         hsl(155, 68%, 28%);       /* #177851 CTAs, links */
+  --primary-hover:   hsl(155, 68%, 24%);       /* darken on hover */
+  --primary-fg:      hsl(0, 0%, 100%);
+
+  --accent:          hsl(93, 55%, 42%);        /* #62A930 lime accent */
+  --accent-glow:     hsl(93, 60%, 48%);        /* #6FC433 hover/glow */
+  --accent-fg:       hsl(155, 60%, 14%);       /* dark text on lime */
+
+  --secondary:       hsl(155, 20%, 90%);       /* #DCE8E3 subtle bg */
+  --muted:           hsl(155, 15%, 88%);       /* #D7E0DC muted bg */
+  --border:          hsl(155, 15%, 85%);       /* #CED9D4 dividers */
+  --border-strong:   hsl(155, 15%, 75%);       /* stronger dividers */
+
+  --dark:            hsl(155, 60%, 14%);       /* #0F3A29 navbar / footer */
+  --dark-elevated:   hsl(155, 55%, 18%);       /* cards on dark */
+  --dark-fg:         hsl(50, 10%, 96%);        /* text on dark */
+  --dark-border:     hsl(155, 40%, 24%);       /* borders on dark */
+
+  --destructive:     hsl(0, 84%, 50%);         /* #EB1F1F errors */
+  --destructive-fg:  hsl(0, 0%, 100%);
+  --warning:         hsl(38, 92%, 50%);
+  --success:         hsl(145, 65%, 38%);
+
+  /* ---------- Data-viz scale (maps / charts) ---------- */
+  --data-1:          hsl(168, 55%, 23%);       /* deep green */
+  --data-2:          hsl(155, 68%, 28%);       /* teal */
+  --data-3:          hsl(140, 50%, 40%);       /* mid green */
+  --data-4:          hsl(93, 55%, 42%);        /* lime */
+  --data-5:          hsl(60, 60%, 55%);        /* olive-yellow */
+  --data-6:          hsl(38, 75%, 55%);        /* warm amber */
+
+  /* ---------- Gradients ----------
+     --grad-primary: radial corner glow. Lime sweeps up from bottom-left
+     through mid-green into the dark-green field — avoids the muddy
+     yellow-green middle a straight linear produces. Use on hero CTAs,
+     one-per-page premium moments.
+     --grad-soft:    soft linear, lime→primary, for chips / badges / subtle fills.
+  */
+  --grad-primary:    radial-gradient(120% 180% at 0% 100%, hsl(93, 65%, 63%) 0%, hsl(93, 55%, 42%) 35%, hsl(168, 55%, 23%) 75%, hsl(155, 60%, 14%) 100%);
+  --grad-soft:       linear-gradient(135deg, hsl(93, 55%, 42%) 0%, hsl(155, 68%, 28%) 100%);
+  --grad-subtle:     linear-gradient(135deg, hsl(155, 15%, 92%) 0%, hsl(155, 15%, 90%) 100%);
+  --grad-dark:       linear-gradient(180deg, hsl(155, 60%, 14%) 0%, hsl(155, 60%, 10%) 100%);
+
+  /* ---------- Type ---------- */
+  --font-display:    'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body:       'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono:       'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale — modular, generous, data-confident */
+  --text-xs:         12px;
+  --text-sm:         14px;
+  --text-base:       16px;
+  --text-lg:         18px;
+  --text-xl:         22px;
+  --text-2xl:        28px;
+  --text-3xl:        36px;
+  --text-4xl:        48px;
+  --text-5xl:        64px;
+  --text-6xl:        80px;
+
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-tight:  -0.02em;
+  --tracking-snug:   -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.06em;
+  --tracking-caps:   0.12em;     /* for all-caps eyebrows */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-0:  0;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;        /* 0.625rem — palette default */
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-full: 9999px;
+
+  /* ---------- Shadows (green-tinted, never pure black) ---------- */
+  --shadow-xs:   0 1px 2px hsla(168, 40%, 15%, 0.04);
+  --shadow-sm:   0 2px 4px hsla(168, 40%, 15%, 0.05), 0 1px 2px hsla(168, 40%, 15%, 0.04);
+  --shadow-md:   0 4px 12px hsla(168, 40%, 15%, 0.06), 0 2px 4px hsla(168, 40%, 15%, 0.04);
+  --shadow-lg:   0 12px 32px hsla(168, 40%, 15%, 0.08), 0 4px 8px hsla(168, 40%, 15%, 0.05);
+  --shadow-xl:   0 24px 64px hsla(168, 40%, 15%, 0.12), 0 8px 16px hsla(168, 40%, 15%, 0.06);
+  --shadow-inner:inset 0 1px 2px hsla(168, 40%, 15%, 0.06);
+  --shadow-glow: 0 0 0 4px hsla(93, 55%, 42%, 0.25);   /* accent focus ring */
+
+  /* ---------- Motion ---------- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-fast:    120ms;
+  --dur-base:    200ms;
+  --dur-slow:    360ms;
+
+  /* ---------- Grain / noise overlay (SVG turbulence) ---------- */
+  --noise-url: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06  0 0 0 0 0.22  0 0 0 0 0.16  0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   Semantic type styles
+   ============================================================ */
+
+html { font-family: var(--font-body); color: var(--fg); background: var(--bg); }
+body { margin: 0; font-size: var(--text-base); line-height: var(--leading-normal); -webkit-font-smoothing: antialiased; }
+
+.display, h1, h2, h3 {
+  font-family: var(--font-display);
+  color: var(--fg);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  font-weight: 600;
+  margin: 0;
+}
+
+h1 { font-size: var(--text-5xl); font-weight: 600; letter-spacing: var(--tracking-tight); }
+h2 { font-size: var(--text-3xl); font-weight: 600; }
+h3 { font-size: var(--text-xl); font-weight: 600; letter-spacing: var(--tracking-snug); line-height: var(--leading-snug); }
+h4 { font-family: var(--font-body); font-size: var(--text-lg); font-weight: 600; color: var(--fg); margin: 0; }
+
+p { margin: 0 0 var(--space-4); color: var(--fg); }
+.text-muted { color: var(--fg-muted); }
+.text-subtle { color: var(--fg-subtle); }
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lede {
+  font-family: var(--font-body);
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--muted);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  border-bottom: 1px solid hsla(155, 68%, 28%, 0.25);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+a:hover { border-bottom-color: var(--primary); }
+
+/* ============================================================
+   Utilities
+   ============================================================ */
+.noise-overlay { position: relative; }
+.noise-overlay::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: var(--noise-url);
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.surface-dark {
+  background: var(--dark);
+  color: var(--dark-fg);
+  --fg: var(--dark-fg);
+  --fg-muted: hsl(155, 20%, 72%);
+  --border: var(--dark-border);
+  --bg-elevated: var(--dark-elevated);
+}
+
+</style>
+<style id="shell">
+
+  html, body { margin: 0; padding: 0; background: #fff; }
+  [data-page] { display: none; }
+  [data-page].active { display: block; }
+
+</style>
+<style data-for="home">
+
+  [data-page="home"]{ margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  [data-page="home"] *{ box-sizing: border-box; }
+  [data-page="home"].active{ scroll-behavior: smooth; }
+
+  
+  [data-page="home"] .nav{ background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+  [data-page="home"] .nav img{ height: 28px; }
+  [data-page="home"] .nav .links{ display: flex; gap: 24px; font-size: 14px; align-items: center; }
+  [data-page="home"] .nav .links a{ color: var(--dark-fg); text-decoration: none; opacity: .75; cursor: pointer; }
+  [data-page="home"] .nav .links a:hover{ opacity: 1; color: var(--accent); }
+  [data-page="home"] .nav .cta-nav{ background: var(--accent); color: var(--dark); padding: 8px 14px; border-radius: 999px;
+    font-weight: 600; opacity: 1 !important; }
+
+  
+  [data-page="home"] .hero{ padding: 100px 24px 80px; text-align: center; position: relative; }
+  [data-page="home"] .hero::before{ content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, hsla(93,55%,42%,.08), transparent 60%); pointer-events: none; }
+  [data-page="home"] .hero-inner{ position: relative; max-width: 860px; margin: 0 auto; }
+  [data-page="home"] .eyebrow{ font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 20px; }
+  [data-page="home"] h1{ font-family: var(--font-display); font-size: clamp(44px, 7vw, 88px);
+    font-weight: 500; letter-spacing: -0.024em; line-height: 1.0; margin: 0 0 28px; color: var(--fg); }
+  [data-page="home"] h1 em{ font-style: italic; color: var(--primary); }
+  [data-page="home"] .lede{ font-size: clamp(18px, 2vw, 22px); line-height: 1.5; color: var(--fg-muted);
+    max-width: 640px; margin: 0 auto 44px; }
+
+  [data-page="home"] .dual-cta{ display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  [data-page="home"] .btn{ font-family: var(--font-body); font-weight: 600; font-size: 16px;
+    padding: 14px 22px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); text-decoration: none; }
+  [data-page="home"] .btn-primary{ background: var(--primary); color: #fff; }
+  [data-page="home"] .btn-primary:hover:not(:disabled){ background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  [data-page="home"] .btn-primary:disabled{ opacity: .65; cursor: progress; }
+  [data-page="home"] .btn-accent{ background: var(--accent); color: var(--dark); }
+  [data-page="home"] .btn-accent:hover{ filter: brightness(1.08); box-shadow: var(--shadow-glow); }
+  [data-page="home"] .btn-ghost{ background: transparent; color: var(--fg); border-color: var(--border); }
+  [data-page="home"] .btn-ghost:hover{ background: var(--muted); }
+  [data-page="home"] .btn-dark{ background: var(--dark); color: var(--dark-fg); }
+  [data-page="home"] .btn-dark:hover{ background: #1a4a33; }
+
+  [data-page="home"] .scroll-hint{ margin-top: 72px; font-family: var(--font-mono); font-size: 12px;
+    color: var(--fg-muted); letter-spacing: .08em; text-transform: uppercase; }
+  [data-page="home"] .scroll-hint .arrow{ display: block; margin: 8px auto 0; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  
+  [data-page="home"] .agents-wrap{ max-width: 1160px; width: calc(100vw - 48px); margin: 56px auto 0;
+    margin-left: calc(50% - 50vw + 24px); margin-right: calc(50% - 50vw + 24px); position: relative; }
+  [data-page="home"] .agents-label{ text-align: center; font-family: var(--font-mono); font-size: 11px;
+    font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--fg-muted); margin-bottom: 18px; }
+  [data-page="home"] .agents-label::before, [data-page="home"] .agents-label::after{ content: ''; display: inline-block;
+    width: 40px; height: 1px; background: var(--border); vertical-align: middle; margin: 0 12px; }
+
+  [data-page="home"] .agents{ display: grid; grid-template-columns: 1fr auto 1fr; gap: 0;
+    text-align: left; align-items: stretch; position: relative; max-width: 1160px; margin: 0 auto; }
+
+  [data-page="home"] .agent-divider{ display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 10px; padding: 0 10px; position: relative; }
+  [data-page="home"] .agent-divider .line{ width: 1px; flex: 1; background: linear-gradient(to bottom,
+    transparent, var(--border) 20%, var(--border) 80%, transparent); }
+  [data-page="home"] .agent-divider .or{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .16em; color: var(--fg-muted);
+    background: var(--bg); padding: 8px 0; border-radius: 999px; }
+
+  [data-page="home"] .agent{ position: relative; background: var(--bg-elevated); border: 1.5px solid var(--border);
+    border-radius: 20px; padding: 28px; transition: all .2s cubic-bezier(.22,1,.36,1);
+    display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+  [data-page="home"] .agent::before{ content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: var(--primary); opacity: .9; }
+  [data-page="home"] .agent.farm{ background: var(--dark); color: var(--dark-fg); border-color: transparent; }
+  [data-page="home"] .agent.farm::before{ background: var(--accent); }
+  [data-page="home"] .agent:hover{ transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  [data-page="home"] .agent:not(.farm):hover{ border-color: var(--primary); }
+  [data-page="home"] .agent.farm:hover{ box-shadow: 0 0 0 1.5px var(--accent), var(--shadow-lg); }
+
+  [data-page="home"] .agent-tag{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--fg-muted); display: flex; align-items: center; gap: 8px; }
+  [data-page="home"] .agent.farm .agent-tag{ color: rgba(255,255,255,.6); }
+  [data-page="home"] .agent-tag .dot{ width: 6px; height: 6px; border-radius: 50%; background: hsl(120,65%,50%);
+    box-shadow: 0 0 0 3px hsla(120,65%,50%,.2); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
+
+  [data-page="home"] .agent-head{ display: flex; align-items: center; gap: 16px; }
+  [data-page="home"] .agent-avatar{ width: 64px; height: 64px; border-radius: 18px;
+    display: grid; place-items: center; flex-shrink: 0; position: relative;
+    background: linear-gradient(135deg, hsla(93,55%,42%,.12), hsla(93,55%,42%,.04));
+    border: 1.5px solid hsla(93,55%,42%,.25); }
+  [data-page="home"] .agent.farm .agent-avatar{ background: linear-gradient(135deg, hsla(83,77%,64%,.2), hsla(83,77%,64%,.04));
+    border-color: hsla(83,77%,64%,.3); }
+  [data-page="home"] .agent-avatar svg{ width: 32px; height: 32px; }
+
+  [data-page="home"] .agent-id{ display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  [data-page="home"] .agent-name{ font-family: var(--font-display); font-size: 26px; font-weight: 500;
+    letter-spacing: -0.018em; line-height: 1; }
+  [data-page="home"] .agent-role{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--primary); opacity: .95; }
+  [data-page="home"] .agent.farm .agent-role{ color: var(--accent); }
+
+  [data-page="home"] .agent-intro{ font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+    margin: 0; opacity: .9;
+    position: relative; padding: 14px 14px 14px 16px; border-radius: 12px;
+    background: var(--muted); border-left: 3px solid var(--primary); }
+  [data-page="home"] .agent.farm .agent-intro{ background: rgba(255,255,255,.06); border-left-color: var(--accent); color: #fff; opacity: 1; }
+  [data-page="home"] .agent-intro::after{ content: '—'; margin-left: 4px; opacity: .4; }
+
+  [data-page="home"] .agent-stats{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  [data-page="home"] .agent.farm .agent-stats{ border-color: rgba(255,255,255,.08); }
+  [data-page="home"] .agent-stat .lbl{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--fg-muted); display: block; margin-bottom: 4px; }
+  [data-page="home"] .agent.farm .agent-stat .lbl{ color: rgba(255,255,255,.5); }
+  [data-page="home"] .agent-stat .val{ font-family: var(--font-display); font-size: 20px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1; }
+
+  [data-page="home"] .agent-bullets{ list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 8px; font-size: 13.5px; }
+  [data-page="home"] .agent-bullets li{ padding-left: 20px; position: relative; opacity: .88; line-height: 1.45; }
+  [data-page="home"] .agent-bullets li::before{ content: '→'; position: absolute; left: 0; color: var(--primary); font-weight: 700; }
+  [data-page="home"] .agent.farm .agent-bullets li::before{ color: var(--accent); }
+
+  [data-page="home"] .agent-form{ background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 14px; display: flex; flex-direction: column; gap: 10px; margin-top: auto; }
+  [data-page="home"] .agent.farm .agent-form{ background: rgba(255,255,255,.05); border-color: rgba(255,255,255,.12); }
+  [data-page="home"] .agent-form label{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  [data-page="home"] .agent-form input{ font-family: var(--font-body); font-size: 15px; color: inherit;
+    padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); outline: none; transition: border-color .15s, box-shadow .15s; }
+  [data-page="home"] .agent.farm .agent-form input{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: #fff; }
+  [data-page="home"] .agent.farm .agent-form input::placeholder{ color: rgba(255,255,255,.4); }
+  [data-page="home"] .agent-form input:focus-visible{ border-color: var(--accent); box-shadow: var(--shadow-glow); }
+  [data-page="home"] .agent-form .btn{ width: 100%; padding: 12px 18px; font-size: 15px; }
+
+  [data-page="home"] .agent-status{ font-family: var(--font-mono); font-size: 12px; min-height: 0; }
+  [data-page="home"] .agent-status .mini-result{ padding: 12px; border-radius: 8px;
+    background: hsla(93,55%,42%,.1); border: 1px solid hsla(93,55%,42%,.3); }
+  [data-page="home"] .agent-status .mini-result .n{ font-family: var(--font-display); font-size: 24px;
+    font-weight: 500; color: var(--primary); display: block; line-height: 1.1; }
+  [data-page="home"] .agent.farm .agent-status .mini-result{ background: hsla(83,77%,64%,.1); border-color: hsla(83,77%,64%,.3); }
+  [data-page="home"] .agent.farm .agent-status .mini-result .n{ color: var(--accent); }
+  [data-page="home"] .agent-status .mini-err{ color: hsl(0,60%,55%); }
+  [data-page="home"] .agent.farm .agent-status .mini-err{ color: hsl(0,70%,78%); }
+
+  
+  [data-page="home"] .how{ padding: 100px 24px; border-top: 1px solid var(--border); background: var(--bg-elevated); }
+  [data-page="home"] .section-title{ font-family: var(--font-display); font-size: clamp(32px, 4vw, 48px); font-weight: 500;
+    letter-spacing: -0.02em; text-align: center; margin: 0 0 16px; }
+  [data-page="home"] .section-sub{ text-align: center; color: var(--fg-muted); font-size: 17px; max-width: 620px; margin: 0 auto 56px; }
+
+  [data-page="home"] .flows{ max-width: 1160px; width: calc(100vw - 48px); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  [data-page="home"] .flow{ position: relative; }
+  [data-page="home"] .flow-head{ display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  [data-page="home"] .flow-head .pill{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--primary);
+    padding: 4px 10px; border-radius: 999px; background: var(--muted); }
+  [data-page="home"] .flow.farm .flow-head .pill{ color: var(--dark); background: hsla(83,77%,64%,.25); }
+  [data-page="home"] .flow-head h3{ font-family: var(--font-display); font-size: 24px; font-weight: 500;
+    letter-spacing: -0.015em; margin: 0; }
+  [data-page="home"] .flow-steps{ list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+  [data-page="home"] .flow-step{ display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; position: relative; }
+  [data-page="home"] .flow-step:not(:last-child)::after{ content: ''; position: absolute; left: 19px; top: 42px;
+    bottom: -18px; width: 2px; background: linear-gradient(to bottom, var(--border), transparent); }
+  [data-page="home"] .flow-step .n{ width: 40px; height: 40px; border-radius: 12px;
+    background: var(--bg); border: 1.5px solid var(--primary);
+    display: grid; place-items: center; font-family: var(--font-display);
+    font-size: 18px; font-weight: 500; color: var(--primary); }
+  [data-page="home"] .flow.farm .flow-step .n{ border-color: var(--dark); color: var(--dark);
+    background: hsla(83,77%,64%,.12); }
+  [data-page="home"] .flow-step h4{ font-family: var(--font-display); font-size: 20px; font-weight: 500;
+    letter-spacing: -0.01em; margin: 6px 0 6px; line-height: 1.15; }
+  [data-page="home"] .flow-step p{ color: var(--fg-muted); line-height: 1.55; margin: 0; font-size: 14.5px; }
+  [data-page="home"] .flow-step .chip{ display: inline-block; font-family: var(--font-mono); font-size: 11px;
+    font-weight: 700; letter-spacing: .08em; color: var(--primary);
+    padding: 3px 8px; border-radius: 6px; background: var(--muted); margin-right: 6px; margin-top: 8px; }
+  [data-page="home"] .flow.farm .flow-step .chip{ background: hsla(83,77%,64%,.2); color: var(--dark); }
+
+  
+  [data-page="home"] .split{ padding: 100px 24px; border-top: 1px solid var(--border); }
+  [data-page="home"] .split-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 24px; max-width: 1200px; margin: 0 auto; }
+  [data-page="home"] .product-card{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 18px;
+    padding: 36px; position: relative; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  [data-page="home"] .product-card:hover{ border-color: var(--primary); box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  [data-page="home"] .product-card.farm{ background: var(--dark); color: var(--dark-fg); border-color: transparent; }
+  [data-page="home"] .product-card.farm h2, [data-page="home"] .product-card.farm p{ color: var(--dark-fg); }
+  [data-page="home"] .product-card .brand{ height: 32px; margin-bottom: 20px; display: block; }
+  [data-page="home"] .product-card .tag{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--primary); margin-bottom: 12px; }
+  [data-page="home"] .product-card.farm .tag{ color: var(--accent); }
+  [data-page="home"] .product-card h2{ font-family: var(--font-display); font-size: 34px; font-weight: 500;
+    letter-spacing: -0.018em; line-height: 1.05; margin: 0 0 14px; }
+  [data-page="home"] .product-card .desc{ font-size: 16px; line-height: 1.55; margin: 0 0 24px; opacity: .85; }
+  [data-page="home"] .product-card .bullets{ list-style: none; padding: 0; margin: 0 0 28px; display: flex; flex-direction: column; gap: 10px; }
+  [data-page="home"] .product-card .bullets li{ font-size: 14px; line-height: 1.5; padding-left: 22px; position: relative; }
+  [data-page="home"] .product-card .bullets li::before{ content: ''; position: absolute; left: 0; top: 7px;
+    width: 12px; height: 2px; background: var(--accent); }
+
+  [data-page="home"] .mini-form{ background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px;
+    padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+  [data-page="home"] .product-card.farm .mini-form{ background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.1); }
+  [data-page="home"] .mini-form label{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+  [data-page="home"] .mini-form input{ font-family: var(--font-body); font-size: 15px; color: inherit;
+    padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg-elevated); outline: none; }
+  [data-page="home"] .product-card.farm .mini-form input{ background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.14); color: #fff; }
+  [data-page="home"] .product-card.farm .mini-form input::placeholder{ color: rgba(255,255,255,.4); }
+  [data-page="home"] .mini-form input:focus-visible{ border-color: var(--accent); box-shadow: var(--shadow-glow); }
+
+  [data-page="home"] .mini-form .btn{ width: 100%; padding: 12px 18px; }
+
+  [data-page="home"] .mini-result{ font-family: var(--font-mono); font-size: 13px; padding: 14px; border-radius: 8px;
+    background: hsla(93,55%,42%,.1); border: 1px solid hsla(93,55%,42%,.3); color: inherit; }
+  [data-page="home"] .mini-result .n{ font-family: var(--font-display); font-size: 28px; font-weight: 500; color: var(--primary); display: block; }
+  [data-page="home"] .product-card.farm .mini-result{ background: hsla(83,77%,64%,.1); border-color: hsla(83,77%,64%,.25); }
+  [data-page="home"] .product-card.farm .mini-result .n{ color: var(--accent); }
+  [data-page="home"] .mini-err{ font-family: var(--font-mono); font-size: 12px; color: hsl(0,55%,55%); padding: 8px 0; }
+  [data-page="home"] .product-card.farm .mini-err{ color: hsl(0,70%,75%); }
+
+  [data-page="home"] .spinner{ width: 16px; height: 16px; border: 2.2px solid currentColor; border-top-color: transparent;
+    border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  
+  [data-page="home"] .proof{ padding: 80px 24px; border-top: 1px solid var(--border); background: var(--muted); }
+  [data-page="home"] .proof-inner{ max-width: 1080px; margin: 0 auto; text-align: center; }
+  [data-page="home"] .proof-stat{ font-family: var(--font-mono); font-size: 13px; color: var(--fg-muted);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 20px; }
+  [data-page="home"] .proof-big{ font-family: var(--font-display); font-size: clamp(44px, 6vw, 72px); font-weight: 500;
+    letter-spacing: -0.022em; margin: 0 0 32px; }
+  [data-page="home"] .proof-big em{ font-style: italic; color: var(--primary); }
+  [data-page="home"] .logo-strip{ display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    opacity: .55; font-family: var(--font-mono); font-size: 14px; letter-spacing: .1em; }
+
+  
+  [data-page="home"] .final{ padding: 100px 24px; border-top: 1px solid var(--border); text-align: center; }
+  [data-page="home"] .final h2{ font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px); font-weight: 500;
+    letter-spacing: -0.02em; margin: 0 0 20px; }
+  [data-page="home"] .final .dual-cta{ margin-top: 32px; }
+
+  
+  [data-page="home"] .modal-backdrop{ position: fixed; inset: 0; background: rgba(15,58,41,.45); backdrop-filter: blur(6px);
+    z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; }
+  [data-page="home"] .modal-backdrop.open{ display: flex; }
+  [data-page="home"] .modal{ background: var(--bg); border-radius: 18px; max-width: 520px; width: 100%;
+    padding: 36px; box-shadow: var(--shadow-lg); text-align: center; position: relative; }
+  [data-page="home"] .modal-close{ position: absolute; top: 14px; right: 14px; background: none; border: none;
+    font-size: 22px; cursor: pointer; color: var(--fg-muted); line-height: 1; }
+  [data-page="home"] .modal .big-n{ font-family: var(--font-display); font-size: clamp(56px, 10vw, 104px);
+    font-weight: 500; letter-spacing: -0.03em; line-height: 1; margin: 0 0 10px;
+    animation: countUp .5s cubic-bezier(.22,1,.36,1) both; }
+  [data-page="home"] .modal .big-n .tilde{ color: var(--fg-muted); font-weight: 300; }
+  @keyframes countUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  [data-page="home"] .modal .cov{ color: var(--fg-muted); font-size: 17px; margin: 0 0 28px; }
+  [data-page="home"] .modal .cta-row{ display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  [data-page="home"] .modal .success-eyebrow{ font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="home"] .modal .success-eyebrow::before{ content: ''; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px hsla(93,55%,42%,.25); }
+
+  @media (max-width: 620px) {
+    [data-page="home"] .flows{ grid-template-columns: 1fr; gap: 48px; }
+  }
+  @media (max-width: 820px) {
+  }
+  @media (max-width: 560px) {
+    [data-page="home"] .agents{ grid-template-columns: 1fr; }
+    [data-page="home"] .agent-divider{ display: none; }
+  }
+  @media (max-width: 680px) {
+    [data-page="home"] .steps{ grid-template-columns: 1fr; }
+    [data-page="home"] .nav{ padding: 14px 20px; }
+    [data-page="home"] .nav .links{ gap: 14px; font-size: 13px; }
+    [data-page="home"] .hero{ padding: 60px 16px 48px; }
+    [data-page="home"] .how, [data-page="home"] .split, [data-page="home"] .final{ padding: 64px 16px; }
+    [data-page="home"] .dual-cta .btn{ width: 100%; }
+  }
+
+
+</style>
+<style data-for="grsfd-1">
+
+  [data-page="grsfd-1"]{ margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  [data-page="grsfd-1"] *{ box-sizing: border-box; }
+  [data-page="grsfd-1"].active{ scroll-behavior: smooth; }
+
+  
+  [data-page="grsfd-1"] .nav{ background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; }
+  [data-page="grsfd-1"] .nav img{ height: 28px; }
+  [data-page="grsfd-1"] .nav .back{ color: var(--dark-fg); opacity: .7; font-size: 13px;
+    font-family: var(--font-mono); text-decoration: none; border: none; background: none; cursor: pointer; }
+  [data-page="grsfd-1"] .nav .back:hover{ opacity: 1; color: var(--accent); }
+
+  
+  [data-page="grsfd-1"] .rail{ background: var(--dark); padding: 0 32px 14px; }
+  [data-page="grsfd-1"] .rail-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55); }
+  [data-page="grsfd-1"] .rail-step{ display: flex; align-items: center; gap: 8px; }
+  [data-page="grsfd-1"] .rail-step .n{ width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); font-weight: 700; font-size: 10px; }
+  [data-page="grsfd-1"] .rail-step.done .n{ background: var(--accent); color: var(--dark); }
+  [data-page="grsfd-1"] .rail-step.active .n{ background: #fff; color: var(--dark); }
+  [data-page="grsfd-1"] .rail-step.active{ color: #fff; }
+  [data-page="grsfd-1"] .rail-line{ flex: 1; height: 1px; background: rgba(255,255,255,.15); max-width: 80px; }
+
+  
+  [data-page="grsfd-1"] .hero{ max-width: 1200px; margin: 0 auto; padding: 56px 24px 28px;
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+
+  [data-page="grsfd-1"] .hero-eyebrow{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="grsfd-1"] .hero-eyebrow .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+
+  [data-page="grsfd-1"] h1{ font-family: var(--font-display); font-size: clamp(36px, 4.2vw, 52px);
+    font-weight: 500; letter-spacing: -0.022em; line-height: 1.05; margin: 0 0 14px; color: var(--fg); }
+  [data-page="grsfd-1"] h1 em{ font-style: italic; color: var(--primary); }
+  [data-page="grsfd-1"] .sub{ font-size: 17px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 22px; max-width: 520px; }
+
+  [data-page="grsfd-1"] .mls-chip{ display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+    background: var(--bg-elevated); border: 1.5px solid var(--border);
+    font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--fg);
+    margin-bottom: 24px; }
+  [data-page="grsfd-1"] .mls-chip .k{ color: var(--fg-muted); text-transform: uppercase; font-size: 10px; letter-spacing: .1em; }
+  [data-page="grsfd-1"] .mls-chip button{ background: none; border: none; color: var(--primary); font-family: var(--font-mono);
+    font-size: 11px; cursor: pointer; text-decoration: underline; margin-left: 4px; }
+
+  
+  [data-page="grsfd-1"] .preview-strip{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 10px; }
+  [data-page="grsfd-1"] .preview-stat{ background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden; }
+  [data-page="grsfd-1"] .preview-stat .lbl{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+  [data-page="grsfd-1"] .preview-stat .val{ font-family: var(--font-display); font-size: clamp(32px, 4.2vw, 42px);
+    font-weight: 500; letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+    filter: blur(10px); user-select: none; }
+  [data-page="grsfd-1"] .preview-stat .val::before{ content: ''; display: block; }
+  [data-page="grsfd-1"] .preview-stat .note{ font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted);
+    letter-spacing: .06em; margin-top: 8px; text-transform: uppercase; }
+  [data-page="grsfd-1"] .preview-stat .lock{ position: absolute; top: 16px; right: 16px; width: 16px; height: 16px;
+    color: var(--fg-muted); opacity: .45; }
+
+  
+  [data-page="grsfd-1"] .form-panel{ background: var(--bg-elevated);
+    border: 1.5px solid var(--primary); border-radius: 16px; padding: 28px 28px 24px;
+    box-shadow: 0 16px 48px hsla(155, 60%, 14%, .12), 0 4px 12px hsla(155, 60%, 14%, .06);
+    position: relative; }
+  [data-page="grsfd-1"] .form-panel::before{ content: ''; position: absolute; inset: -1.5px; border-radius: 16px;
+    padding: 1.5px; background: var(--grad-primary); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: .5; }
+  [data-page="grsfd-1"] .form-panel .gate-eyebrow{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="grsfd-1"] .form-panel .gate-eyebrow::before{ content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+  [data-page="grsfd-1"] .form-panel h2{ font-family: var(--font-display); font-size: 26px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.1; margin: 0 0 8px; color: var(--fg); }
+  [data-page="grsfd-1"] .form-panel .blurb{ font-size: 14px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 20px; }
+
+  [data-page="grsfd-1"] .field{ display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  [data-page="grsfd-1"] .field label{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); }
+  [data-page="grsfd-1"] .field input, [data-page="grsfd-1"] .field select{ font-family: var(--font-body); font-size: 15px; color: var(--fg);
+    padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--bg); outline: none; transition: border-color .15s, box-shadow .15s; }
+  [data-page="grsfd-1"] .field input:focus-visible, [data-page="grsfd-1"] .field select:focus-visible{ border-color: var(--accent); box-shadow: var(--shadow-glow); }
+  [data-page="grsfd-1"] .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  [data-page="grsfd-1"] .field.required label::after{ content: ' *'; color: var(--destructive); }
+
+  [data-page="grsfd-1"] .btn{ font-family: var(--font-body); font-weight: 600; font-size: 15px;
+    padding: 14px 20px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); width: 100%; }
+  [data-page="grsfd-1"] .btn-primary{ background: var(--primary); color: #fff; font-size: 16px; }
+  [data-page="grsfd-1"] .btn-primary:hover:not(:disabled){ background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  [data-page="grsfd-1"] .btn-primary:disabled{ opacity: .65; cursor: progress; }
+
+  [data-page="grsfd-1"] .legal{ font-size: 11px; color: var(--fg-subtle); line-height: 1.5; margin-top: 12px; text-align: center; }
+  [data-page="grsfd-1"] .legal a{ color: var(--primary); border-bottom: none; }
+
+  [data-page="grsfd-1"] .trust-row{ display: flex; justify-content: center; gap: 18px; margin-top: 16px;
+    padding-top: 14px; border-top: 1px dashed var(--border); }
+  [data-page="grsfd-1"] .trust-item{ display: flex; align-items: center; gap: 6px; font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-muted); }
+  [data-page="grsfd-1"] .trust-item svg{ width: 12px; height: 12px; color: var(--accent); }
+
+  
+  [data-page="grsfd-1"] .lower{ max-width: 1200px; margin: 0 auto; padding: 0 24px 96px; }
+  [data-page="grsfd-1"] .lower-divider{ text-align: center; margin: 28px 0 24px; font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--fg-subtle); position: relative; }
+  [data-page="grsfd-1"] .lower-divider::before, [data-page="grsfd-1"] .lower-divider::after{ content: ''; position: absolute; top: 50%; width: 40%;
+    height: 1px; background: var(--border); }
+  [data-page="grsfd-1"] .lower-divider::before{ left: 0; } [data-page="grsfd-1"] .lower-divider::after{ right: 0; }
+
+  [data-page="grsfd-1"] .report-card{ background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 16px; padding: 28px; box-shadow: var(--shadow-sm); position: relative;
+    max-width: 760px; margin: 0 auto; }
+  [data-page="grsfd-1"] .report-card::after{ content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--bg-elevated) 90%);
+    border-radius: 0 0 16px 16px; pointer-events: none; }
+
+  [data-page="grsfd-1"] .report-head{ display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  [data-page="grsfd-1"] .report-head h3{ font-family: var(--font-display); font-size: 18px; font-weight: 500;
+    letter-spacing: -0.01em; margin: 0; }
+  [data-page="grsfd-1"] .report-head .when{ font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); letter-spacing: .06em; }
+
+  [data-page="grsfd-1"] .event-list h4{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin: 0 0 12px; }
+  [data-page="grsfd-1"] .event-row{ display: grid; grid-template-columns: auto 1fr auto auto; gap: 12px; align-items: center;
+    padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  [data-page="grsfd-1"] .event-row:last-child{ border-bottom: none; }
+  [data-page="grsfd-1"] .event-type{ width: 8px; height: 8px; border-radius: 50%; }
+  [data-page="grsfd-1"] .event-type.listed{ background: var(--primary); }
+  [data-page="grsfd-1"] .event-type.sold{ background: var(--accent); }
+  [data-page="grsfd-1"] .event-type.closed{ background: var(--data-5); }
+  [data-page="grsfd-1"] .event-addr{ font-family: var(--font-mono); font-size: 13px; color: var(--fg); font-weight: 500;
+    filter: blur(5px); user-select: none; }
+  [data-page="grsfd-1"] .event-count{ font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); letter-spacing: .06em;
+    filter: blur(4px); user-select: none; }
+  [data-page="grsfd-1"] .event-label{ font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: .06em;
+    padding: 3px 9px; border-radius: 999px; background: var(--muted); color: var(--fg-muted); }
+
+  @media (max-width: 880px) {
+    [data-page="grsfd-1"] .hero{ grid-template-columns: 1fr; gap: 28px; padding: 32px 16px 16px; }
+    [data-page="grsfd-1"] .form-panel{ order: -1; }
+    [data-page="grsfd-1"] .preview-strip{ grid-template-columns: 1fr; }
+  }
+
+
+</style>
+<style data-for="grsfd-2">
+
+  [data-page="grsfd-2"]{ margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  [data-page="grsfd-2"] *{ box-sizing: border-box; }
+
+  
+  [data-page="grsfd-2"] .nav{ background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; }
+  [data-page="grsfd-2"] .nav img{ height: 28px; }
+  [data-page="grsfd-2"] .nav .who{ font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,.7); }
+  [data-page="grsfd-2"] .nav .who span{ color: var(--accent); }
+
+  
+  [data-page="grsfd-2"] .rail{ background: var(--dark); padding: 0 32px 14px; }
+  [data-page="grsfd-2"] .rail-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55); }
+  [data-page="grsfd-2"] .rail-step{ display: flex; align-items: center; gap: 8px; }
+  [data-page="grsfd-2"] .rail-step .n{ width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 700; font-size: 10px; }
+  [data-page="grsfd-2"] .rail-step.done .n{ background: var(--accent); color: var(--dark); }
+  [data-page="grsfd-2"] .rail-step.active .n{ background: #fff; color: var(--dark); }
+  [data-page="grsfd-2"] .rail-step.active{ color: #fff; }
+  [data-page="grsfd-2"] .rail-line{ flex: 1; height: 1px; background: rgba(255,255,255,.15); max-width: 80px; }
+
+  
+  [data-page="grsfd-2"] .banner{ background: var(--grad-primary); color: #fff; padding: 28px 32px; position: relative; overflow: hidden; }
+  [data-page="grsfd-2"] .banner-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 18px;
+    position: relative; z-index: 1; }
+  [data-page="grsfd-2"] .banner .check{ width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.18);
+    border: 1.5px solid rgba(255,255,255,.4); display: grid; place-items: center; flex-shrink: 0; }
+  [data-page="grsfd-2"] .banner .check svg{ width: 22px; height: 22px; color: #fff; }
+  [data-page="grsfd-2"] .banner .txt{ flex: 1; }
+  [data-page="grsfd-2"] .banner h2{ font-family: var(--font-display); font-size: 22px; font-weight: 500; letter-spacing: -0.01em;
+    margin: 0 0 2px; color: #fff; }
+  [data-page="grsfd-2"] .banner p{ font-size: 14px; margin: 0; color: rgba(255,255,255,.85); }
+  [data-page="grsfd-2"] .banner .email-chip{ font-family: var(--font-mono); font-size: 12px; padding: 6px 12px;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 999px; }
+
+  
+  [data-page="grsfd-2"] .wrap{ max-width: 1200px; margin: 0 auto; padding: 48px 24px 96px;
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: start; }
+
+  
+  [data-page="grsfd-2"] .eyebrow-row{ display: flex; align-items: center; gap: 10px; font-family: var(--font-mono);
+    font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--primary); margin-bottom: 14px; }
+  [data-page="grsfd-2"] .eyebrow-row .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); animation: pulse 2s infinite ease-out; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px hsla(93,55%,42%,.2);} 50% { box-shadow: 0 0 0 8px hsla(93,55%,42%,0);} }
+
+  [data-page="grsfd-2"] h1{ font-family: var(--font-display); font-size: clamp(32px, 3.8vw, 44px); font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1.08; margin: 0 0 10px; color: var(--fg); }
+  [data-page="grsfd-2"] h1 em{ font-style: italic; color: var(--primary); }
+  [data-page="grsfd-2"] .sub{ font-size: 16px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 28px; max-width: 560px; }
+
+  
+  [data-page="grsfd-2"] .hero-stats{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 36px; }
+  [data-page="grsfd-2"] .hero-stat{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 20px; position: relative; overflow: hidden; }
+  [data-page="grsfd-2"] .hero-stat .kicker{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+  [data-page="grsfd-2"] .hero-stat .big{ font-family: var(--font-display); font-size: clamp(36px, 5vw, 52px); font-weight: 500;
+    letter-spacing: -0.025em; line-height: 1; color: var(--fg); }
+  [data-page="grsfd-2"] .hero-stat .unit{ font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted);
+    letter-spacing: .06em; margin-top: 6px; }
+  [data-page="grsfd-2"] .hero-stat.accent{ background: var(--dark); color: #fff; border-color: var(--dark); }
+  [data-page="grsfd-2"] .hero-stat.accent .kicker{ color: var(--accent); }
+  [data-page="grsfd-2"] .hero-stat.accent .big{ color: #fff; }
+  [data-page="grsfd-2"] .hero-stat.accent .unit{ color: rgba(255,255,255,.6); }
+
+  
+  [data-page="grsfd-2"] .section-title{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin: 0 0 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+
+  [data-page="grsfd-2"] .breakdown{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px; margin-bottom: 24px; }
+  [data-page="grsfd-2"] .bk-row{ display: grid; grid-template-columns: auto 1fr auto auto; gap: 18px; align-items: center;
+    padding: 14px 0; border-bottom: 1px dashed var(--border); }
+  [data-page="grsfd-2"] .bk-row:last-child{ border-bottom: none; }
+  [data-page="grsfd-2"] .bk-dot{ width: 10px; height: 10px; border-radius: 50%; }
+  [data-page="grsfd-2"] .bk-dot.listed{ background: var(--primary); }
+  [data-page="grsfd-2"] .bk-dot.sold{ background: var(--accent); }
+  [data-page="grsfd-2"] .bk-dot.closed{ background: var(--data-5); }
+  [data-page="grsfd-2"] .bk-label{ font-family: var(--font-body); font-size: 15px; font-weight: 600; color: var(--fg); }
+  [data-page="grsfd-2"] .bk-label .meta{ display: block; font-family: var(--font-mono); font-size: 11px; font-weight: 400;
+    color: var(--fg-muted); letter-spacing: .04em; margin-top: 3px; }
+  [data-page="grsfd-2"] .bk-events{ font-family: var(--font-mono); font-size: 13px; color: var(--fg); font-weight: 600; text-align: right; min-width: 90px;}
+  [data-page="grsfd-2"] .bk-events span{ display: block; font-size: 10px; color: var(--fg-muted); font-weight: 400;
+    letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; }
+  [data-page="grsfd-2"] .bk-reach{ font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--primary);
+    letter-spacing: -0.01em; text-align: right; min-width: 96px; }
+  [data-page="grsfd-2"] .bk-reach span{ display: block; font-family: var(--font-mono); font-size: 10px; font-weight: 400;
+    color: var(--fg-muted); letter-spacing: .08em; text-transform: uppercase; margin-top: 2px; letter-spacing: .06em;}
+
+  
+  [data-page="grsfd-2"] .timeline{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px; }
+  [data-page="grsfd-2"] .tl-chart{ display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; align-items: end;
+    height: 140px; margin-bottom: 16px; padding-top: 20px; }
+  [data-page="grsfd-2"] .tl-col{ display: flex; flex-direction: column; gap: 2px; justify-content: end; }
+  [data-page="grsfd-2"] .tl-bar{ border-radius: 3px 3px 0 0; transition: opacity .2s; }
+  [data-page="grsfd-2"] .tl-bar.listed{ background: var(--primary); }
+  [data-page="grsfd-2"] .tl-bar.sold{ background: var(--accent); }
+  [data-page="grsfd-2"] .tl-bar.closed{ background: var(--data-5); }
+  [data-page="grsfd-2"] .tl-col:hover .tl-bar{ opacity: .85; }
+  [data-page="grsfd-2"] .tl-months{ display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px;
+    font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: .08em;
+    color: var(--fg-muted); text-align: center; padding-top: 6px; border-top: 1px solid var(--border); }
+  [data-page="grsfd-2"] .tl-legend{ display: flex; gap: 18px; justify-content: center; margin-top: 14px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--fg-muted); }
+  [data-page="grsfd-2"] .tl-legend span{ display: inline-flex; align-items: center; gap: 6px; }
+  [data-page="grsfd-2"] .tl-legend i{ width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+  
+  [data-page="grsfd-2"] .cal-panel{ position: sticky; top: 24px; }
+  [data-page="grsfd-2"] .cal-card{ background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 14px;
+    box-shadow: var(--shadow-md); overflow: hidden; }
+  [data-page="grsfd-2"] .cal-head{ padding: 24px 24px 18px; border-bottom: 1px solid var(--border); }
+  [data-page="grsfd-2"] .cal-head .tag{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+  [data-page="grsfd-2"] .cal-head h2{ font-family: var(--font-display); font-size: 24px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 8px; color: var(--fg); }
+  [data-page="grsfd-2"] .cal-head p{ font-size: 14px; color: var(--fg-muted); margin: 0; line-height: 1.5; }
+  [data-page="grsfd-2"] .cal-meta{ display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border);
+    font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); letter-spacing: .06em; }
+  [data-page="grsfd-2"] .cal-meta span{ display: inline-flex; align-items: center; gap: 6px; }
+  [data-page="grsfd-2"] .cal-meta svg{ width: 12px; height: 12px; color: var(--accent); }
+
+  
+  [data-page="grsfd-2"] .cal-embed{ background: var(--muted); min-height: 440px; position: relative;
+    border-top: 1px solid var(--border); }
+  [data-page="grsfd-2"] .cal-ph{ position: absolute; inset: 0; display: flex; flex-direction: column; padding: 20px; gap: 14px; }
+  [data-page="grsfd-2"] .cal-ph-month{ display: flex; align-items: center; justify-content: space-between; font-family: var(--font-display);
+    font-size: 15px; font-weight: 500; color: var(--fg); }
+  [data-page="grsfd-2"] .cal-ph-month .arrows{ display: flex; gap: 4px; }
+  [data-page="grsfd-2"] .cal-ph-month .arrows button{ width: 26px; height: 26px; border: 1px solid var(--border); background: var(--bg-elevated);
+    border-radius: 6px; cursor: pointer; color: var(--fg-muted); font-size: 12px; }
+  [data-page="grsfd-2"] .cal-ph-dow{ display: grid; grid-template-columns: repeat(7, 1fr); font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--fg-muted);
+    text-align: center; padding-bottom: 4px; }
+  [data-page="grsfd-2"] .cal-ph-days{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  [data-page="grsfd-2"] .cal-ph-day{ aspect-ratio: 1; display: grid; place-items: center; font-size: 13px; font-weight: 500;
+    border-radius: 6px; cursor: pointer; color: var(--fg-subtle); }
+  [data-page="grsfd-2"] .cal-ph-day.avail{ color: var(--primary); background: var(--bg-elevated); border: 1px solid var(--primary); font-weight: 600; }
+  [data-page="grsfd-2"] .cal-ph-day.avail:hover{ background: var(--primary); color: #fff; }
+  [data-page="grsfd-2"] .cal-ph-day.selected{ background: var(--primary); color: #fff; }
+  [data-page="grsfd-2"] .cal-ph-day.out{ color: var(--fg-subtle); opacity: .4; }
+  [data-page="grsfd-2"] .cal-ph-slots{ border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 6px; }
+  [data-page="grsfd-2"] .cal-ph-slots-head{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 8px; }
+  [data-page="grsfd-2"] .slot-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  [data-page="grsfd-2"] .slot{ padding: 10px 12px; background: var(--bg-elevated); border: 1.5px solid var(--border);
+    border-radius: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--fg);
+    text-align: center; cursor: pointer; transition: all .15s; }
+  [data-page="grsfd-2"] .slot:hover{ border-color: var(--primary); color: var(--primary); }
+  [data-page="grsfd-2"] .slot.selected{ background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  [data-page="grsfd-2"] .cal-cta-wrap{ padding: 16px 24px; background: var(--muted); border-top: 1px solid var(--border); }
+  [data-page="grsfd-2"] .btn{ font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    padding: 12px 18px; border-radius: 10px; cursor: pointer; border: 1.5px solid transparent;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); width: 100%; }
+  [data-page="grsfd-2"] .btn-primary{ background: var(--primary); color: #fff; }
+  [data-page="grsfd-2"] .btn-primary:hover{ background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+  [data-page="grsfd-2"] .secondary-cta{ margin-top: 16px; text-align: center; font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: .08em; color: var(--fg-muted); text-transform: uppercase; }
+  [data-page="grsfd-2"] .secondary-cta a{ color: var(--primary); border-bottom: none; }
+
+  @media (max-width: 960px) {
+    [data-page="grsfd-2"] .wrap{ grid-template-columns: 1fr; gap: 32px; padding: 36px 16px 72px; }
+    [data-page="grsfd-2"] .cal-panel{ position: static; }
+    [data-page="grsfd-2"] .hero-stats{ grid-template-columns: 1fr; }
+  }
+
+
+</style>
+<style data-for="farm-1">
+
+  [data-page="farm-1"]{ margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  [data-page="farm-1"] *{ box-sizing: border-box; }
+
+  [data-page="farm-1"] .nav{ background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; }
+  [data-page="farm-1"] .nav img{ height: 28px; }
+  [data-page="farm-1"] .nav .back{ color: var(--dark-fg); opacity: .7; font-size: 13px;
+    font-family: var(--font-mono); background: none; border: none; cursor: pointer; }
+  [data-page="farm-1"] .nav .back:hover{ opacity: 1; color: var(--accent); }
+
+  [data-page="farm-1"] .rail{ background: var(--dark); padding: 0 32px 14px; }
+  [data-page="farm-1"] .rail-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.55); }
+  [data-page="farm-1"] .rail-step{ display: flex; align-items: center; gap: 8px; }
+  [data-page="farm-1"] .rail-step .n{ width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); font-weight: 700; font-size: 10px; }
+  [data-page="farm-1"] .rail-step.done .n{ background: var(--accent); color: var(--dark); }
+  [data-page="farm-1"] .rail-step.active .n{ background: #fff; color: var(--dark); }
+  [data-page="farm-1"] .rail-step.active{ color: #fff; }
+  [data-page="farm-1"] .rail-line{ flex: 1; height: 1px; background: rgba(255,255,255,.15); max-width: 80px; }
+
+  
+  [data-page="farm-1"] .hero{ max-width: 1200px; margin: 0 auto; padding: 56px 24px 28px;
+    display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: start; }
+
+  [data-page="farm-1"] .hero-eyebrow{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="farm-1"] .hero-eyebrow .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+
+  [data-page="farm-1"] h1{ font-family: var(--font-display); font-size: clamp(36px, 4.2vw, 52px);
+    font-weight: 500; letter-spacing: -0.022em; line-height: 1.05; margin: 0 0 14px; color: var(--fg); }
+  [data-page="farm-1"] h1 em{ font-style: italic; color: var(--primary); }
+  [data-page="farm-1"] .sub{ font-size: 17px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 22px; max-width: 520px; }
+
+  [data-page="farm-1"] .terr-chip{ display: inline-flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px 14px;
+    border-radius: 14px; background: var(--bg-elevated); border: 1.5px solid var(--border);
+    margin-bottom: 24px; max-width: 100%; }
+  [data-page="farm-1"] .terr-chip .k{ font-family: var(--font-mono); font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--fg-muted); margin-right: 4px; }
+  [data-page="farm-1"] .terr-pill{ font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--fg);
+    background: var(--muted); padding: 4px 10px; border-radius: 999px; }
+  [data-page="farm-1"] .terr-chip button{ background: none; border: none; color: var(--primary); font-family: var(--font-mono);
+    font-size: 11px; cursor: pointer; text-decoration: underline; margin-left: 6px; }
+
+  
+  [data-page="farm-1"] .preview-strip{ display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 10px; }
+  [data-page="farm-1"] .preview-stat{ background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; position: relative; overflow: hidden; }
+  [data-page="farm-1"] .preview-stat .lbl{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+  [data-page="farm-1"] .preview-stat .val{ font-family: var(--font-display); font-size: clamp(32px, 4.2vw, 42px);
+    font-weight: 500; letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+    filter: blur(10px); user-select: none; }
+  [data-page="farm-1"] .preview-stat .note{ font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted);
+    letter-spacing: .06em; margin-top: 8px; text-transform: uppercase; }
+  [data-page="farm-1"] .preview-stat .lock{ position: absolute; top: 16px; right: 16px; width: 16px; height: 16px;
+    color: var(--fg-muted); opacity: .45; }
+
+  
+  [data-page="farm-1"] .form-panel{ background: var(--bg-elevated);
+    border: 1.5px solid var(--primary); border-radius: 16px; padding: 28px 28px 24px;
+    box-shadow: 0 16px 48px hsla(155, 60%, 14%, .12), 0 4px 12px hsla(155, 60%, 14%, .06);
+    position: relative; }
+  [data-page="farm-1"] .form-panel::before{ content: ''; position: absolute; inset: -1.5px; border-radius: 16px;
+    padding: 1.5px; background: var(--grad-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: .5; }
+  [data-page="farm-1"] .form-panel .gate-eyebrow{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="farm-1"] .form-panel .gate-eyebrow::before{ content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+  [data-page="farm-1"] .form-panel h2{ font-family: var(--font-display); font-size: 26px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.1; margin: 0 0 8px; color: var(--fg); }
+  [data-page="farm-1"] .form-panel .blurb{ font-size: 14px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 20px; }
+
+  [data-page="farm-1"] .field{ display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+  [data-page="farm-1"] .field label{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); }
+  [data-page="farm-1"] .field input{ font-family: var(--font-body); font-size: 15px; color: var(--fg);
+    padding: 11px 13px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--bg); outline: none; transition: border-color .15s, box-shadow .15s; }
+  [data-page="farm-1"] .field input:focus-visible{ border-color: var(--accent); box-shadow: var(--shadow-glow); }
+  [data-page="farm-1"] .field-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  [data-page="farm-1"] .field.required label::after{ content: ' *'; color: var(--destructive); }
+
+  [data-page="farm-1"] .btn{ font-family: var(--font-body); font-weight: 600; font-size: 16px;
+    padding: 14px 20px; border-radius: 10px; cursor: pointer;
+    border: 1.5px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); width: 100%; }
+  [data-page="farm-1"] .btn-primary{ background: var(--primary); color: #fff; }
+  [data-page="farm-1"] .btn-primary:hover:not(:disabled){ background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+  [data-page="farm-1"] .btn-primary:disabled{ opacity: .65; cursor: progress; }
+
+  [data-page="farm-1"] .legal{ font-size: 11px; color: var(--fg-subtle); line-height: 1.5; margin-top: 12px; text-align: center; }
+  [data-page="farm-1"] .legal a{ color: var(--primary); border-bottom: none; }
+
+  [data-page="farm-1"] .trust-row{ display: flex; justify-content: center; gap: 18px; margin-top: 16px;
+    padding-top: 14px; border-top: 1px dashed var(--border); }
+  [data-page="farm-1"] .trust-item{ display: flex; align-items: center; gap: 6px; font-family: var(--font-mono);
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-muted); }
+  [data-page="farm-1"] .trust-item svg{ width: 12px; height: 12px; color: var(--accent); }
+
+  
+  [data-page="farm-1"] .lower{ max-width: 1200px; margin: 0 auto; padding: 0 24px 96px; }
+  [data-page="farm-1"] .lower-divider{ text-align: center; margin: 28px 0 24px; font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--fg-subtle); position: relative; }
+  [data-page="farm-1"] .lower-divider::before, [data-page="farm-1"] .lower-divider::after{ content: ''; position: absolute; top: 50%; width: 40%;
+    height: 1px; background: var(--border); }
+  [data-page="farm-1"] .lower-divider::before{ left: 0; } [data-page="farm-1"] .lower-divider::after{ right: 0; }
+
+  [data-page="farm-1"] .report-card{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 16px;
+    overflow: hidden; position: relative; max-width: 820px; margin: 0 auto; box-shadow: var(--shadow-sm); }
+  [data-page="farm-1"] .report-card::after{ content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 140px;
+    background: linear-gradient(to bottom, transparent, var(--bg-elevated) 90%);
+    pointer-events: none; z-index: 2; }
+
+  [data-page="farm-1"] .map-wrap{ aspect-ratio: 16/9; background: linear-gradient(135deg, hsl(155,20%,92%), hsl(155,20%,96%));
+    position: relative; overflow: hidden; }
+  [data-page="farm-1"] .map-wrap svg{ position: absolute; inset: 0; width: 100%; height: 100%; }
+  [data-page="farm-1"] .map-grid{ stroke: var(--border); stroke-width: 0.5; opacity: .6; }
+  [data-page="farm-1"] .zip-region{ fill: var(--primary); fill-opacity: .18; stroke: var(--primary); stroke-width: 1.5; stroke-opacity: .6; }
+  [data-page="farm-1"] .zip-label{ fill: var(--fg); font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700;
+    text-anchor: middle; filter: blur(4px); }
+  [data-page="farm-1"] .pin{ fill: var(--accent); }
+
+  [data-page="farm-1"] .map-meta{ position: absolute; top: 14px; left: 14px; padding: 8px 12px;
+    background: rgba(255,255,255,.9); backdrop-filter: blur(6px); border-radius: 999px;
+    border: 1px solid var(--border); font-family: var(--font-mono); font-size: 11px; color: var(--fg); font-weight: 600;
+    letter-spacing: .04em; display: flex; gap: 10px; align-items: center; z-index: 1; }
+  [data-page="farm-1"] .map-meta .swatch{ width: 8px; height: 8px; background: var(--primary); border-radius: 2px; opacity: .6; }
+
+  [data-page="farm-1"] .breakdown-head{ padding: 18px 22px 10px; border-top: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: .12em;
+    text-transform: uppercase; color: var(--fg-muted); }
+  [data-page="farm-1"] .breakdown-rows{ padding: 0 22px 20px; }
+  [data-page="farm-1"] .br-row{ display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center;
+    padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  [data-page="farm-1"] .br-row:last-child{ border-bottom: none; }
+  [data-page="farm-1"] .br-zip{ font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--fg);
+    background: var(--muted); padding: 3px 10px; border-radius: 6px; }
+  [data-page="farm-1"] .br-name{ font-size: 13px; color: var(--fg-muted); filter: blur(4px); user-select: none; }
+  [data-page="farm-1"] .br-count{ font-family: var(--font-mono); font-size: 13px; color: var(--fg); font-weight: 600;
+    filter: blur(4px); user-select: none; }
+
+  @media (max-width: 880px) {
+    [data-page="farm-1"] .hero{ grid-template-columns: 1fr; gap: 28px; padding: 32px 16px 16px; }
+    [data-page="farm-1"] .form-panel{ order: -1; }
+    [data-page="farm-1"] .preview-strip{ grid-template-columns: 1fr; }
+  }
+
+
+</style>
+<style data-for="farm-2">
+
+  [data-page="farm-2"]{ margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  [data-page="farm-2"] *{ box-sizing: border-box; }
+
+  [data-page="farm-2"] .nav{ background: var(--dark); color: var(--dark-fg); padding: 16px 32px;
+    display: flex; align-items: center; justify-content: space-between; }
+  [data-page="farm-2"] .nav img{ height: 28px; }
+  [data-page="farm-2"] .nav .who{ font-family: var(--font-mono); font-size: 12px; color: rgba(255,255,255,.7); }
+  [data-page="farm-2"] .nav .who span{ color: var(--accent); }
+
+  [data-page="farm-2"] .rail{ background: var(--dark); padding: 0 32px 14px; }
+  [data-page="farm-2"] .rail-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  [data-page="farm-2"] .rail-step{ display: flex; align-items: center; gap: 8px; }
+  [data-page="farm-2"] .rail-step .n{ width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    font-weight: 700; font-size: 10px; background: rgba(255,255,255,.1); color: rgba(255,255,255,.7); }
+  [data-page="farm-2"] .rail-step.done .n{ background: var(--accent); color: var(--dark); }
+  [data-page="farm-2"] .rail-step.active .n{ background: #fff; color: var(--dark); }
+  [data-page="farm-2"] .rail-step.active{ color: #fff; }
+  [data-page="farm-2"] .rail-line{ flex: 1; height: 1px; background: rgba(255,255,255,.15); max-width: 80px; }
+
+  
+  [data-page="farm-2"] .banner{ background: var(--grad-primary); color: #fff; padding: 22px 32px; position: relative; overflow: hidden; }
+  [data-page="farm-2"] .banner-inner{ max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 16px;
+    position: relative; z-index: 1; }
+  [data-page="farm-2"] .banner .check{ width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.18);
+    border: 1.5px solid rgba(255,255,255,.4); display: grid; place-items: center; flex-shrink: 0; }
+  [data-page="farm-2"] .banner .check svg{ width: 20px; height: 20px; color: #fff; }
+  [data-page="farm-2"] .banner .txt{ flex: 1; }
+  [data-page="farm-2"] .banner h2{ font-family: var(--font-display); font-size: 19px; font-weight: 500; letter-spacing: -0.01em;
+    margin: 0 0 2px; color: #fff; }
+  [data-page="farm-2"] .banner p{ font-size: 13px; margin: 0; color: rgba(255,255,255,.85); }
+  [data-page="farm-2"] .banner .email-chip{ font-family: var(--font-mono); font-size: 12px; padding: 6px 12px;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); border-radius: 999px; }
+
+  
+  [data-page="farm-2"] .wrap{ max-width: 1200px; margin: 0 auto; padding: 48px 24px 96px;
+    display: grid; grid-template-columns: 1fr 1.15fr; gap: 48px; align-items: start; }
+
+  [data-page="farm-2"] .hero-eyebrow{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 14px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="farm-2"] .hero-eyebrow .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); animation: pulse 2s infinite ease-out; }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 4px hsla(93,55%,42%,.2);} 50% { box-shadow: 0 0 0 8px hsla(93,55%,42%,0);} }
+
+  [data-page="farm-2"] h1{ font-family: var(--font-display); font-size: clamp(34px, 4.2vw, 48px); font-weight: 500;
+    letter-spacing: -0.022em; line-height: 1.06; margin: 0 0 14px; color: var(--fg); }
+  [data-page="farm-2"] h1 em{ font-style: italic; color: var(--primary); }
+  [data-page="farm-2"] .sub{ font-size: 16px; line-height: 1.5; color: var(--fg-muted); margin: 0 0 24px; max-width: 520px; }
+
+  
+  [data-page="farm-2"] .install-list{ background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 14px;
+    padding: 22px 22px 18px; margin-bottom: 20px; }
+  [data-page="farm-2"] .install-list h3{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin: 0 0 14px; }
+  [data-page="farm-2"] .il-row{ display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: flex-start;
+    padding: 10px 0; border-bottom: 1px dashed var(--border); }
+  [data-page="farm-2"] .il-row:last-child{ border-bottom: none; }
+  [data-page="farm-2"] .il-num{ width: 22px; height: 22px; border-radius: 50%; background: var(--primary); color: #fff;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700; display: grid; place-items: center;
+    flex-shrink: 0; margin-top: 1px; }
+  [data-page="farm-2"] .il-txt{ font-size: 14px; line-height: 1.5; color: var(--fg); font-weight: 500; }
+  [data-page="farm-2"] .il-txt span{ display: block; font-size: 12px; color: var(--fg-muted); font-weight: 400; margin-top: 3px; }
+
+  
+  [data-page="farm-2"] .preview-strip{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  [data-page="farm-2"] .preview-stat{ background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px; position: relative; overflow: hidden; }
+  [data-page="farm-2"] .preview-stat .lbl{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .12em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 8px; }
+  [data-page="farm-2"] .preview-stat .val{ font-family: var(--font-display); font-size: clamp(28px, 3.4vw, 36px);
+    font-weight: 500; letter-spacing: -0.02em; line-height: 1; color: var(--fg);
+    filter: blur(10px); user-select: none; }
+  [data-page="farm-2"] .preview-stat .note{ font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted);
+    letter-spacing: .06em; margin-top: 6px; text-transform: uppercase; }
+  [data-page="farm-2"] .preview-stat .lock{ position: absolute; top: 14px; right: 14px; width: 14px; height: 14px;
+    color: var(--fg-muted); opacity: .45; }
+  [data-page="farm-2"] .preview-hint{ font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted);
+    letter-spacing: .04em; margin-top: 10px; display: flex; align-items: center; gap: 8px; }
+  [data-page="farm-2"] .preview-hint svg{ width: 12px; height: 12px; color: var(--accent); flex-shrink: 0; }
+
+  
+  [data-page="farm-2"] .cal-panel{ position: sticky; top: 24px; }
+  [data-page="farm-2"] .cal-card{ background: var(--bg-elevated); border: 1.5px solid var(--primary); border-radius: 14px;
+    box-shadow: 0 16px 48px hsla(155, 60%, 14%, .12), 0 4px 12px hsla(155, 60%, 14%, .06); overflow: hidden;
+    position: relative; }
+  [data-page="farm-2"] .cal-card::before{ content: ''; position: absolute; inset: -1.5px; border-radius: 14px;
+    padding: 1.5px; background: var(--grad-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; opacity: .45; }
+
+  [data-page="farm-2"] .cal-head{ padding: 24px 24px 18px; border-bottom: 1px solid var(--border); }
+  [data-page="farm-2"] .cal-head .tag{ font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 8px; }
+  [data-page="farm-2"] .cal-head .tag::before{ content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px hsla(93,55%,42%,.2); }
+  [data-page="farm-2"] .cal-head h2{ font-family: var(--font-display); font-size: 24px; font-weight: 500;
+    letter-spacing: -0.015em; line-height: 1.15; margin: 0 0 8px; color: var(--fg); }
+  [data-page="farm-2"] .cal-head p{ font-size: 14px; color: var(--fg-muted); margin: 0; line-height: 1.5; }
+  [data-page="farm-2"] .cal-meta{ display: flex; gap: 16px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--border);
+    font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); letter-spacing: .06em; }
+  [data-page="farm-2"] .cal-meta span{ display: inline-flex; align-items: center; gap: 6px; }
+  [data-page="farm-2"] .cal-meta svg{ width: 12px; height: 12px; color: var(--accent); }
+
+  [data-page="farm-2"] .cal-embed{ background: var(--muted); min-height: 440px; position: relative; border-top: 1px solid var(--border); }
+  [data-page="farm-2"] .cal-ph{ position: absolute; inset: 0; display: flex; flex-direction: column; padding: 20px; gap: 14px; }
+  [data-page="farm-2"] .cal-ph-month{ display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--fg); }
+  [data-page="farm-2"] .cal-ph-month .arrows{ display: flex; gap: 4px; }
+  [data-page="farm-2"] .cal-ph-month .arrows button{ width: 26px; height: 26px; border: 1px solid var(--border); background: var(--bg-elevated);
+    border-radius: 6px; cursor: pointer; color: var(--fg-muted); font-size: 12px; }
+  [data-page="farm-2"] .cal-ph-dow{ display: grid; grid-template-columns: repeat(7, 1fr); font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--fg-muted); text-align: center; padding-bottom: 4px; }
+  [data-page="farm-2"] .cal-ph-days{ display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  [data-page="farm-2"] .cal-ph-day{ aspect-ratio: 1; display: grid; place-items: center; font-size: 13px; font-weight: 500;
+    border-radius: 6px; cursor: pointer; color: var(--fg-subtle); }
+  [data-page="farm-2"] .cal-ph-day.avail{ color: var(--primary); background: var(--bg-elevated); border: 1px solid var(--primary); font-weight: 600; }
+  [data-page="farm-2"] .cal-ph-day.avail:hover{ background: var(--primary); color: #fff; }
+  [data-page="farm-2"] .cal-ph-day.selected{ background: var(--primary); color: #fff; }
+  [data-page="farm-2"] .cal-ph-day.out{ color: var(--fg-subtle); opacity: .4; }
+  [data-page="farm-2"] .cal-ph-slots{ border-top: 1px dashed var(--border); padding-top: 12px; margin-top: 6px; }
+  [data-page="farm-2"] .cal-ph-slots-head{ font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 8px; }
+  [data-page="farm-2"] .slot-row{ display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  [data-page="farm-2"] .slot{ padding: 10px 12px; background: var(--bg-elevated); border: 1.5px solid var(--border);
+    border-radius: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--fg);
+    text-align: center; cursor: pointer; transition: all .15s; }
+  [data-page="farm-2"] .slot:hover{ border-color: var(--primary); color: var(--primary); }
+  [data-page="farm-2"] .slot.selected{ background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  [data-page="farm-2"] .cal-cta-wrap{ padding: 16px 24px; background: var(--muted); border-top: 1px solid var(--border); }
+  [data-page="farm-2"] .btn{ font-family: var(--font-body); font-weight: 600; font-size: 15px;
+    padding: 13px 18px; border-radius: 10px; cursor: pointer; border: 1.5px solid transparent;
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+    transition: all .15s cubic-bezier(.22,1,.36,1); width: 100%; }
+  [data-page="farm-2"] .btn-primary{ background: var(--primary); color: #fff; }
+  [data-page="farm-2"] .btn-primary:hover{ background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+  [data-page="farm-2"] .secondary-cta{ margin-top: 16px; text-align: center; font-family: var(--font-mono);
+    font-size: 11px; letter-spacing: .08em; color: var(--fg-muted); text-transform: uppercase; }
+  [data-page="farm-2"] .secondary-cta a{ color: var(--primary); border-bottom: none; cursor: pointer; }
+
+  @media (max-width: 960px) {
+    [data-page="farm-2"] .wrap{ grid-template-columns: 1fr; gap: 32px; padding: 36px 16px 72px; }
+    [data-page="farm-2"] .cal-panel{ position: static; order: -1; }
+    [data-page="farm-2"] .preview-strip{ grid-template-columns: 1fr; }
+  }
+
+
+</style>
+</head>
+<body>
+
+
+<section data-page="home" class="active">
+
+
+<nav class="nav">
+  <img src="../../assets/logos/grsfd-ai-ondark.png" alt="grsfd.ai">
+  <div class="links">
+    <a onclick="document.getElementById('how').scrollIntoView()">How it works</a>
+    <a onclick="document.getElementById('card-grsfd').scrollIntoView({block:'center'})">grsfd</a>
+    <a onclick="document.getElementById('card-farm').scrollIntoView({block:'center'})">grsfd farm</a>
+    <a>Pricing</a>
+    <a>Sign in</a>
+    <a class="cta-nav" onclick="document.getElementById('top').scrollIntoView()">Get started</a>
+  </div>
+</nav>
+
+<!-- ====== HERO — headline + two AI agent cards ====== -->
+<section id="top" class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">AI-powered homeowner outreach</div>
+    <h1>Every homeowner in your farm, <em>actually contactable</em>.</h1>
+    <p class="lede">
+      Two AI agents, one data backbone. One listens for listings &amp; closings. The other sweeps entire territories.
+      Pick the flow that fits how you work.
+    </p>
+
+    <div class="agents-wrap">
+      <div class="agents-label">Choose your agent</div>
+      <div class="agents">
+
+        <!-- grsfd agent -->
+        <div class="agent" id="card-grsfd">
+          <div class="agent-tag"><span class="dot"></span> Agent 01 · Online</div>
+          <div class="agent-head">
+            <div class="agent-avatar">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--primary)">
+                <circle cx="16" cy="16" r="2.5" fill="currentColor"/>
+                <circle cx="16" cy="16" r="7"/>
+                <circle cx="16" cy="16" r="12" opacity=".5"/>
+                <path d="M16 4v3M16 25v3M4 16h3M25 16h3"/>
+              </svg>
+            </div>
+            <div class="agent-id">
+              <div class="agent-name">grsfd</div>
+              <div class="agent-role">Event-triggered prospector</div>
+            </div>
+          </div>
+          <p class="agent-intro">"Every time you list or close a home, I search the nearest 250, 500, or 1,000 neighbors and launch a just-listed / just-sold campaign to all of them."</p>
+          <div class="agent-stats">
+            <div class="agent-stat"><span class="lbl">Triggered by</span><span class="val">Listings &amp; closings</span></div>
+            <div class="agent-stat"><span class="lbl">Reach per event</span><span class="val">250–1,000</span></div>
+          </div>
+          <ul class="agent-bullets">
+            <li>Detects every listing &amp; closing in your MLS</li>
+            <li>Circle-prospects the nearest neighbors</li>
+            <li>Deploys just-listed / just-sold campaigns</li>
+          </ul>
+          <form class="agent-form" data-product="grsfd">
+            <button class="btn btn-primary" type="submit">
+              <span class="btn-label">Submit MLS-ID →</span>
+            </button>
+            <div class="agent-status mini-status" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- divider -->
+        <div class="agent-divider" aria-hidden="true">
+          <div class="line"></div>
+          <div class="or">or</div>
+          <div class="line"></div>
+        </div>
+
+        <!-- grsfd farm agent -->
+        <div class="agent farm" id="card-farm">
+          <div class="agent-tag"><span class="dot"></span> Agent 02 · Online</div>
+          <div class="agent-head">
+            <div class="agent-avatar">
+              <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--accent)">
+                <path d="M4 8h8M20 8h8M4 16h24M4 24h8M20 24h8"/>
+                <circle cx="16" cy="8" r="2.5" fill="currentColor"/>
+                <circle cx="16" cy="24" r="2.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="agent-id">
+              <div class="agent-name">grsfd farm</div>
+              <div class="agent-role">Territory aggregator</div>
+            </div>
+          </div>
+          <p class="agent-intro">"Give me zips, counties, or cities — plus value &amp; sale-date filters. I'll aggregate tens of thousands of homeowner emails and run one large-scale campaign."</p>
+          <div class="agent-stats">
+            <div class="agent-stat"><span class="lbl">Triggered by</span><span class="val">Territory + filters</span></div>
+            <div class="agent-stat"><span class="lbl">Reach per campaign</span><span class="val">10K–100K+</span></div>
+          </div>
+          <ul class="agent-bullets">
+            <li>Zips, counties, or cities as the canvas</li>
+            <li>Filters: est. value, last sale date, more</li>
+            <li>One large-scale cold campaign to all</li>
+          </ul>
+          <form class="agent-form" data-product="farm">
+            <button class="btn btn-accent" type="submit">
+              <span class="btn-label">Check zip codes →</span>
+            </button>
+            <div class="agent-status mini-status" aria-live="polite"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="scroll-hint" style="margin-top:56px">
+      2,800+ agents use grsfd
+      <svg class="arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ====== HOW IT WORKS — two distinct flows ====== -->
+<section id="how" class="how">
+  <h2 class="section-title">Two agents, two flows.</h2>
+  <p class="section-sub">Same homeowner data underneath — very different ways to reach it.</p>
+  <div class="flows">
+
+    <div class="flow">
+      <div class="flow-head">
+        <span class="pill">grsfd</span>
+        <h3>Event-triggered, surgical.</h3>
+      </div>
+      <ol class="flow-steps">
+        <li class="flow-step">
+          <div class="n">1</div>
+          <div>
+            <h4>We detect a listing or closing.</h4>
+            <p>Anytime something goes pending, active, or sold in your MLS, grsfd sees it the same day.</p>
+          </div>
+        </li>
+        <li class="flow-step">
+          <div class="n">2</div>
+          <div>
+            <h4>We search the nearest neighbors.</h4>
+            <p>grsfd pulls every homeowner within your chosen radius of that property — then verifies their emails.</p>
+            <div><span class="chip">250</span><span class="chip">500</span><span class="chip">1,000</span></div>
+          </div>
+        </li>
+        <li class="flow-step">
+          <div class="n">3</div>
+          <div>
+            <h4>We deploy the campaign.</h4>
+            <p>A just-listed or just-sold sequence goes out on your domain, personalized by address and reply-handled.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+    <div class="flow farm">
+      <div class="flow-head">
+        <span class="pill">grsfd farm</span>
+        <h3>Territory-wide, at scale.</h3>
+      </div>
+      <ol class="flow-steps">
+        <li class="flow-step">
+          <div class="n">1</div>
+          <div>
+            <h4>You define the territory.</h4>
+            <p>Zip codes, counties, or cities — plus simple filters like minimum estimated value or last-sale date.</p>
+            <div><span class="chip">zips</span><span class="chip">counties</span><span class="chip">cities</span><span class="chip">+ filters</span></div>
+          </div>
+        </li>
+        <li class="flow-step">
+          <div class="n">2</div>
+          <div>
+            <h4>We aggregate the homeowners.</h4>
+            <p>Every parcel owner inside your filters gets matched to a verified email — typically thousands to tens of thousands.</p>
+          </div>
+        </li>
+        <li class="flow-step">
+          <div class="n">3</div>
+          <div>
+            <h4>We run one large-scale campaign.</h4>
+            <p>A single cold-email sequence goes out to the full list, warmed and compliant, replies routed back to you.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== PROOF ====== -->
+<section id="proof" class="proof">
+  <div class="proof-inner">
+    <div class="proof-stat">Across the grsfd network</div>
+    <h2 class="proof-big">2.4M homeowner emails, <em>matched and reachable</em>.</h2>
+    <div class="logo-strip">
+      <span>COMPASS</span><span>KW</span><span>SIDE</span><span>THE AGENCY</span><span>eXp</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FINAL CAPTURE ====== -->
+<section id="final" class="final">
+  <h2>Ready to meet your agent?</h2>
+  <p class="lede" style="margin: 0 auto">Pick the one that fits how you work. Takes 6 seconds to pull your count.</p>
+  <div class="dual-cta">
+    <a class="btn btn-primary" href="#/grsfd-1">Work with grsfd →</a>
+    <a class="btn btn-dark" href="#/farm-1">Work with grsfd farm →</a>
+  </div>
+</section>
+
+<!-- ====== MODAL (success reveal) ====== -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="success-eyebrow" id="modal-eyebrow">Coverage confirmed</div>
+    <div class="big-n" id="modal-n"><span class="tilde">~</span>0</div>
+    <p class="cov" id="modal-cov"></p>
+    <div class="cta-row">
+      <button class="btn btn-accent">Claim your account →</button>
+      <button class="btn btn-ghost" onclick="closeModal()">See a sample campaign</button>
+    </div>
+    <div style="margin-top:24px; font-family:var(--font-mono); font-size:11px; color:var(--fg-muted)">
+      session_token: <span style="color:var(--primary)" id="modal-token">—</span>
+    </div>
+  </div>
+</div>
+
+
+
+
+</section>
+
+<section data-page="grsfd-1">
+
+
+<nav class="nav">
+  <img src="../../assets/logos/grsfd-ondark.png" alt="grsfd">
+  <button class="back" onclick="location.hash='#/home'">← Back to home</button>
+</nav>
+
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-step active"><span class="n">1</span> Unlock report</div>
+    <div class="rail-line"></div>
+    <div class="rail-step"><span class="n">2</span> See your activity</div>
+    <div class="rail-line"></div>
+    <div class="rail-step"><span class="n">3</span> Book strategy call</div>
+  </div>
+</div>
+
+<!-- ===== ABOVE THE FOLD ===== -->
+<section class="hero">
+
+  <div>
+    <div class="hero-eyebrow"><span class="dot"></span> grsfd · for listing agents</div>
+    <h1>See your <em>last 12 months</em> of MLS activity.</h1>
+    <p class="sub">Enter your MLS ID and contact info and we'll email you the full breakdown: every just-listed, just-sold, and closing event in your coverage area — plus the neighbors grsfd would've reached automatically.</p>
+
+    <div class="preview-strip">
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Potential campaigns</div>
+        <div class="val">888</div>
+        <div class="note">Listed · Sold · Closed</div>
+      </div>
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Neighbors Reached</div>
+        <div class="val">888,888</div>
+        <div class="note">Verified homeowner emails</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Opt-in form (primary CTA, above the fold) -->
+  <aside class="form-panel">
+    <div class="gate-eyebrow">Unlock your report</div>
+    <h2>See your full MLS activity.</h2>
+    <p class="blurb">Enter your info and we'll email the full breakdown, plus book you a 20-min walkthrough with a grsfd strategist.</p>
+
+    <form id="optin" novalidate>
+      <div class="field required">
+        <label>MLS ID</label>
+        <input name="mlsId" id="mls-input" placeholder="e.g. AR12345" autocomplete="off" spellcheck="false" required/>
+      </div>
+      <div class="field-row">
+        <div class="field required">
+          <label>First name</label>
+          <input name="firstName" autocomplete="given-name" required/>
+        </div>
+        <div class="field required">
+          <label>Last name</label>
+          <input name="lastName" autocomplete="family-name" required/>
+        </div>
+      </div>
+      <div class="field required">
+        <label>Work email</label>
+        <input name="email" type="email" autocomplete="email" placeholder="you@brokerage.com" required/>
+      </div>
+      <div class="field required">
+        <label>Phone</label>
+        <input name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required/>
+      </div>
+      <button class="btn btn-primary" type="submit">
+        <span class="btn-label">Unlock report + book call →</span>
+      </button>
+      <div class="legal">
+        By submitting, you agree to receive outreach from grsfd.
+        We don't sell your data. <a>Privacy</a> · <a>Terms</a>
+      </div>
+    </form>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        SOC 2 · in progress
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        MLS-compliant
+      </div>
+    </div>
+  </aside>
+
+</section>
+
+<!-- ===== BELOW THE FOLD: teased report card ===== -->
+<section class="lower">
+  <div class="lower-divider">Preview of your report</div>
+
+  <div class="report-card">
+    <div class="report-head">
+      <h3>MLS activity · last 12 months</h3>
+      <div class="when">Apr 2025 – Apr 2026</div>
+    </div>
+
+    <div class="event-list">
+      <h4>Sample trigger events</h4>
+      <div class="event-row">
+        <span class="event-type listed"></span>
+        <span class="event-addr">████████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just listed</span>
+      </div>
+      <div class="event-row">
+        <span class="event-type sold"></span>
+        <span class="event-addr">██████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just sold</span>
+      </div>
+      <div class="event-row">
+        <span class="event-type closed"></span>
+        <span class="event-addr">███████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just closed</span>
+      </div>
+      <div class="event-row">
+        <span class="event-type listed"></span>
+        <span class="event-addr">█████████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just listed</span>
+      </div>
+      <div class="event-row">
+        <span class="event-type sold"></span>
+        <span class="event-addr">█████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just sold</span>
+      </div>
+      <div class="event-row">
+        <span class="event-type closed"></span>
+        <span class="event-addr">████████████████████</span>
+        <span class="event-count">███ neighbors</span>
+        <span class="event-label">Just closed</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+</section>
+
+<section data-page="grsfd-2">
+
+
+<nav class="nav">
+  <img src="../../assets/logos/grsfd-ondark.png" alt="grsfd">
+  <div class="who" id="nav-who">Signed in as <span>you</span></div>
+</nav>
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-step done"><span class="n">✓</span> MLS captured</div>
+    <div class="rail-line"></div>
+    <div class="rail-step done"><span class="n">✓</span> Report unlocked</div>
+    <div class="rail-line"></div>
+    <div class="rail-step active"><span class="n">3</span> Book strategy call</div>
+  </div>
+</div>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <div class="txt">
+      <h2>Report unlocked · PDF sent to your inbox.</h2>
+      <p>We've emailed the full breakdown with every address, timestamp, and recommended campaign template.</p>
+    </div>
+    <div class="email-chip" id="email-chip">you@brokerage.com</div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <!-- LEFT: Report -->
+  <section>
+    <div class="eyebrow-row"><span class="dot"></span> Report · MLS <span id="mls-display" style="color:var(--fg);font-weight:600;margin-left:2px">AR12345</span></div>
+    <h1>240 campaigns. <em>186,400 neighbors reached.</em></h1>
+    <p class="sub">Based on 12 months of real MLS activity, here's what grsfd would've sent for you — automatically, the moment each event hit your feed.</p>
+
+    <!-- Hero stats -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="kicker">Trigger events</div>
+        <div class="big">240</div>
+        <div class="unit">Listed · Sold · Closed</div>
+      </div>
+      <div class="hero-stat accent">
+        <div class="kicker">Neighbors reached</div>
+        <div class="big">186,400</div>
+        <div class="unit">Verified homeowner emails</div>
+      </div>
+      <div class="hero-stat">
+        <div class="kicker">Est. responses</div>
+        <div class="big">3,728</div>
+        <div class="unit">At 2% reply rate floor</div>
+      </div>
+    </div>
+
+    <!-- Breakdown -->
+    <div class="section-title">Campaigns · by event type</div>
+    <div class="breakdown">
+      <div class="bk-row">
+        <span class="bk-dot listed"></span>
+        <span class="bk-label">Just listed
+          <span class="meta">Sent to 500 neighbors per listing · within 24h</span>
+        </span>
+        <span class="bk-events">142<span>events</span></span>
+        <span class="bk-reach">71.0K<span>reach</span></span>
+      </div>
+      <div class="bk-row">
+        <span class="bk-dot sold"></span>
+        <span class="bk-label">Just sold
+          <span class="meta">Sent to 250 neighbors per sale · social proof play</span>
+        </span>
+        <span class="bk-events">68<span>events</span></span>
+        <span class="bk-reach">17.0K<span>reach</span></span>
+      </div>
+      <div class="bk-row">
+        <span class="bk-dot closed"></span>
+        <span class="bk-label">Closed · win-back
+          <span class="meta">Sent to buyer's agent network + 1,000-neighbor radius</span>
+        </span>
+        <span class="bk-events">30<span>events</span></span>
+        <span class="bk-reach">30.0K<span>reach</span></span>
+      </div>
+      <div class="bk-row">
+        <span class="bk-dot listed" style="background:var(--data-3)"></span>
+        <span class="bk-label">Price drops
+          <span class="meta">Re-engagement to previously-emailed neighbors</span>
+        </span>
+        <span class="bk-events">68<span>events</span></span>
+        <span class="bk-reach">68.4K<span>reach</span></span>
+      </div>
+    </div>
+
+    <!-- Timeline chart -->
+    <div class="section-title">Activity · last 12 months</div>
+    <div class="timeline">
+      <div class="tl-chart" id="tl-chart"></div>
+      <div class="tl-months">
+        <span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+        <span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span>
+      </div>
+      <div class="tl-legend">
+        <span><i style="background:var(--primary)"></i> Listed</span>
+        <span><i style="background:var(--accent)"></i> Sold</span>
+        <span><i style="background:var(--data-5)"></i> Closed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: Calendly -->
+  <aside class="cal-panel">
+    <div class="cal-card">
+      <div class="cal-head">
+        <div class="tag">Step 3 of 3 · Book your call</div>
+        <h2>20 min with a grsfd strategist.</h2>
+        <p>We'll walk through your report, map these events to campaigns, and show you what a live deployment looks like on your MLS.</p>
+        <div class="cal-meta">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            20 minutes
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 10l-4 4 4 4M9 4h8a4 4 0 014 4v8"/></svg>
+            Google Meet
+          </span>
+        </div>
+      </div>
+
+      <!-- Calendly placeholder (will be replaced with iframe) -->
+      <div class="cal-embed">
+        <div class="cal-ph">
+          <div class="cal-ph-month">
+            <span>April 2026</span>
+            <div class="arrows"><button>‹</button><button>›</button></div>
+          </div>
+          <div class="cal-ph-dow">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="cal-ph-days" id="cal-days"></div>
+          <div class="cal-ph-slots">
+            <div class="cal-ph-slots-head" id="slots-head">Times for Tue, Apr 21</div>
+            <div class="slot-row">
+              <div class="slot">9:30 AM</div>
+              <div class="slot selected">10:00 AM</div>
+              <div class="slot">11:15 AM</div>
+              <div class="slot">1:00 PM</div>
+              <div class="slot">2:30 PM</div>
+              <div class="slot">4:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-cta-wrap">
+        <button class="btn btn-primary">Confirm · Tue Apr 21 at 10:00 AM →</button>
+      </div>
+    </div>
+    <div class="secondary-cta">
+      Prefer email? <a>Reply to the report</a> and we'll get back to you.
+    </div>
+  </aside>
+
+</main>
+
+
+
+
+</section>
+
+<section data-page="farm-1">
+
+
+<nav class="nav">
+  <img src="../../assets/logos/grsfd-ondark.png" alt="grsfd farm">
+  <button class="back" onclick="location.hash='#/home'">← Back to home</button>
+</nav>
+
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-step done"><span class="n">✓</span> Territory captured</div>
+    <div class="rail-line"></div>
+    <div class="rail-step active"><span class="n">2</span> Unlock report</div>
+    <div class="rail-line"></div>
+    <div class="rail-step"><span class="n">3</span> Book strategy call</div>
+  </div>
+</div>
+
+<!-- ===== ABOVE THE FOLD ===== -->
+<section class="hero">
+
+  <div>
+    <div class="hero-eyebrow"><span class="dot"></span> Preview · your territory</div>
+    <h1>Your farm territory — <em>ready to unlock.</em></h1>
+    <p class="sub">Enter your info and we'll email your ZIP-level homeowner breakdown plus the monthly send volume we recommend to keep your sender reputation intact while you stay top-of-mind.</p>
+
+    <div class="terr-chip">
+      <span class="k">Territory</span>
+      <span class="terr-pill">85251</span>
+      <span class="terr-pill">85254</span>
+      <span class="terr-pill">85255</span>
+      <span class="terr-pill">85258</span>
+      <span class="terr-pill">+2 more</span>
+      <button onclick="location.hash='#/home'">change</button>
+    </div>
+
+    <div class="preview-strip">
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Neighbors Reached</div>
+        <div class="val">888,888</div>
+        <div class="note">Verified homeowner emails</div>
+      </div>
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Recommended / month</div>
+        <div class="val">88,888</div>
+        <div class="note">Paced across waves</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Opt-in form -->
+  <aside class="form-panel">
+    <div class="gate-eyebrow">Unlock your report</div>
+    <h2>See your full territory.</h2>
+    <p class="blurb">Enter your info and we'll email the full breakdown, plus book you a 20-min walkthrough with a grsfd strategist.</p>
+
+    <form id="optin" novalidate>
+      <div class="field-row">
+        <div class="field required">
+          <label>First name</label>
+          <input name="firstName" autocomplete="given-name" required/>
+        </div>
+        <div class="field required">
+          <label>Last name</label>
+          <input name="lastName" autocomplete="family-name" required/>
+        </div>
+      </div>
+      <div class="field required">
+        <label>Work email</label>
+        <input name="email" type="email" autocomplete="email" placeholder="you@brokerage.com" required/>
+      </div>
+      <div class="field required">
+        <label>Phone</label>
+        <input name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567" required/>
+      </div>
+      <button class="btn btn-primary" type="submit">
+        <span class="btn-label">Unlock report + book call →</span>
+      </button>
+      <div class="legal">
+        By submitting, you agree to receive outreach from grsfd.
+        We don't sell your data. <a>Privacy</a> · <a>Terms</a>
+      </div>
+    </form>
+
+    <div class="trust-row">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        SOC 2 · in progress
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+        CAN-SPAM compliant
+      </div>
+    </div>
+  </aside>
+
+</section>
+
+<!-- ===== BELOW THE FOLD ===== -->
+<section class="lower">
+  <div class="lower-divider">Preview of your report</div>
+
+  <div class="report-card">
+    <div class="map-wrap">
+      <div class="map-meta"><span class="swatch"></span>Territory preview</div>
+      <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" class="map-grid" fill="none"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="225" fill="url(#grid)"/>
+        <polygon points="40,50 130,40 150,110 60,130" class="zip-region"/>
+        <polygon points="130,40 230,50 220,120 150,110" class="zip-region"/>
+        <polygon points="230,50 320,60 315,130 220,120" class="zip-region"/>
+        <polygon points="60,130 150,110 160,190 70,200" class="zip-region"/>
+        <polygon points="150,110 220,120 230,190 160,190" class="zip-region"/>
+        <polygon points="220,120 315,130 325,200 230,190" class="zip-region"/>
+        <text x="95" y="88" class="zip-label">████</text>
+        <text x="185" y="88" class="zip-label">████</text>
+        <text x="270" y="96" class="zip-label">████</text>
+        <text x="110" y="160" class="zip-label">████</text>
+        <text x="185" y="160" class="zip-label">████</text>
+        <text x="275" y="166" class="zip-label">████</text>
+        <g class="pins">
+          <circle cx="85" cy="75" r="2" class="pin"/>
+          <circle cx="175" cy="82" r="2" class="pin"/>
+          <circle cx="265" cy="90" r="2" class="pin"/>
+          <circle cx="110" cy="155" r="2" class="pin"/>
+          <circle cx="190" cy="160" r="2" class="pin"/>
+          <circle cx="270" cy="165" r="2" class="pin"/>
+        </g>
+      </svg>
+    </div>
+    <div class="breakdown-head">Breakdown · by ZIP</div>
+    <div class="breakdown-rows">
+      <div class="br-row"><span class="br-zip">85251</span><span class="br-name">███████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85254</span><span class="br-name">█████████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85255</span><span class="br-name">████████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85258</span><span class="br-name">██████████████</span><span class="br-count">█,███</span></div>
+      <div class="br-row"><span class="br-zip">85260</span><span class="br-name">██████████████</span><span class="br-count">█,███</span></div>
+    </div>
+  </div>
+</section>
+
+
+
+</section>
+
+<section data-page="farm-2">
+
+
+<nav class="nav">
+  <img src="../../assets/logos/grsfd-ondark.png" alt="grsfd farm">
+  <div class="who" id="nav-who">Signed in as <span>you</span></div>
+</nav>
+<div class="rail">
+  <div class="rail-inner">
+    <div class="rail-step done"><span class="n">✓</span> Territory captured</div>
+    <div class="rail-line"></div>
+    <div class="rail-step done"><span class="n">✓</span> Info submitted</div>
+    <div class="rail-line"></div>
+    <div class="rail-step active"><span class="n">3</span> Book install call</div>
+  </div>
+</div>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+    </div>
+    <div class="txt">
+      <h2>You're in. Book your install call to get live.</h2>
+      <p>We'll pull your territory data and walk you through launch on the call.</p>
+    </div>
+    <div class="email-chip" id="email-chip">you@brokerage.com</div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section>
+    <div class="hero-eyebrow"><span class="dot"></span> Next step · book your install</div>
+    <h1>One 20-min call and <em>grsfd farm goes live</em> on your territory.</h1>
+    <p class="sub">Pick a time that works. On the call we'll pull your exact territory data, walk you through campaign templates, and get your first send scheduled — no self-serve setup, no waiting.</p>
+
+    <div class="install-list">
+      <h3>What happens on the call</h3>
+      <div class="il-row">
+        <span class="il-num">1</span>
+        <span class="il-txt">We pull your live territory report<span>Neighbors reached, send cadence, and pacing plan — populated from REAPI during the call.</span></span>
+      </div>
+      <div class="il-row">
+        <span class="il-num">2</span>
+        <span class="il-txt">We pick your campaign templates<span>Cold intro, intro with market stats, just-listed, just-sold, closed. Pick your mix.</span></span>
+      </div>
+      <div class="il-row">
+        <span class="il-num">3</span>
+        <span class="il-txt">We connect your sending domain<span>DNS records, warmup, and your from-address handled end-to-end.</span></span>
+      </div>
+      <div class="il-row">
+        <span class="il-num">4</span>
+        <span class="il-txt">Your first send ships within 7 days<span>You approve the first wave. We handle every one after that.</span></span>
+      </div>
+    </div>
+
+    <div class="preview-strip">
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Neighbors Reached</div>
+        <div class="val">888,888</div>
+        <div class="note">Verified homeowner emails</div>
+      </div>
+      <div class="preview-stat">
+        <svg class="lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+        <div class="lbl">Recommended / month</div>
+        <div class="val">88,888</div>
+        <div class="note">Paced across waves</div>
+      </div>
+    </div>
+    <div class="preview-hint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      Exact numbers pulled live during your install call.
+    </div>
+  </section>
+
+  <aside class="cal-panel">
+    <div class="cal-card">
+      <div class="cal-head">
+        <div class="tag">Step 3 of 3 · Book your install</div>
+        <h2>Book a 20-min install call.</h2>
+        <p>Pick a time and we'll get grsfd farm live on your territory the same week.</p>
+        <div class="cal-meta">
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            20 minutes
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 10l-4 4 4 4M9 4h8a4 4 0 014 4v8"/></svg>
+            Google Meet
+          </span>
+        </div>
+      </div>
+
+      <div class="cal-embed">
+        <div class="cal-ph">
+          <div class="cal-ph-month">
+            <span>April 2026</span>
+            <div class="arrows"><button>‹</button><button>›</button></div>
+          </div>
+          <div class="cal-ph-dow">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="cal-ph-days" id="cal-days"></div>
+          <div class="cal-ph-slots">
+            <div class="cal-ph-slots-head" id="slots-head">Times for Tue, Apr 21</div>
+            <div class="slot-row">
+              <div class="slot">9:30 AM</div>
+              <div class="slot selected">10:00 AM</div>
+              <div class="slot">11:15 AM</div>
+              <div class="slot">1:00 PM</div>
+              <div class="slot">2:30 PM</div>
+              <div class="slot">4:00 PM</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cal-cta-wrap">
+        <button class="btn btn-primary">Confirm · Tue Apr 21 at 10:00 AM →</button>
+      </div>
+    </div>
+    <div class="secondary-cta">
+      Need a different time? <a>Reply to our email</a> and we'll set it up.
+    </div>
+  </aside>
+
+</main>
+
+
+
+</section>
+
+<script>
+(function () {
+  const pageIds = ["home","grsfd-1","grsfd-2","farm-1","farm-2"];
+  const rawScripts = {
+    "home": "\nconst COUNTS = { A: 2450, B: 4050, C: 12800, D: 45200, E: 312400 };\n\nfunction mockActivate(product, value) {\n  return new Promise((resolve, reject) => {\n    setTimeout(() => {\n      const v = value.trim().toUpperCase();\n      if (!v || v.length < 3) return reject({ error: 'invalid' });\n      if (v.startsWith('X')) return reject({ error: 'no_match' });\n      if (product === 'farm') {\n        const zips = v.split(',').map(x=>x.trim()).filter(x => /^\\d{5}$/.test(x));\n        if (zips.length === 0) return reject({ error: 'bad_zip' });\n        resolve({ count: 4100 * zips.length + Math.floor(Math.random()*800),\n          cov: zips.length + ' zip code' + (zips.length>1?'s':'') + ' across your territory',\n          token: 'sess_'+Date.now() });\n      } else {\n        const count = COUNTS[v[0]] || 4050;\n        resolve({ count, cov: 'your MLS coverage area', token: 'sess_'+Date.now() });\n      }\n    }, 1200);\n  });\n}\n\ndocument.querySelectorAll('form.agent-form').forEach(form => {\n  form.addEventListener('submit', (e) => {\n    e.preventDefault();\n    const product = form.dataset.product;\n    const btn = form.querySelector('button[type=submit]');\n    const label = btn.querySelector('.btn-label');\n    const originalLabel = label.textContent;\n    btn.disabled = true;\n    label.innerHTML = '<span class=\"spinner\"></span> Loading…';\n    setTimeout(() => {\n      const dest = product === 'farm'\n        ? '#/farm-1'\n        : '#/grsfd-1';\n      location.href = dest;\n    }, 500);\n  });\n});\n\nfunction showModal(product, res) {\n  document.getElementById('modal-n').innerHTML = `<span class=\"tilde\">~</span>${res.count.toLocaleString()}`;\n  document.getElementById('modal-cov').textContent = 'homeowner emails in ' + res.cov;\n  document.getElementById('modal-token').textContent = res.token;\n  document.getElementById('modal-eyebrow').textContent =\n    (product === 'farm' ? 'grsfd farm' : 'grsfd') + ' · coverage confirmed';\n  document.getElementById('modal').classList.add('open');\n}\nfunction closeModal() { document.getElementById('modal').classList.remove('open'); }\ndocument.getElementById('modal').addEventListener('click', (e) => {\n  if (e.target.id === 'modal') closeModal();\n});\n\n",
+    "grsfd-1": "\n  // Pre-fill MLS from querystring into the form field\n  const mls = new URLSearchParams(location.search).get('mls');\n  if (mls) document.getElementById('mls-input').value = mls;\n\n  document.getElementById('optin').addEventListener('submit', (e) => {\n    e.preventDefault();\n    const btn = e.target.querySelector('button[type=submit]');\n    const label = btn.querySelector('.btn-label');\n    btn.disabled = true;\n    label.textContent = 'Unlocking…';\n    setTimeout(() => {\n      const data = Object.fromEntries(new FormData(e.target));\n      const qs = new URLSearchParams({ mls: data.mlsId || 'AR12345', ...data }).toString();\n      location.hash = '#/grsfd-2?' + qs;\n    }, 900);\n  });\n",
+    "grsfd-2": "\n  // Pre-fill from querystring\n  const params = new URLSearchParams((location.hash.split('?')[1]||''));\n  const mls = params.get('mls');\n  const email = params.get('email');\n  const firstName = params.get('firstName');\n  if (mls) document.getElementById('mls-display').textContent = mls;\n  if (email) document.getElementById('email-chip').textContent = email;\n  if (firstName) document.getElementById('nav-who').innerHTML = 'Signed in as <span>' + firstName + '</span>';\n\n  // Timeline bars (fake-ish data)\n  const data = [\n    [12, 4, 2], [14, 5, 2], [18, 6, 3], [22, 9, 4], [20, 8, 3], [16, 7, 3],\n    [13, 6, 2], [9, 5, 2], [11, 6, 3], [14, 7, 3], [16, 8, 3], [19, 9, 3]\n  ];\n  const max = 30;\n  const chart = document.getElementById('tl-chart');\n  data.forEach(([l, s, c]) => {\n    const col = document.createElement('div');\n    col.className = 'tl-col';\n    col.innerHTML = `\n      <div class=\"tl-bar listed\" style=\"height:${(l/max)*100}%\"></div>\n      <div class=\"tl-bar sold\"   style=\"height:${(s/max)*100}%\"></div>\n      <div class=\"tl-bar closed\" style=\"height:${(c/max)*100}%\"></div>\n    `;\n    chart.appendChild(col);\n  });\n\n  // Calendar placeholder\n  const days = document.getElementById('cal-days');\n  const offset = 3; // Apr 1 is a Wed\n  const daysInMonth = 30;\n  const avail = new Set([7, 8, 9, 14, 15, 16, 21, 22, 23, 28, 29, 30]);\n  for (let i = 0; i < offset; i++) {\n    const d = document.createElement('div');\n    d.className = 'cal-ph-day out';\n    d.textContent = 31 - (offset - 1 - i); // prev month tail\n    days.appendChild(d);\n  }\n  for (let i = 1; i <= daysInMonth; i++) {\n    const d = document.createElement('div');\n    d.className = 'cal-ph-day' + (avail.has(i) ? ' avail' : '') + (i === 21 ? ' selected' : '');\n    d.textContent = i;\n    if (avail.has(i)) {\n      d.addEventListener('click', () => {\n        document.querySelectorAll('.cal-ph-day.selected').forEach(x => x.classList.remove('selected'));\n        d.classList.add('selected');\n        document.getElementById('slots-head').textContent = 'Times for Apr ' + i;\n      });\n    }\n    days.appendChild(d);\n  }\n\n  // Slot select\n  document.querySelectorAll('.slot').forEach(s => {\n    s.addEventListener('click', () => {\n      document.querySelectorAll('.slot.selected').forEach(x => x.classList.remove('selected'));\n      s.classList.add('selected');\n    });\n  });\n",
+    "farm-1": "\n  document.getElementById('optin').addEventListener('submit', (e) => {\n    e.preventDefault();\n    const btn = e.target.querySelector('button[type=submit]');\n    const label = btn.querySelector('.btn-label');\n    btn.disabled = true;\n    label.textContent = 'Unlocking…';\n    setTimeout(() => {\n      const data = Object.fromEntries(new FormData(e.target));\n      const qs = new URLSearchParams(data).toString();\n      location.hash = '#/farm-2?' + qs;\n    }, 900);\n  });\n",
+    "farm-2": "\n  const params = new URLSearchParams((location.hash.split('?')[1]||''));\n  const email = params.get('email');\n  const firstName = params.get('firstName');\n  if (email) document.getElementById('email-chip').textContent = email;\n  if (firstName) document.getElementById('nav-who').innerHTML = 'Signed in as <span>' + firstName + '</span>';\n\n  // Calendar\n  const days = document.getElementById('cal-days');\n  const offset = 3, daysInMonth = 30;\n  const avail = new Set([7, 8, 9, 14, 15, 16, 21, 22, 23, 28, 29, 30]);\n  for (let i = 0; i < offset; i++) {\n    const d = document.createElement('div');\n    d.className = 'cal-ph-day out';\n    d.textContent = 31 - (offset - 1 - i);\n    days.appendChild(d);\n  }\n  for (let i = 1; i <= daysInMonth; i++) {\n    const d = document.createElement('div');\n    d.className = 'cal-ph-day' + (avail.has(i) ? ' avail' : '') + (i === 21 ? ' selected' : '');\n    d.textContent = i;\n    if (avail.has(i)) {\n      d.addEventListener('click', () => {\n        document.querySelectorAll('.cal-ph-day.selected').forEach(x => x.classList.remove('selected'));\n        d.classList.add('selected');\n        document.getElementById('slots-head').textContent = 'Times for Apr ' + i;\n      });\n    }\n    days.appendChild(d);\n  }\n  document.querySelectorAll('.slot').forEach(s => {\n    s.addEventListener('click', () => {\n      document.querySelectorAll('.slot.selected').forEach(x => x.classList.remove('selected'));\n      s.classList.add('selected');\n    });\n  });\n"
+  };
+  const ran = new Set();
+
+  function scopedDocument(root) {
+    return new Proxy(document, {
+      get(target, prop) {
+        if (prop === 'getElementById')
+          return id => root.querySelector('#' + CSS.escape(id)) || document.getElementById(id);
+        if (prop === 'querySelector')
+          return sel => root.querySelector(sel) || document.querySelector(sel);
+        if (prop === 'querySelectorAll') {
+          return sel => {
+            const r = root.querySelectorAll(sel);
+            return r.length ? r : document.querySelectorAll(sel);
+          };
+        }
+        const v = target[prop];
+        return typeof v === 'function' ? v.bind(target) : v;
+      }
+    });
+  }
+
+  function runPageScripts(pageId) {
+    if (ran.has(pageId)) return;
+    ran.add(pageId);
+    const root = document.querySelector('[data-page="' + pageId + '"]');
+    if (!root) return;
+    const src = rawScripts[pageId];
+    if (!src) return;
+    try {
+      const fn = new Function('document', 'root', src);
+      fn(scopedDocument(root), root);
+    } catch (e) { console.error('[' + pageId + ']', e); }
+  }
+
+  function route() {
+    const hash = location.hash.replace(/^#\/?/, '').split('?')[0] || 'home';
+    const target = pageIds.includes(hash) ? hash : 'home';
+    document.querySelectorAll('[data-page]').forEach(el => {
+      el.classList.toggle('active', el.dataset.page === target);
+    });
+    runPageScripts(target);
+    window.scrollTo(0, 0);
+  }
+
+  window.addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>

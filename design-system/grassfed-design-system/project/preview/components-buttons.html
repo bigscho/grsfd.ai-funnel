@@ -1,0 +1,23 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-body);font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;border:1px solid transparent;cursor:pointer;transition:all .2s cubic-bezier(.22,1,.36,1)}
+.btn-primary{background:#177851;color:#fff}
+.btn-primary:hover{background:#125e41;box-shadow:0 4px 12px hsla(168,40%,15%,.12);transform:translateY(-1px)}
+.btn-accent{background:#62A930;color:#0F3A29}
+.btn-accent:hover{background:#6FC433}
+.btn-ghost{background:transparent;color:#1A5A50;border-color:#CED9D4}
+.btn-ghost:hover{background:#DCE8E3}
+.btn-dark{background:#0F3A29;color:#F6F5F1}
+</style></head>
+<body>
+<div class="card">
+  <div class="label">Buttons</div>
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center">
+    <button class="btn btn-primary">Launch campaign</button>
+    <button class="btn btn-accent">Farm now →</button>
+    <button class="btn btn-ghost">Cancel</button>
+    <button class="btn btn-dark">Sign in</button>
+    <button class="btn btn-primary" style="box-shadow:0 0 0 4px hsla(93,55%,42%,.25)">Focused</button>
+  </div>
+</div>
+</body></html>

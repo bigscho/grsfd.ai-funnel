@@ -1,0 +1,43 @@
+{
+  "name": "Grassfed Typography System",
+  "version": "1.0.0",
+  "source": "Google Fonts",
+  "import": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=League+Spartan:wght@400;500;600;700;800&display=swap",
+  "fonts": {
+    "display": {
+      "family": "Space Grotesk",
+      "fallbacks": ["system-ui", "sans-serif"],
+      "weights": [400, 500, 600, 700],
+      "letterSpacing": "-0.02em",
+      "usage": "Headings (h1-h6), display text, section titles"
+    },
+    "brand": {
+      "family": "League Spartan",
+      "fallbacks": ["system-ui", "sans-serif"],
+      "weights": [400, 500, 600, 700, 800],
+      "letterSpacing": "-0.01em",
+      "usage": "Logo, welcome hero, suggested prompt chips, branded callouts"
+    },
+    "body": {
+      "family": "Inter",
+      "fallbacks": ["system-ui", "-apple-system", "sans-serif"],
+      "weights": [300, 400, 500, 600],
+      "letterSpacing": "-0.01em",
+      "defaultWeight": 400,
+      "usage": "Body text, paragraphs, chat messages, UI labels, buttons"
+    }
+  },
+  "scale": {
+    "xs": "0.75rem",
+    "sm": "0.875rem",
+    "base": "1rem",
+    "lg": "1.125rem",
+    "xl": "1.25rem",
+    "2xl": "1.5rem",
+    "3xl": "1.875rem",
+    "4xl": "2.25rem",
+    "5xl": "3rem",
+    "6xl": "3.75rem"
+  },
+  "mobileNote": "Inputs use font-size: 16px on iOS to prevent zoom on focus."
+}

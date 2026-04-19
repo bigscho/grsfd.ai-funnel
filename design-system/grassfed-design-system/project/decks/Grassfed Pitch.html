@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>grsfd · seed</title>
+<link rel="stylesheet" href="pitch.css">
+<style>
+  body { margin: 0; background: #000; }
+  /* slide-specific placements live here */
+
+  /* Cover */
+  .cover-grid {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    padding-top: 24px;
+  }
+  .cover-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  /* Field-photo slide (procedural horizon) */
+  .over { position: relative; z-index: 3; }
+
+  /* Postcard wall — varied rotations */
+  .postcard:nth-child(1)  { --r: -2deg; }
+  .postcard:nth-child(3)  { --r: 3deg; }
+  .postcard:nth-child(5)  { --r: -1deg; }
+  .postcard:nth-child(7)  { --r: 2deg; }
+  .postcard:nth-child(9)  { --r: -3deg; }
+  .postcard:nth-child(12) { --r: 1deg; }
+  .postcard:nth-child(15) { --r: -2deg; }
+  .postcard:nth-child(18) { --r: 2deg; }
+  .postcard:nth-child(21) { --r: -1deg; }
+  .postcard:nth-child(24) { --r: 3deg; }
+  .postcard:nth-child(27) { --r: -2deg; }
+  .postcard:nth-child(30) { --r: 1deg; }
+  .postcard:nth-child(33) { --r: -3deg; }
+  .postcard:nth-child(36) { --r: 2deg; }
+
+  .overlay-dim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,26,20,0.3), rgba(10,26,20,0.85));
+    z-index: 2;
+  }
+
+  /* Terminal mock */
+  .term {
+    background: var(--term-bg);
+    color: var(--term-ink);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    line-height: 1.55;
+    padding: 36px 44px;
+    border: 1.5px solid var(--term-dim);
+    max-width: 1400px;
+  }
+  .term .in { color: var(--term-accent); }
+  .term .out { color: var(--term-ink); opacity: 0.88; }
+  .term .dim { color: var(--term-dim); }
+  .term .hl { color: var(--term-accent); font-weight: 700; }
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 / COVER -->
+  <section class="slide dark" data-label="01 Cover">
+    <div class="cover-grid">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <img src="../assets/logos/trimmed/grsfd-ai-ondark.png" style="height:56px; width:auto; flex-shrink:0; object-fit:contain" alt="grsfd.ai"/>
+        <div style="font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--term-dim); font-family:var(--font-mono)">
+          ~/pitch · seed · 2026
+        </div>
+      </div>
+
+      <div class="cover-center">
+        <div style="font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-accent); font-family:var(--font-mono); font-weight:700">
+          Grassfed &nbsp;·&nbsp; grown not mailed
+        </div>
+        <div class="prompt" style="font-size:44px; color:var(--term-ink)">
+          <span class="sigil">$</span><span class="cmd">grsfd --pitch<span class="cursor"></span></span>
+        </div>
+        <div style="font-family:var(--font-display); font-size:88px; font-weight:500; line-height:1.02; letter-spacing:-0.022em; color:var(--term-ink); max-width:1500px; text-wrap:balance; margin-top:24px">
+          Agentic cold email<br/>for real&nbsp;estate agents.
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; font-size:13px; letter-spacing:.1em; text-transform:uppercase; color:var(--term-dim); font-family:var(--font-mono)">
+        <div>Rodeo Walsh · founder<br/><span style="color:var(--term-ink)">rw@grsfd.ai</span></div>
+        <div>01 / 19</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 / THE LANDSCAPE — field-horizon full bleed -->
+  <section class="slide dark" data-label="02 Landscape">
+    <div class="field-horizon"></div>
+    <div class="field-dots"></div>
+    <div class="overlay-dim"></div>
+    <div class="chrome over">
+      <span><span class="path">~/problem.md</span></span>
+      <span>02 / 19</span>
+    </div>
+    <div class="over" style="display:flex; flex-direction:column; justify-content:flex-end; height:100%; padding-bottom:24px">
+      <div class="ascii-rule" style="color:var(--term-accent); margin-bottom:32px">— — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — — —</div>
+      <div style="font-family:var(--font-display); font-size:108px; font-weight:500; line-height:1.02; letter-spacing:-0.022em; color:var(--term-ink); max-width:1500px; text-wrap:balance">
+        The way real estate<br/>agents find sellers<br/>is <em style="color:var(--term-accent); font-style:italic">broken</em>.
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 / $2,400/mo -->
+  <section class="slide" data-label="03 Spend">
+    <div class="chrome">
+      <span><span class="path">~/problem/spend.txt</span></span>
+      <span>03 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        01 &nbsp;·&nbsp; What a solo agent spends on postcards
+      </div>
+      <div class="big-num">$2,400<span class="unit">/mo</span></div>
+      <div class="num-caption">
+        Print · postage · list rental · design · mail-house fees. Recurring. Often their #1 marketing line item.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Source: NAR 2024 Agent Spend Survey</span>
+    </div>
+  </section>
+
+  <!-- 04 / 0.4% -->
+  <section class="slide" data-label="04 Response">
+    <div class="chrome">
+      <span><span class="path">~/problem/response.txt</span></span>
+      <span>04 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        02 &nbsp;·&nbsp; Response rate on a real-estate farm mailer
+      </div>
+      <div class="big-num">0.4<span class="unit">%</span></div>
+      <div class="num-caption">
+        Meaning: for every <b>1,000</b> postcards, <b>996</b> land in the trash unopened. This is the industry norm, not the bottom of the barrel.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Source: DMA 2023 Response Rate Report</span>
+    </div>
+  </section>
+
+  <!-- 05 / FACTORY-FARMED — postcard wall -->
+  <section class="slide dark" data-label="05 Factory">
+    <div class="postcard-wall">
+      <!-- 40 postcards -->
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+      <div class="postcard"></div><div class="postcard"></div><div class="postcard"></div><div class="postcard"></div>
+    </div>
+    <div class="overlay-dim"></div>
+    <div class="chrome over">
+      <span><span class="path">~/problem/factory.md</span></span>
+      <span>05 / 19</span>
+    </div>
+    <div class="over" style="display:flex; flex-direction:column; justify-content:center; height:100%">
+      <div style="background:var(--term-bg); display:inline-block; padding:24px 40px; border:1.5px solid var(--term-accent); max-width:min-content; white-space:nowrap">
+        <div style="font-family:var(--font-mono); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-accent); font-weight:700; margin-bottom:16px">
+          The industry today
+        </div>
+        <div style="font-family:var(--font-display); font-size:88px; font-weight:500; line-height:1; letter-spacing:-0.022em; color:var(--term-ink)">
+          Factory-farmed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 / THE BREAK -->
+  <section class="slide" data-label="06 Break">
+    <div class="chrome">
+      <span><span class="path">~/break.md</span></span>
+      <span>06 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div class="prompt" style="font-size:24px">
+        <span class="sigil">$</span><span class="cmd">cat break.md</span>
+      </div>
+      <div class="ascii-rule">────────────────────────────────────────────────────────</div>
+      <ul class="ticks" style="font-size:32px; max-width:1500px">
+        <li>Homeowner records are finally queryable by zip, in seconds.</li>
+        <li>LLMs can draft outreach that reads like a human sent it.</li>
+        <li>Deliverability is solved — if you know what you're doing.</li>
+      </ul>
+      <div class="ascii-rule">────────────────────────────────────────────────────────</div>
+      <div style="font-family:var(--font-display); font-size:56px; font-weight:500; letter-spacing:-0.02em; line-height:1.1; color:var(--primary); max-width:1500px; text-wrap:balance">
+        Nobody has shipped this for agents. <em style="font-style:italic">Yet.</em>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>The opening</span>
+    </div>
+  </section>
+
+  <!-- 07 / PRODUCT — terminal mock -->
+  <section class="slide dark" data-label="07 Product">
+    <div class="chrome">
+      <span><span class="path">~/product/demo.sh</span></span>
+      <span>07 / 19</span>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 1.2fr; gap:64px; height:100%; align-items:center">
+      <div>
+        <div style="font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-accent); font-weight:700; margin-bottom:24px">
+          How it works
+        </div>
+        <div style="font-family:var(--font-display); font-size:80px; font-weight:500; line-height:1.02; letter-spacing:-0.022em; color:var(--term-ink)">
+          Three words&nbsp;in.<br/>
+          Thousands of<br/>
+          homeowners&nbsp;out.
+        </div>
+        <div style="margin-top:32px; font-size:20px; line-height:1.5; color:var(--term-dim); max-width:520px">
+          Agent types a zip. grsfd returns the list, drafts the sequence, and sends it through warmed infrastructure.
+        </div>
+      </div>
+      <div class="term">
+        <div><span class="dim">grsfd</span> <span class="in">&gt; homeowners in 90046, tenure 10y+</span></div>
+        <div class="dim">&nbsp;</div>
+        <div class="out">resolving zip<span class="dim">..................</span> <span class="hl">ok</span></div>
+        <div class="out">pulling county records<span class="dim">.........</span> <span class="hl">ok</span></div>
+        <div class="out">filtering by tenure<span class="dim">............</span> <span class="hl">ok</span></div>
+        <div class="dim">&nbsp;</div>
+        <div class="out"><span class="hl">4,050</span> homeowners matched</div>
+        <div class="out">  single-family<span class="dim">..</span> 2,120</div>
+        <div class="out">  owner-occ 5y+<span class="dim">..</span> 1,630</div>
+        <div class="out">  recent refi<span class="dim">....</span> &nbsp;&nbsp;412</div>
+        <div class="dim">&nbsp;</div>
+        <div class="in">&gt; draft sequence, warm tone</div>
+        <div class="out">drafted 3 emails<span class="dim">.............</span> <span class="hl">ready</span></div>
+        <div class="out">schedule send? <span class="dim">[Y/n]</span><span class="cursor"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 / 12× -->
+  <section class="slide" data-label="08 Reach">
+    <div class="chrome">
+      <span><span class="path">~/wedge/reach.txt</span></span>
+      <span>08 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        03 &nbsp;·&nbsp; Homes reached per dollar, vs. direct mail
+      </div>
+      <div class="big-num accent">12×</div>
+      <div class="num-caption">
+        Same farm. Same agent. Same budget. <b>12 times</b> the inboxes touched per month.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>grsfd internal · 2026 Q1 benchmark</span>
+    </div>
+  </section>
+
+  <!-- 09 / $49 vs $470 — wedge pricing -->
+  <section class="slide dark" data-label="09 Price">
+    <div class="chrome">
+      <span><span class="path">~/wedge/price.txt</span></span>
+      <span>09 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-dim); font-weight:700">
+        04 &nbsp;·&nbsp; Cost per 1,000 homeowners touched, monthly
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:64px; align-items:center">
+        <div>
+          <div style="font-size:16px; color:var(--term-dim); margin-bottom:12px">DIRECT MAIL</div>
+          <div class="big-num" style="font-size:200px; color:var(--term-dim)">$470<span class="unit" style="font-size:56px">/mo</span></div>
+          <div style="margin-top:20px; font-size:20px; color:var(--term-dim); text-decoration:line-through">print, mail, wait</div>
+        </div>
+        <div>
+          <div style="font-size:16px; color:var(--term-accent); margin-bottom:12px; letter-spacing:.14em; font-weight:700">GRSFD</div>
+          <div class="big-num accent" style="font-size:240px">$49<span class="unit" style="font-size:72px; color:var(--term-dim)">/mo</span></div>
+          <div style="margin-top:20px; font-size:22px; color:var(--term-ink)">one postcard campaign = a year of grsfd</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>The wedge</span>
+    </div>
+  </section>
+
+  <!-- 10 / HOW — three step file -->
+  <section class="slide" data-label="10 How">
+    <div class="chrome">
+      <span><span class="path">~/how.md</span></span>
+      <span>10 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div class="prompt" style="font-size:24px">
+        <span class="sigil">$</span><span class="cmd">grsfd --explain</span>
+      </div>
+      <div class="ascii-rule">════════════════════════════════════════════════════════</div>
+      <div style="display:grid; grid-template-columns: 60px 200px 1fr; row-gap:40px; column-gap:40px; font-size:24px; line-height:1.45; max-width:1500px">
+        <div style="color:var(--term-accent); font-weight:700">01</div>
+        <div style="font-family:var(--font-display); font-size:44px; font-weight:500; letter-spacing:-0.02em">intel</div>
+        <div>Homeowner counts, tenure, equity, refi flags — queryable from plain English. Free for the first three lookups.</div>
+
+        <div style="color:var(--term-accent); font-weight:700">02</div>
+        <div style="font-family:var(--font-display); font-size:44px; font-weight:500; letter-spacing:-0.02em">write</div>
+        <div>Agentic workflow picks angle, tone, CTA based on the farm. The agent approves in one click, edits in another.</div>
+
+        <div style="color:var(--term-accent); font-weight:700">03</div>
+        <div style="font-family:var(--font-display); font-size:44px; font-weight:500; letter-spacing:-0.02em">send</div>
+        <div>Warmed infrastructure, daily throttling, reply detection. Agents see replies, booked calls, unsubs — in one inbox.</div>
+      </div>
+      <div class="ascii-rule">════════════════════════════════════════════════════════</div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Product surface</span>
+    </div>
+  </section>
+
+  <!-- 11 / 74 PAYING -->
+  <section class="slide" data-label="11 Users">
+    <div class="chrome">
+      <span><span class="path">~/traction/users.txt</span></span>
+      <span>11 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        05 &nbsp;·&nbsp; Paying agents, day 90
+      </div>
+      <div class="big-num">74</div>
+      <div class="num-caption">
+        From <b>312</b> signups. Zero outbound. Zero paid ads. <b>Built in 11 weeks</b> by two people.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Traction — last 90 days</span>
+    </div>
+  </section>
+
+  <!-- 12 / $11.2K MRR -->
+  <section class="slide" data-label="12 MRR">
+    <div class="chrome">
+      <span><span class="path">~/traction/mrr.txt</span></span>
+      <span>12 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        06 &nbsp;·&nbsp; MRR
+      </div>
+      <div class="big-num">$11.2<span class="unit">k</span></div>
+      <div class="num-caption">
+        Growing <b>23% week-over-week</b>. Net retention <b>108%</b>. Gross margin <b>87%</b>.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Traction — last 90 days</span>
+    </div>
+  </section>
+
+  <!-- 13 / 4.2% REPLY -->
+  <section class="slide" data-label="13 Reply">
+    <div class="chrome">
+      <span><span class="path">~/traction/reply.txt</span></span>
+      <span>13 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        07 &nbsp;·&nbsp; Reply rate across all sends
+      </div>
+      <div class="big-num accent">4.2<span class="unit">%</span></div>
+      <div class="num-caption">
+        <b>10× the industry norm</b>. Every percentage point compounds — agents re-up faster than they realize what's happening.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Traction — last 90 days</span>
+    </div>
+  </section>
+
+  <!-- 14 / 1.6M AGENTS — market -->
+  <section class="slide dark" data-label="14 Market-Agents">
+    <div class="chrome">
+      <span><span class="path">~/market/tam.txt</span></span>
+      <span>14 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-dim); font-weight:700">
+        08 &nbsp;·&nbsp; Licensed US real estate agents
+      </div>
+      <div class="big-num">1.6<span class="unit">M</span></div>
+      <div class="num-caption">
+        <b>40%</b> actively spend on lead-gen each month. That's our <b>front door</b>.
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>NAR · 2025</span>
+    </div>
+  </section>
+
+  <!-- 15 / $7.8B — market -->
+  <section class="slide dark" data-label="15 Market-Spend">
+    <div class="chrome">
+      <span><span class="path">~/market/spend.txt</span></span>
+      <span>15 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-dim); font-weight:700">
+        09 &nbsp;·&nbsp; Spent on lead-gen + marketing, annually
+      </div>
+      <div class="big-num">$7.8<span class="unit">B</span></div>
+      <div class="num-caption">
+        <b>&lt;3%</b> of that goes to SaaS today. The rest: postcards, Zillow leads, billboards, trinkets.<br/>
+        <b>We're not fighting for a slice — we're the new category.</b>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Inman · 2024 Agent Marketing Spend</span>
+    </div>
+  </section>
+
+  <!-- 16 / ROADMAP -->
+  <section class="slide" data-label="16 Roadmap">
+    <div class="chrome">
+      <span><span class="path">~/roadmap.md</span></span>
+      <span>16 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div class="prompt" style="font-size:24px">
+        <span class="sigil">$</span><span class="cmd">cat roadmap.md</span>
+      </div>
+      <div class="rows" style="max-width:1600px">
+        <div class="row">
+          <div class="when">Q1 '26</div>
+          <div class="what">grsfd</div>
+          <div class="desc">Live today. Chat-first, single zip, solo agent. <b>$49/mo</b>.</div>
+        </div>
+        <div class="row">
+          <div class="when">Q2 '26</div>
+          <div class="what">grsfd farm</div>
+          <div class="desc">Multi-zip workspace for brokerages. Seats, territories, shared reply inbox.</div>
+        </div>
+        <div class="row">
+          <div class="when">Q4 '26</div>
+          <div class="what">grsfd intent</div>
+          <div class="desc">Predictive seller scoring. Who's most likely to list in the next 90 days — from refi, permits, life events.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>What's next</span>
+    </div>
+  </section>
+
+  <!-- 17 / TEAM -->
+  <section class="slide" data-label="17 Team">
+    <div class="chrome">
+      <span><span class="path">~/team.md</span></span>
+      <span>17 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-cream-dim); font-weight:700">
+        The two of us
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:80px; max-width:1700px">
+        <div>
+          <div style="font-family:var(--font-display); font-size:72px; font-weight:500; letter-spacing:-0.022em; line-height:1">Rodeo Walsh</div>
+          <div style="margin-top:8px; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700">Founder · CEO</div>
+          <div style="margin-top:24px; font-size:22px; line-height:1.45; color:var(--term-cream-ink)">
+            Top-1% LA agent, <b>2018–2025</b>. Ran a team that closed <b>$140M/yr</b>. Wrote the cold-email SOP every agent on the desk still uses.
+          </div>
+        </div>
+        <div>
+          <div style="font-family:var(--font-display); font-size:72px; font-weight:500; letter-spacing:-0.022em; line-height:1">Dev Kapoor</div>
+          <div style="margin-top:8px; font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:700">Founder · CTO</div>
+          <div style="margin-top:24px; font-size:22px; line-height:1.45; color:var(--term-cream-ink)">
+            Founding eng at Apollo.io. Scaled outbound infrastructure to <b>200M sends/mo</b>. Deliverability nerd.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>Team</span>
+    </div>
+  </section>
+
+  <!-- 18 / THE ASK -->
+  <section class="slide dark" data-label="18 Ask">
+    <div class="chrome">
+      <span><span class="path">~/ask.md</span></span>
+      <span>18 / 19</span>
+    </div>
+    <div class="center-stack">
+      <div style="font-size:16px; letter-spacing:.14em; text-transform:uppercase; color:var(--term-dim); font-weight:700">
+        10 &nbsp;·&nbsp; Seed round
+      </div>
+      <div class="big-num accent">$3.5<span class="unit" style="color:var(--term-dim)">M</span></div>
+      <div class="num-caption" style="color:var(--term-ink)">
+        <b style="color:var(--term-accent)">40%</b> product — ship farm & intent<br/>
+        <b style="color:var(--term-accent)">35%</b> go-to-market — agent-led, brokerage partnerships<br/>
+        <b style="color:var(--term-accent)">25%</b> data — deepen MLS + homeowner coverage to 50 states
+      </div>
+    </div>
+    <div class="footer">
+      <span>Grassfed · grsfd.ai</span>
+      <span>The ask</span>
+    </div>
+  </section>
+
+  <!-- 19 / CLOSE -->
+  <section class="slide dark" data-label="19 Close">
+    <div class="field-horizon"></div>
+    <div class="field-dots"></div>
+    <div class="overlay-dim"></div>
+    <div class="chrome over">
+      <span><span class="path" style="color:var(--term-accent)">~/grown-not-mailed</span></span>
+      <span>19 / 19</span>
+    </div>
+    <div class="over" style="display:flex; flex-direction:column; justify-content:center; height:100%; gap:40px">
+      <img src="../assets/logos/trimmed/grsfd-ai-ondark.png" style="height:56px; width:auto; flex-shrink:0; object-fit:contain; align-self:flex-start" alt="grsfd.ai"/>
+      <div style="font-family:var(--font-display); font-size:128px; font-weight:500; line-height:1; letter-spacing:-0.025em; color:var(--term-ink); max-width:1600px; text-wrap:balance">
+        Grown,<br/>not&nbsp;mailed.
+      </div>
+      <div class="prompt" style="font-size:24px; color:var(--term-dim)">
+        <span class="sigil">$</span><span class="cmd" style="color:var(--term-ink)">grsfd --invite rw@grsfd.ai<span class="cursor"></span></span>
+      </div>
+    </div>
+    <div class="footer over">
+      <span style="color:var(--term-dim)">Rodeo Walsh · rw@grsfd.ai · grsfd.ai</span>
+      <span style="color:var(--term-dim)">end of deck</span>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>

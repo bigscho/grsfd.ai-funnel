@@ -1,0 +1,94 @@
+{
+  "name": "Grassfed Brand Palette",
+  "description": "Daytime light-mode palette with dark brand green for navbar/footer",
+  "colors": {
+    "background": {
+      "name": "Background",
+      "hsl": "hsl(50, 10%, 96%)",
+      "hex": "#F6F5F1",
+      "usage": "Main page background (warm off-white)"
+    },
+    "foreground": {
+      "name": "Foreground / Brand Green",
+      "hsl": "hsl(168, 55%, 23%)",
+      "hex": "#1A5A50",
+      "usage": "Primary text color, deep brand green"
+    },
+    "primary": {
+      "name": "Primary Teal",
+      "hsl": "hsl(155, 68%, 28%)",
+      "hex": "#177851",
+      "usage": "Buttons, links, primary CTAs"
+    },
+    "primary-foreground": {
+      "name": "Primary Foreground",
+      "hsl": "hsl(0, 0%, 100%)",
+      "hex": "#FFFFFF",
+      "usage": "Text on primary buttons"
+    },
+    "accent": {
+      "name": "Accent Lime",
+      "hsl": "hsl(93, 55%, 42%)",
+      "hex": "#62A930",
+      "usage": "Highlights, badges, accent text (e.g. 'Farm', 'US')"
+    },
+    "accent-glow": {
+      "name": "Accent Lime Glow",
+      "hsl": "hsl(93, 60%, 48%)",
+      "hex": "#6FC433",
+      "usage": "Hover/glow state for accent"
+    },
+    "secondary": {
+      "name": "Secondary",
+      "hsl": "hsl(155, 20%, 90%)",
+      "hex": "#DCE8E3",
+      "usage": "Subtle backgrounds, secondary buttons"
+    },
+    "muted": {
+      "name": "Muted",
+      "hsl": "hsl(155, 15%, 88%)",
+      "hex": "#D7E0DC",
+      "usage": "Muted backgrounds"
+    },
+    "muted-foreground": {
+      "name": "Muted Foreground",
+      "hsl": "hsl(155, 20%, 40%)",
+      "hex": "#527A6B",
+      "usage": "Secondary text, captions"
+    },
+    "border": {
+      "name": "Border",
+      "hsl": "hsl(155, 15%, 85%)",
+      "hex": "#CED9D4",
+      "usage": "Card borders, dividers"
+    },
+    "card": {
+      "name": "Card",
+      "hsl": "hsl(0, 0%, 100%)",
+      "hex": "#FFFFFF",
+      "usage": "Card surfaces"
+    },
+    "navbar-footer": {
+      "name": "Navbar / Footer Dark Green",
+      "hsl": "hsl(155, 60%, 14%)",
+      "hex": "#0F3A29",
+      "usage": "Navbar and footer background (dark brand green)"
+    },
+    "destructive": {
+      "name": "Destructive",
+      "hsl": "hsl(0, 84%, 50%)",
+      "hex": "#EB1F1F",
+      "usage": "Errors, destructive actions"
+    }
+  },
+  "gradients": {
+    "primary": "linear-gradient(135deg, hsl(155, 68%, 28%), hsl(93, 55%, 42%))",
+    "subtle": "linear-gradient(135deg, hsl(155, 15%, 92%), hsl(155, 15%, 90%))"
+  },
+  "typography": {
+    "display": "Space Grotesk",
+    "brand": "League Spartan",
+    "body": "Inter"
+  },
+  "radius": "0.625rem"
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>grsfd core · design system reference</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); }
+  * { box-sizing: border-box; }
+  .page { max-width: 1200px; margin: 0 auto; padding: 64px 48px 120px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--primary); }
+  h1 { font-family: var(--font-display); font-size: 56px; font-weight: 500;
+    letter-spacing: -0.022em; line-height: 1.05; margin: 16px 0 24px; }
+  h1 .logo { height: 120px; width: auto; flex-shrink: 0; object-fit: contain; display: block; }
+  h1 .tail { color: var(--fg-muted); font-weight: 400; font-size: 44px; }
+  .lede { font-size: 19px; line-height: 1.5; color: var(--fg-muted); max-width: 720px; margin: 0 0 48px; }
+
+  .notice {
+    background: var(--bg-elevated); border: 1.5px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 24px 28px; border-radius: 4px;
+    display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start;
+    margin-bottom: 64px;
+  }
+  .notice .sig { font-family: var(--font-mono); font-size: 14px; color: var(--primary); font-weight: 700;
+    letter-spacing: .1em; white-space: nowrap; padding-top: 2px; }
+  .notice p { margin: 0 0 8px; font-size: 15px; line-height: 1.55; }
+  .notice p:last-child { margin: 0; }
+  .notice code { font-family: var(--font-mono); font-size: 13px; background: var(--muted);
+    padding: 2px 6px; border-radius: 3px; }
+
+  section { margin-bottom: 56px; }
+  section h2 { font-family: var(--font-display); font-size: 28px; font-weight: 500;
+    letter-spacing: -0.015em; margin: 0 0 20px; }
+  section .sub { font-size: 14px; color: var(--fg-muted); margin: -12px 0 24px; }
+
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .sw { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--bg-elevated); }
+  .sw .chip { height: 68px; }
+  .sw .meta { padding: 10px 14px; font-family: var(--font-mono); font-size: 12px; }
+  .sw .meta .name { color: var(--fg); font-weight: 600; }
+  .sw .meta .val { color: var(--fg-muted); margin-top: 2px; }
+
+  .buttons { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    padding: 10px 18px; border-radius: 8px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid transparent;
+  }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-accent  { background: var(--accent); color: var(--dark); }
+  .btn-ghost   { background: transparent; color: var(--fg); border-color: var(--border); }
+  .btn-dark    { background: var(--dark); color: var(--dark-fg); }
+
+  .type-row { display: grid; grid-template-columns: 140px 1fr; gap: 32px; align-items: baseline;
+    padding: 14px 0; border-top: 1px solid var(--border); }
+  .type-row:last-child { border-bottom: 1px solid var(--border); }
+  .type-row .lbl { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted);
+    letter-spacing: .08em; text-transform: uppercase; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 9999px; font-size: 12px;
+    background: var(--muted); color: var(--primary); font-weight: 600;
+    font-family: var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+  }
+  .chip-pill.accent { background: hsla(93,55%,42%,.2); color: var(--primary); }
+  .chip-pill.dark { background: var(--dark); color: var(--accent); }
+
+  .code-block {
+    font-family: var(--font-mono); font-size: 13px; line-height: 1.6;
+    background: var(--dark); color: var(--dark-fg); padding: 20px 24px;
+    border-radius: 8px; overflow-x: auto;
+  }
+  .code-block .k { color: hsl(155,20%,72%); }
+  .code-block .v { color: var(--accent); }
+</style>
+</head>
+<body data-screen-label="grsfd Core — DS reference">
+<div class="page">
+
+  <div class="eyebrow">grsfd-core / design-system</div>
+  <h1 style="display:flex; align-items:center; gap:36px; flex-wrap:wrap; margin:20px 0 32px">
+    <img src="../../assets/logos/trimmed/grsfd-ai.png" alt="grsfd.ai" class="logo" />
+  </h1>
+  <p class="lede">
+    Token and component reference for the coded grsfd core app. Not a mock — the product already exists; this page exists so it can pull from the same system as the rest of the brand surface.
+  </p>
+
+  <div class="notice">
+    <span class="sig">NOTE</span>
+    <div>
+      <p><strong>The core product is already built.</strong> This page exists so the coded app can reach for the same tokens, type, buttons, and chips as the rest of the brand surface — without a speculative dashboard muddying the review.</p>
+      <p>When the real UI needs a button, import from <code>colors_and_type.css</code> and match the styles below. When it needs a color, use the CSS variables — not raw hex.</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Colors</h2>
+    <div class="sub">Pull from <code style="font-family:var(--font-mono);font-size:13px">colors_and_type.css</code>. Never hard-code.</div>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:var(--primary)"></div><div class="meta"><div class="name">--primary</div><div class="val">buttons · headings</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--accent)"></div><div class="meta"><div class="name">--accent</div><div class="val">the one thing that pops</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--dark)"></div><div class="meta"><div class="name">--dark</div><div class="val">sidebar · footer · hero</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--bg)"></div><div class="meta"><div class="name">--bg</div><div class="val">app background (cream)</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--bg-elevated);border-right:1px solid var(--border)"></div><div class="meta"><div class="name">--bg-elevated</div><div class="val">cards on cream</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--muted)"></div><div class="meta"><div class="name">--muted</div><div class="val">fills · eyebrows · dividers</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--border)"></div><div class="meta"><div class="name">--border</div><div class="val">1px rules</div></div></div>
+      <div class="sw"><div class="chip" style="background:var(--fg)"></div><div class="meta"><div class="name">--fg</div><div class="val">body copy on light</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Buttons</h2>
+    <div class="sub">Four variants. Same shape, radius, padding.</div>
+    <div class="buttons">
+      <button class="btn btn-primary">Send campaign</button>
+      <button class="btn btn-accent">Start free</button>
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-dark">Dark context</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Type</h2>
+    <div class="sub">Fraunces (display) · Inter (body) · JetBrains Mono (data, eyebrows).</div>
+    <div class="type-row"><div class="lbl">Display / H1</div><div style="font-family:var(--font-display); font-size:56px; font-weight:500; letter-spacing:-0.022em; line-height:1.05">Display heading, 56/58</div></div>
+    <div class="type-row"><div class="lbl">Display / H2</div><div style="font-family:var(--font-display); font-size:32px; font-weight:500; letter-spacing:-0.015em">Section heading, 32/36</div></div>
+    <div class="type-row"><div class="lbl">Body</div><div style="font-size:16px; line-height:1.55; max-width:640px">Body copy, 16/25. Inter regular. Used for everything that isn't a heading, a number, or a label. Max measure ~640px for readability.</div></div>
+    <div class="type-row"><div class="lbl">Mono · data</div><div style="font-family:var(--font-mono); font-size:15px; color:var(--fg)"><strong>4,050</strong> homeowners · <strong>38.7%</strong> open · <strong>$0.04</strong> CPS</div></div>
+    <div class="type-row"><div class="lbl">Mono · eyebrow</div><div class="eyebrow" style="color:var(--fg-muted)">mono eyebrow, 12px, 0.14em tracking</div></div>
+  </section>
+
+  <section>
+    <h2>Chips</h2>
+    <div class="sub">Farm tags, sequence states, reply statuses.</div>
+    <div class="chips">
+      <span class="chip-pill">Farm</span>
+      <span class="chip-pill accent">Sending</span>
+      <span class="chip-pill">Draft</span>
+      <span class="chip-pill dark">Live</span>
+      <span class="chip-pill" style="background:hsla(0,60%,50%,.12); color:hsl(0,50%,40%)">Paused</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Import</h2>
+    <div class="sub">Drop into the app's global stylesheet.</div>
+    <pre class="code-block"><span class="k">@import</span> <span class="v">'./design-system/colors_and_type.css'</span>;
+
+<span class="k">.btn-primary</span> { background: <span class="v">var(--primary)</span>; color: #fff; border-radius: 8px; padding: 10px 18px; }
+<span class="k">.btn-accent</span>  { background: <span class="v">var(--accent)</span>;  color: <span class="v">var(--dark)</span>; border-radius: 8px; padding: 10px 18px; }
+<span class="k">.card</span>        { background: <span class="v">var(--bg-elevated)</span>; border: 1px solid <span class="v">var(--border)</span>; border-radius: 12px; }</pre>
+  </section>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .nav-wrap {
+    padding: 0; overflow: hidden;
+    background:
+      radial-gradient(120% 220% at 100% 0%, hsla(93,65%,55%,.10) 0%, transparent 55%),
+      radial-gradient(80% 140% at 0% 100%, hsla(93,65%,55%,.06) 0%, transparent 60%),
+      linear-gradient(180deg, #114B36 0%, #0F3A29 100%);
+    position: relative;
+  }
+  .nav-wrap::before {
+    content:''; position:absolute; inset:0 0 auto 0; height:1px;
+    background: linear-gradient(90deg, transparent, hsla(93,65%,55%,.4), transparent);
+  }
+  .nav-wrap::after {
+    content:''; position:absolute; left:-18px; top:50%; transform:translateY(-50%);
+    width:34px; height:34px; border-left:2px solid hsla(93,65%,55%,.5); border-bottom:2px solid hsla(93,65%,55%,.5);
+    border-radius:2px; opacity:.4; pointer-events:none;
+  }
+  .nav {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; color:#F6F5F1; position:relative;
+  }
+  .left { display:flex; align-items:center; gap:4px; }
+  .left img { height:30px; width:auto; display:block; margin-right:22px; }
+  .link {
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:9999px; cursor:pointer;
+    font-family: var(--font-body); font-size:14px; font-weight:500;
+    color: hsl(155,20%,88%); transition:all .15s ease;
+    text-decoration:none;
+  }
+  .link:hover { background: hsla(155,30%,100%,.06); color:#fff; }
+  .link.active {
+    background: hsla(93,65%,55%,.14);
+    color: #95D56B;
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px hsla(93,65%,55%,.3);
+  }
+  .link .dot { width:5px; height:5px; border-radius:9999px; background:#95D56B; box-shadow:0 0 8px #95D56B; }
+  .right { display:flex; align-items:center; gap:10px; }
+  .ghost {
+    background:transparent; color:#F6F5F1;
+    border:1px solid hsla(155,30%,100%,.18);
+    padding:8px 14px; border-radius:9px;
+    font-family: var(--font-body); font-size:13px; font-weight:500;
+    cursor:pointer; transition: border-color .15s;
+  }
+  .ghost:hover { border-color: hsla(155,30%,100%,.35); }
+  .cta {
+    background: linear-gradient(180deg, #95D56B 0%, #6FC433 100%);
+    color:#0F3A29;
+    border:0; padding:9px 16px; border-radius:9px;
+    font-family: var(--font-body); font-weight:700; font-size:13px;
+    cursor:pointer;
+    box-shadow: 0 6px 16px -4px hsla(93,65%,40%,.5), inset 0 1px 0 hsla(0,0%,100%,.5);
+    display:inline-flex; align-items:center; gap:6px;
+    transition: transform .1s;
+  }
+  .cta:hover { transform: translateY(-1px); }
+  .cta svg { width:14px; height:14px; }
+</style>
+</head>
+<body>
+<div class="card nav-wrap">
+  <div class="nav">
+    <div class="left">
+      <img src="../assets/logos/grsfd-ai-ondark.png" alt="grsfd.ai"/>
+      <a class="link">Product</a>
+      <a class="link">Farm</a>
+      <a class="link active"><span class="dot"></span>Pricing</a>
+      <a class="link">Company</a>
+    </div>
+    <div class="right">
+      <button class="ghost">Sign in</button>
+      <button class="cta">
+        Start free
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+</body></html>

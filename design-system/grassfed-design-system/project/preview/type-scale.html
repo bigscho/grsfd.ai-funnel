@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  .row { display:flex; align-items:baseline; gap:14px; }
+  .row .sz { font-family: var(--font-mono); font-size:11px; color:var(--fg-muted); width:42px; flex:none; }
+  .row .use { font-family: var(--font-mono); font-size:10px; color:var(--fg-muted); margin-left:auto; text-transform:uppercase; letter-spacing:.08em; }
+  .logo-row { display:flex; align-items:center; gap:14px; padding:10px 12px; background:#F6F5F1; border-radius:10px; }
+  .logo-row img { display:block; height:32px; width:auto; }
+  .divider { height:1px; background:var(--border); margin:10px 0 4px; }
+  .caption { font-family: var(--font-mono); font-size:10px; color:var(--fg-muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="label">Type scale &amp; wordmark interchange</div>
+
+  <div class="caption">Type — for body, headlines, inline references</div>
+  <div style="display:flex; flex-direction:column; gap:6px">
+    <div class="row"><span class="sz">64</span><span style="font-family:var(--font-display); font-size:64px; font-weight:600; letter-spacing:-0.02em; line-height:1">Grassfed</span><span class="use">hero headline</span></div>
+    <div class="row"><span class="sz">48</span><span style="font-family:var(--font-display); font-size:48px; font-weight:600; letter-spacing:-0.02em; line-height:1">grsfd.</span><span class="use">display, short</span></div>
+    <div class="row"><span class="sz">28</span><span style="font-family:var(--font-display); font-size:28px; font-weight:600; letter-spacing:-0.01em">Grassfed · grsfd farm</span><span class="use">section heads</span></div>
+    <div class="row"><span class="sz">18</span><span style="font-family:var(--font-body); font-size:18px; font-weight:500">Hit way more homeowners, way faster.</span><span class="use">lede body</span></div>
+    <div class="row"><span class="sz">16</span><span style="font-family:var(--font-body); font-size:16px">Default body — workhorse for UI.</span><span class="use">body</span></div>
+    <div class="row"><span class="sz">12</span><span style="font-family:var(--font-body); font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#62A930">EYEBROW · CAPS</span><span class="use">label</span></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="caption">Lockup — use in brand moments, headers, app chrome, deck covers</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px">
+    <div class="logo-row"><img src="../assets/logos/grsfd.png"/></div>
+    <div class="logo-row"><img src="../assets/logos/grsfd-ai.png"/></div>
+    <div class="logo-row"><img src="../assets/logos/grsfd-farm.png"/></div>
+  </div>
+</div>
+</body></html>

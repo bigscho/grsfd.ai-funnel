@@ -1,0 +1,66 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css"></head>
+<body>
+<div class="card">
+  <div class="label">Form inputs · product-scoped</div>
+  <div style="display:flex; flex-direction:column; gap:16px; max-width:460px">
+
+    <!-- grsfd core: single MLS ID lookup -->
+    <div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px">
+        <span style="font-family:var(--font-body); font-size:13px; font-weight:600; color:#1A5A50">MLS ID</span>
+        <img src="../assets/logos/grsfd.png" style="height:20px; width:auto; display:block" alt="grsfd"/>
+      </div>
+      <input value="24-398712-LA"
+        style="display:block; width:100%; box-sizing:border-box; padding:11px 14px;
+               border:1px solid #62A930; border-radius:10px; background:#fff;
+               font-family:var(--font-mono); font-size:14px; color:#1A5A50; letter-spacing:.02em;
+               box-shadow:0 0 0 4px hsla(93,55%,42%,.18)"/>
+      <div style="font-family:var(--font-body); font-size:12px; color:hsl(155,14%,42%); margin-top:6px">
+        Pull the homeowner for a single listing.
+      </div>
+    </div>
+
+    <!-- grsfd farm: zip codes, multi -->
+    <div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px">
+        <span style="font-family:var(--font-body); font-size:13px; font-weight:600; color:#1A5A50">Zip codes</span>
+        <img src="../assets/logos/grsfd-farm.png" style="height:20px; width:auto; display:block" alt="grsfd farm"/>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px; align-items:center;
+                  padding:8px 10px; min-height:44px; background:#fff;
+                  border:1px solid #CED9D4; border-radius:10px;">
+        <span style="display:inline-flex; align-items:center; gap:6px; padding:3px 4px 3px 10px;
+                     background:#E8F3E0; color:#1A5A50; border-radius:9999px;
+                     font-family:var(--font-mono); font-size:13px; font-weight:600">
+          90046
+          <span style="width:18px; height:18px; border-radius:9999px; background:hsla(155,40%,24%,.12); display:inline-flex; align-items:center; justify-content:center; font-size:11px; line-height:1; cursor:pointer">×</span>
+        </span>
+        <span style="display:inline-flex; align-items:center; gap:6px; padding:3px 4px 3px 10px;
+                     background:#E8F3E0; color:#1A5A50; border-radius:9999px;
+                     font-family:var(--font-mono); font-size:13px; font-weight:600">
+          90210
+          <span style="width:18px; height:18px; border-radius:9999px; background:hsla(155,40%,24%,.12); display:inline-flex; align-items:center; justify-content:center; font-size:11px; line-height:1; cursor:pointer">×</span>
+        </span>
+        <span style="display:inline-flex; align-items:center; gap:6px; padding:3px 4px 3px 10px;
+                     background:#E8F3E0; color:#1A5A50; border-radius:9999px;
+                     font-family:var(--font-mono); font-size:13px; font-weight:600">
+          90026
+          <span style="width:18px; height:18px; border-radius:9999px; background:hsla(155,40%,24%,.12); display:inline-flex; align-items:center; justify-content:center; font-size:11px; line-height:1; cursor:pointer">×</span>
+        </span>
+        <input placeholder="Add zip…"
+          style="flex:1; min-width:90px; border:0; outline:0; background:transparent;
+                 font-family:var(--font-mono); font-size:13px; color:#1A5A50; padding:4px 2px"/>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-top:6px">
+        <span style="font-family:var(--font-body); font-size:12px; color:hsl(155,14%,42%)">
+          Paste a list, or draw a polygon on the map.
+        </span>
+        <span style="font-family:var(--font-mono); font-size:11px; color:hsl(155,14%,42%)">
+          3 / 25
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body></html>
