@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     'Email': String(email).trim(),
     'Mobile Phone': String(phone).trim(),
     'Initial Response Text': criteria,
-    'Current Prospecting Stage': 'NEW (<24hr)',
+    'Disposition': 'NEW (<24hr)',
   };
 
   try {
