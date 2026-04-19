@@ -54,6 +54,12 @@ for f in "$PUB/unlock/index.html" "$PUB/unlock/results/index.html" "$PUB/farm/un
   sed -i 's|\.\./\.\./\.\./\.\./assets/logos/|/assets/logos/|g' "$f"
 done
 
+echo "==> Building home from Hero Prototype"
+python3 "$ROOT/scripts/build-home.py" "$DESIGN/ui_kits/marketing/Hero Prototype.html" "$PUB/index.html"
+
+echo "==> Removing old /farm marketing landing (funnel is /farm/unlock)"
+rm -f "$PUB/farm/index.html"
+
 echo "==> Wiring grsfd opt-in form to POST /api/optin"
 python3 "$ROOT/scripts/wire-optin.py" grsfd "$PUB/unlock/index.html"
 
