@@ -1,7 +1,19 @@
 // Lower sections for Grassfed home page — How it works, pricing snapshot, footer
 const { useState: useStateLower } = React;
 
+function useWindowWidth() {
+  const [w, setW] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener('resize', h);
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return w;
+}
+
 function HowItWorks() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   const steps = [
     { n: '01', t: 'Connect your MLS', p: 'One MLS ID. We watch it. That\'s the whole setup.', icon: 'Key' },
     { n: '02', t: 'Close a deal', p: 'Listing sale, buyer purchase — doesn\'t matter. We see the event in minutes.', icon: 'Sparkles' },
@@ -9,29 +21,29 @@ function HowItWorks() {
     { n: '04', t: 'Replies route to you', p: 'Interested neighbors reply straight to your inbox. You already know what to do next.', icon: 'Inbox' },
   ];
   return (
-    <section id="how" style={{ padding: '120px 32px', background: 'var(--dark)', color: 'var(--dark-fg)' }}>
+    <section id="how" style={{ padding: isMobile ? '72px 20px' : '120px 32px', background: 'var(--dark)', color: 'var(--dark-fg)' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-        <div style={{ marginBottom: 64, maxWidth: 760 }}>
+        <div style={{ marginBottom: isMobile ? 40 : 64, maxWidth: 760 }}>
           <div className="eyebrow" style={{ color: 'var(--accent)', marginBottom: 12 }}>How Grassfed works</div>
-          <h2 style={{ fontSize: 52, margin: 0, color: 'var(--dark-fg)', letterSpacing: '-0.03em', lineHeight: 1.02, textWrap: 'balance' }}>
+          <h2 style={{ fontSize: isMobile ? 36 : 52, margin: 0, color: 'var(--dark-fg)', letterSpacing: '-0.03em', lineHeight: 1.02, textWrap: 'balance' }}>
             Four steps. One of them is yours.
           </h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? 12 : 16 }}>
           {steps.map((s, i) => (
             <div key={i} style={{
               background: 'hsla(155,55%,18%,.55)',
               border: '1px solid hsla(155,40%,30%,.5)',
-              borderRadius: 18, padding: 28,
-              display: 'flex', flexDirection: 'column', gap: 14, minHeight: 240,
+              borderRadius: 18, padding: isMobile ? 20 : 28,
+              display: 'flex', flexDirection: 'column', gap: 14, minHeight: isMobile ? 'auto' : 240,
               position: 'relative', overflow: 'hidden',
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--accent)', letterSpacing: '0.1em' }}>{s.n}</span>
                 {(() => { const IconComp = Icon[s.icon]; return IconComp ? <IconComp size={18} color="hsl(155,30%,55%)" /> : null; })()}
               </div>
-              <h3 style={{ fontSize: 20, margin: '12px 0 6px', color: 'var(--dark-fg)', lineHeight: 1.2 }}>{s.t}</h3>
-              <p style={{ color: 'hsl(155,20%,78%)', fontSize: 14, lineHeight: 1.55, margin: 0 }}>{s.p}</p>
+              <h3 style={{ fontSize: isMobile ? 16 : 20, margin: '12px 0 6px', color: 'var(--dark-fg)', lineHeight: 1.2 }}>{s.t}</h3>
+              <p style={{ color: 'hsl(155,20%,78%)', fontSize: isMobile ? 13 : 14, lineHeight: 1.55, margin: 0 }}>{s.p}</p>
               {i === 1 && (
                 <div style={{
                   marginTop: 'auto', fontFamily: 'var(--font-mono)', fontSize: 11,
@@ -50,18 +62,21 @@ function HowItWorks() {
 }
 
 function PricingSnapshot() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
+  const isTablet = w < 900;
   const tiers = [
     { name: 'Starter', sub: '250 nearest', emails: '~500 emails / campaign', mo: 150, camp: 175, recommended: false },
     { name: 'Growth', sub: '500 nearest', emails: '~1,000 emails / campaign', mo: 250, camp: 275, recommended: true },
     { name: 'Pro', sub: '1,000 nearest', emails: '~2,000 emails / campaign', mo: 525, camp: 550, recommended: false },
   ];
   return (
-    <section style={{ padding: '120px 32px', background: 'var(--bg)' }}>
+    <section style={{ padding: isMobile ? '72px 20px' : '120px 32px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 48, flexWrap: 'wrap', gap: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: isMobile ? 32 : 48, flexWrap: 'wrap', gap: 20 }}>
           <div style={{ maxWidth: 640 }}>
             <div className="eyebrow" style={{ marginBottom: 12 }}>Pricing</div>
-            <h2 style={{ fontSize: 48, margin: 0, letterSpacing: '-0.03em', lineHeight: 1.05 }}>
+            <h2 style={{ fontSize: isMobile ? 32 : 48, margin: 0, letterSpacing: '-0.03em', lineHeight: 1.05 }}>
               Subscription + per-campaign.<br/>No retainer, no seats, no BS.
             </h2>
           </div>
@@ -69,7 +84,7 @@ function PricingSnapshot() {
             Full pricing details <Icon.ArrowRight size={14} />
           </a>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isTablet ? '1fr' : 'repeat(3, 1fr)', gap: 18 }}>
           {tiers.map((t, i) => (
             <div key={i} style={{
               background: t.recommended ? 'var(--dark)' : 'var(--bg-elevated)',
@@ -131,13 +146,16 @@ function PricingSnapshot() {
 }
 
 function FarmCallout() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
-    <section style={{ padding: '80px 32px 120px', background: 'var(--bg)' }}>
+    <section style={{ padding: isMobile ? '40px 20px 72px' : '80px 32px 120px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
         <div style={{
           background: 'var(--grad-primary)',
-          borderRadius: 24, padding: '56px 56px',
-          display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 48, alignItems: 'center',
+          borderRadius: 24, padding: isMobile ? '40px 28px' : '56px 56px',
+          display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.3fr 1fr', gap: isMobile ? 28 : 48,
+          alignItems: 'center',
           position: 'relative', overflow: 'hidden',
           boxShadow: '0 24px 64px -20px hsla(155,60%,14%,.35)',
         }}>
@@ -148,7 +166,7 @@ function FarmCallout() {
               fontSize: 11, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase',
               color: 'var(--bg)', marginBottom: 18,
             }}>For brokerages</div>
-            <h2 style={{ fontSize: 44, margin: '0 0 14px', color: 'var(--bg)', letterSpacing: '-0.025em', lineHeight: 1.05 }}>
+            <h2 style={{ fontSize: isMobile ? 32 : 44, margin: '0 0 14px', color: 'var(--bg)', letterSpacing: '-0.025em', lineHeight: 1.05 }}>
               Running a whole territory? Meet Grassfed Farm.
             </h2>
             <p style={{ fontSize: 16, color: 'hsla(245,240,228,0.8)', margin: '0 0 28px', lineHeight: 1.5, maxWidth: 520 }}>
@@ -163,10 +181,12 @@ function FarmCallout() {
               See Grassfed Farm <Icon.ArrowRight size={14} />
             </a>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <img src="/assets/logos/trimmed/grsfd-farm-ondark.png" alt="grsfd farm"
-              style={{ height: 48, width: 'auto', opacity: 0.95 }} />
-          </div>
+          {!isMobile && (
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <img src="/assets/logos/trimmed/grsfd-farm-ondark.png" alt="grsfd farm"
+                style={{ height: 48, width: 'auto', opacity: 0.95 }} />
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -174,10 +194,17 @@ function FarmCallout() {
 }
 
 function Footer() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
-    <footer style={{ background: 'var(--dark)', color: 'var(--dark-fg)', padding: '60px 32px 32px' }}>
-      <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48 }}>
-        <div>
+    <footer style={{ background: 'var(--dark)', color: 'var(--dark-fg)', padding: isMobile ? '48px 20px 28px' : '60px 32px 32px' }}>
+      <div style={{
+        maxWidth: 1240, margin: '0 auto',
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr 1fr' : '2fr 1fr 1fr 1fr',
+        gap: isMobile ? 32 : 48,
+      }}>
+        <div style={{ gridColumn: isMobile ? '1 / -1' : 'auto' }}>
           <img src="/assets/logos/trimmed/grsfd-ai-ondark.png" alt="grsfd.ai" style={{ height: 24, width: 'auto', marginBottom: 16 }} />
           <p style={{ fontSize: 14, color: 'hsl(155,20%,72%)', lineHeight: 1.5, margin: 0, maxWidth: 340 }}>
             Circle prospecting, on autopilot. We watch your MLS and email the neighborhood the moment you close.
@@ -196,7 +223,12 @@ function Footer() {
           </div>
         ))}
       </div>
-      <div style={{ maxWidth: 1240, margin: '48px auto 0', paddingTop: 24, borderTop: '1px solid hsla(155,40%,30%,.5)', display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'hsl(155,20%,60%)' }}>
+      <div style={{
+        maxWidth: 1240, margin: '48px auto 0', paddingTop: 24,
+        borderTop: '1px solid hsla(155,40%,30%,.5)',
+        display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8,
+        fontSize: 12, color: 'hsl(155,20%,60%)',
+      }}>
         <span>© 2026 Grassfed, Inc.</span>
         <span style={{ fontFamily: 'var(--font-mono)' }}>grown, not mailed.</span>
       </div>

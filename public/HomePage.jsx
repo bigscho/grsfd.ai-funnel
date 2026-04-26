@@ -2,6 +2,16 @@
 // Single path: hero → live MLS opt-in (aha moment) → how it works → pricing → footer
 const { useState, useRef, useEffect } = React;
 
+function useWindowWidth() {
+  const [w, setW] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener('resize', h);
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return w;
+}
+
 // ===== shared UI =====
 const buttonPrimary = {
   background: 'var(--primary)', color: '#fff', border: 0,
@@ -19,6 +29,8 @@ const buttonGhost = {
 
 // ===== navbar =====
 function Nav() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 50,
@@ -29,20 +41,22 @@ function Nav() {
       <div style={{
         maxWidth: 1240, margin: '0 auto',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '14px 32px',
+        padding: isMobile ? '14px 20px' : '14px 32px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
           <a href="/" style={{ borderBottom: 'none', display: 'flex', alignItems: 'center' }}>
             <img src="/assets/logos/trimmed/grsfd-ai.png" alt="grsfd.ai" style={{ height: 22, width: 'auto', display: 'block' }} />
           </a>
-          <nav style={{ display: 'flex', gap: 28 }}>
-            <a href="#how" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>How it works</a>
-            <a href="/pricing" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>Pricing</a>
-            <a href="/farm" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>For brokerages</a>
-          </nav>
+          {!isMobile && (
+            <nav style={{ display: 'flex', gap: 28 }}>
+              <a href="#how" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>How it works</a>
+              <a href="/pricing" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>Pricing</a>
+              <a href="/farm" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>For brokerages</a>
+            </nav>
+          )}
         </div>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <a href="#" style={{ color: 'var(--fg)', fontSize: 14, opacity: 0.75, borderBottom: 'none' }}>Sign in</a>
+          {!isMobile && <a href="#" style={{ color: 'var(--fg)', fontSize: 14, opacity: 0.75, borderBottom: 'none' }}>Sign in</a>}
           <a href="#aha" style={{ ...buttonPrimary, padding: '9px 16px', fontSize: 13, borderBottom: 'none', color: '#fff' }}>
             Get started <Icon.ArrowRight size={14} />
           </a>
@@ -54,8 +68,10 @@ function Nav() {
 
 // ===== hero =====
 function Hero({ onStart }) {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
-    <section style={{ padding: '96px 32px 40px', position: 'relative' }}>
+    <section style={{ padding: isMobile ? '60px 20px 32px' : '96px 32px 40px', position: 'relative' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
         <div style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -68,8 +84,8 @@ function Hero({ onStart }) {
           Circle prospecting, on autopilot
         </div>
         <h1 style={{
-          fontFamily: 'var(--font-display)', fontSize: 88, fontWeight: 600,
-          letterSpacing: '-0.035em', lineHeight: 1, margin: '0 0 28px',
+          fontFamily: 'var(--font-display)', fontSize: 'clamp(40px, 8vw, 88px)', fontWeight: 600,
+          letterSpacing: '-0.035em', lineHeight: 1.05, margin: '0 0 28px',
           color: 'var(--fg)', textWrap: 'balance',
         }}>
           You close a deal.<br/>
@@ -77,17 +93,23 @@ function Hero({ onStart }) {
           <span style={{ color: 'var(--primary)', fontStyle: 'italic' }}>hears about it.</span>
         </h1>
         <p style={{
-          fontSize: 21, lineHeight: 1.45, color: 'var(--fg-muted)',
+          fontSize: isMobile ? 17 : 21, lineHeight: 1.45, color: 'var(--fg-muted)',
           margin: '0 auto 40px', maxWidth: 640, textWrap: 'pretty',
         }}>
           Grassfed watches your MLS. The moment a listing closes, we fire a hyper-local
           email campaign to the 250, 500, or 1,000 nearest homeowners. You do nothing.
         </p>
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 12 }}>
-          <button style={buttonPrimary} onClick={onStart}>
+        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 12, flexWrap: 'wrap' }}>
+          <button
+            style={{ ...buttonPrimary, ...(isMobile ? { width: '100%', justifyContent: 'center' } : {}) }}
+            onClick={onStart}
+          >
             See your neighborhood count <Icon.ArrowRight size={16} />
           </button>
-          <a href="#how" style={{ ...buttonGhost, borderBottom: 'none' }}>
+          <a
+            href="#how"
+            style={{ ...buttonGhost, borderBottom: 'none', ...(isMobile ? { width: '100%', justifyContent: 'center' } : {}) }}
+          >
             <Icon.Play size={14} /> How it works
           </a>
         </div>
@@ -105,6 +127,8 @@ function MlsAha() {
   const [mlsId, setMlsId] = useState('');
   const [address, setAddress] = useState('');
   const [radius, setRadius] = useState(500);
+  const w = useWindowWidth();
+  const isMobile = w < 700;
 
   const go = (e) => {
     e?.preventDefault();
@@ -115,20 +139,20 @@ function MlsAha() {
 
   return (
     <section id="aha" style={{
-      padding: '80px 32px 96px', background: 'var(--bg)',
+      padding: isMobile ? '48px 20px 64px' : '80px 32px 96px', background: 'var(--bg)',
       position: 'relative',
     }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{
-          background: 'var(--bg-elevated)', borderRadius: 28,
+          background: 'var(--bg-elevated)', borderRadius: isMobile ? 20 : 28,
           border: '1px solid var(--border)', overflow: 'hidden',
           boxShadow: '0 32px 80px -30px hsla(168,60%,14%,.18), 0 4px 12px hsla(168,40%,15%,.04)',
-          display: 'grid', gridTemplateColumns: '1.05fr 1fr',
+          display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.05fr 1fr',
         }}>
           {/* left: form */}
-          <div style={{ padding: '56px 52px 52px' }}>
+          <div style={{ padding: isMobile ? '32px 24px 28px' : '56px 52px 52px' }}>
             <div className="eyebrow" style={{ marginBottom: 14 }}>Try it — 30 seconds</div>
-            <h2 style={{ fontSize: 40, lineHeight: 1.05, margin: '0 0 18px', letterSpacing: '-0.025em' }}>
+            <h2 style={{ fontSize: isMobile ? 28 : 40, lineHeight: 1.05, margin: '0 0 18px', letterSpacing: '-0.025em' }}>
               How many neighbors<br/>would hear about your<br/>last closing?
             </h2>
             <p style={{ fontSize: 15, color: 'var(--fg-muted)', margin: '0 0 32px', lineHeight: 1.5, maxWidth: 420 }}>
@@ -141,8 +165,8 @@ function MlsAha() {
             {step === 'result' && <AhaResult {...{mlsId, address, radius}} />}
 
             <div style={{
-              marginTop: 28, display: 'flex', gap: 20, alignItems: 'center',
-              fontSize: 12, color: 'var(--fg-subtle)',
+              marginTop: 28, display: 'flex', gap: isMobile ? 12 : 20, alignItems: 'center',
+              fontSize: 12, color: 'var(--fg-subtle)', flexWrap: 'wrap',
             }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <Icon.Check size={12} color="var(--accent)" /> Real MLS data
@@ -156,8 +180,8 @@ function MlsAha() {
             </div>
           </div>
 
-          {/* right: proof visual */}
-          <AhaVisual step={step} radius={radius} />
+          {/* right: proof visual — hidden on mobile */}
+          {!isMobile && <AhaVisual step={step} radius={radius} />}
         </div>
       </div>
     </section>
@@ -241,6 +265,8 @@ function AhaCounting() {
 }
 
 function AhaResult({ mlsId, address, radius }) {
+  const w = useWindowWidth();
+  const isMobile = w < 700;
   const count = { 250: 507, 500: 1034, 1000: 2082 }[radius];
   return (
     <div>
@@ -248,7 +274,7 @@ function AhaResult({ mlsId, address, radius }) {
         background: 'var(--dark)', color: 'var(--dark-fg)',
         borderRadius: 14, padding: '24px 26px',
         display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-        marginBottom: 18,
+        marginBottom: 18, flexWrap: 'wrap', gap: 12,
       }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'hsl(155,20%,72%)', marginBottom: 6 }}>
@@ -271,7 +297,7 @@ function AhaResult({ mlsId, address, radius }) {
       <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--fg-muted)', marginBottom: 12 }}>
         What next →
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 10 }}>
         <div style={{
           padding: '16px 16px', borderRadius: 12,
           border: '1px solid var(--primary)',

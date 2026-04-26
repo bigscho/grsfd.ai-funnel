@@ -1,13 +1,26 @@
 // Grassfed pricing page
+
+function useWindowWidth() {
+  const [w, setW] = React.useState(window.innerWidth);
+  React.useEffect(() => {
+    const h = () => setW(window.innerWidth);
+    window.addEventListener('resize', h);
+    return () => window.removeEventListener('resize', h);
+  }, []);
+  return w;
+}
+
 function PricingHero() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
-    <section style={{ padding: '96px 32px 60px', textAlign: 'center' }}>
+    <section style={{ padding: isMobile ? '60px 20px 40px' : '96px 32px 60px', textAlign: 'center' }}>
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         <div className="eyebrow" style={{ marginBottom: 14 }}>Pricing</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 72, fontWeight: 600, letterSpacing: '-0.035em', lineHeight: 1, margin: '0 0 20px', textWrap: 'balance' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(40px, 7vw, 72px)', fontWeight: 600, letterSpacing: '-0.035em', lineHeight: 1, margin: '0 0 20px', textWrap: 'balance' }}>
           Pay for the<br/><span style={{ color: 'var(--primary)', fontStyle: 'italic' }}>neighborhood,</span> not the seat.
         </h1>
-        <p style={{ fontSize: 19, color: 'var(--fg-muted)', lineHeight: 1.5, margin: '0 auto', maxWidth: 620, textWrap: 'pretty' }}>
+        <p style={{ fontSize: isMobile ? 17 : 19, color: 'var(--fg-muted)', lineHeight: 1.5, margin: '0 auto', maxWidth: 620, textWrap: 'pretty' }}>
           One subscription to keep Grassfed watching your MLS. A per-campaign fee when your deal closes and the neighborhood gets notified.
         </p>
       </div>
@@ -16,6 +29,9 @@ function PricingHero() {
 }
 
 function PricingTiers() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
+  const isTablet = w < 900;
   const tiers = [
     { name: 'Starter', sub: '250 nearest homes', emails: '~500 emails', mo: 150, camp: 175, recommended: false,
       bullets: ['MLS auto-trigger', 'Per-home personalization', 'Reply routing to inbox', '1 agent / 1 MLS ID'] },
@@ -25,8 +41,8 @@ function PricingTiers() {
       bullets: ['Everything in Growth', 'Custom sender domain', 'Dedicated sending IP', 'Reply analytics'] },
   ];
   return (
-    <section style={{ padding: '0 32px 100px' }}>
-      <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+    <section style={{ padding: isMobile ? '0 20px 72px' : '0 32px 100px' }}>
+      <div style={{ maxWidth: 1240, margin: '0 auto', display: 'grid', gridTemplateColumns: isTablet ? '1fr' : 'repeat(3, 1fr)', gap: 18 }}>
         {tiers.map((t, i) => (
           <div key={i} style={{
             background: t.recommended ? 'var(--dark)' : 'var(--bg-elevated)',
@@ -34,7 +50,6 @@ function PricingTiers() {
             border: t.recommended ? '1px solid var(--dark)' : '1px solid var(--border)',
             borderRadius: 20, padding: 36, position: 'relative',
             boxShadow: t.recommended ? '0 32px 64px -20px hsla(155,60%,14%,.35)' : 'var(--shadow-sm)',
-            transform: t.recommended ? 'translateY(-12px)' : 'none',
           }}>
             {t.recommended && (
               <div style={{
@@ -83,15 +98,17 @@ function PricingTiers() {
 }
 
 function CampaignMath() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   return (
-    <section style={{ padding: '100px 32px', background: 'var(--dark)', color: 'var(--dark-fg)' }}>
+    <section style={{ padding: isMobile ? '72px 20px' : '100px 32px', background: 'var(--dark)', color: 'var(--dark-fg)' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div className="eyebrow" style={{ color: 'var(--accent)', marginBottom: 14 }}>The math</div>
-        <h2 style={{ fontSize: 44, margin: '0 0 48px', color: 'var(--dark-fg)', letterSpacing: '-0.025em', lineHeight: 1.1, maxWidth: 720 }}>
+        <h2 style={{ fontSize: isMobile ? 32 : 44, margin: '0 0 48px', color: 'var(--dark-fg)', letterSpacing: '-0.025em', lineHeight: 1.1, maxWidth: 720 }}>
           One Growth campaign versus a postcard run.
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-          <div style={{ background: 'hsla(155,55%,18%,.55)', border: '1px solid hsla(155,40%,30%,.5)', borderRadius: 18, padding: 32 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
+          <div style={{ background: 'hsla(155,55%,18%,.55)', border: '1px solid hsla(155,40%,30%,.5)', borderRadius: 18, padding: isMobile ? 24 : 32 }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'hsl(155,20%,72%)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 18 }}>Postcards · 500 homes</div>
             <Row l="Print + postage" v="$0.85 / piece" />
             <Row l="Design / setup" v="$150" />
@@ -103,7 +120,7 @@ function CampaignMath() {
               <span style={{ fontFamily: 'var(--font-display)', fontSize: 36, fontWeight: 600, letterSpacing: '-0.02em' }}>$575</span>
             </div>
           </div>
-          <div style={{ background: 'var(--grad-primary)', borderRadius: 18, padding: 32, color: 'var(--bg)' }}>
+          <div style={{ background: 'var(--grad-primary)', borderRadius: 18, padding: isMobile ? 24 : 32, color: 'var(--bg)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'hsla(245,240,228,0.85)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 18 }}>Grassfed Growth · 1,000 emails</div>
             <Row l="Per-email cost" v="$0.04" dark />
             <Row l="Campaign fee" v="$275" dark />
@@ -131,6 +148,8 @@ function Row({ l, v, dark }) {
 }
 
 function FAQ() {
+  const w = useWindowWidth();
+  const isMobile = w < 640;
   const qs = [
     ['What if my MLS close doesn\'t trigger a campaign?', 'You\'re charged subscription only. Per-campaign fees only apply when a campaign is actually fired.'],
     ['Can I pause between closes?', 'Yes. Pause your subscription any month — we stop watching until you resume.'],
@@ -139,15 +158,15 @@ function FAQ() {
     ['What if I close multiple deals in a month?', 'Each one fires a campaign. We\'ll warn you if you hit unusual volume.'],
   ];
   return (
-    <section style={{ padding: '100px 32px', background: 'var(--bg)' }}>
+    <section style={{ padding: isMobile ? '64px 20px' : '100px 32px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 860, margin: '0 auto' }}>
         <div className="eyebrow" style={{ marginBottom: 14 }}>FAQ</div>
-        <h2 style={{ fontSize: 40, margin: '0 0 40px', letterSpacing: '-0.025em' }}>Common questions.</h2>
+        <h2 style={{ fontSize: isMobile ? 32 : 40, margin: '0 0 40px', letterSpacing: '-0.025em' }}>Common questions.</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {qs.map(([q, a]) => (
             <details key={q} style={{ borderBottom: '1px solid var(--border)', padding: '20px 0' }}>
-              <summary style={{ fontSize: 17, fontWeight: 600, cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between' }}>
-                {q} <Icon.Plus size={18} color="var(--fg-muted)" />
+              <summary style={{ fontSize: isMobile ? 15 : 17, fontWeight: 600, cursor: 'pointer', listStyle: 'none', display: 'flex', justifyContent: 'space-between', gap: 12 }}>
+                {q} <Icon.Plus size={18} color="var(--fg-muted)" style={{ flexShrink: 0 }} />
               </summary>
               <p style={{ fontSize: 15, color: 'var(--fg-muted)', margin: '12px 0 0', lineHeight: 1.55, maxWidth: 620 }}>{a}</p>
             </details>
