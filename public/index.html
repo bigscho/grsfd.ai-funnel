@@ -281,8 +281,11 @@
   @media (max-width: 680px) {
     .steps { grid-template-columns: 1fr; }
     .split-grid { grid-template-columns: 1fr; }
-    .nav { padding: 14px 20px; }
-    .nav .links a:not(.cta-nav) { display: none; }
+    .nav { padding: 10px 16px 0; flex-wrap: wrap; }
+    .nav .links { width: 100%; order: 3; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      gap: 16px; font-size: 12px; padding: 8px 0 10px;
+      border-top: 1px solid rgba(255,255,255,.1); margin-top: 6px; flex-shrink: 0; }
+    .nav .links a { white-space: nowrap; }
     .hero { padding: 60px 16px 48px; }
     .how, .split, .final { padding: 64px 16px; }
     .dual-cta .btn { width: 100%; }
@@ -473,7 +476,7 @@
 <section id="proof" class="proof">
   <div class="proof-inner">
     <div class="proof-stat">Across the grsfd network</div>
-    <h2 class="proof-big">2.4M homeowner emails, <em>matched and reachable</em>.</h2>
+    <h2 class="proof-big">200M+ homeowner emails, <em>matched and reachable</em>.</h2>
     <div class="logo-strip">
       <span>COMPASS</span><span>KW</span><span>SIDE</span><span>THE AGENCY</span><span>eXp</span>
     </div>
@@ -484,10 +487,6 @@
 <section id="final" class="final">
   <h2>Ready to meet your agent?</h2>
   <p class="lede" style="margin: 0 auto">Pick the one that fits how you work. Takes 6 seconds to pull your count.</p>
-  <div class="dual-cta">
-    <a class="btn btn-primary" href="/unlock">Work with grsfd →</a>
-    <a class="btn btn-dark" href="/farm/unlock">Work with grsfd farm →</a>
-  </div>
 </section>
 
 <!-- ====== MODAL (success reveal) ====== -->

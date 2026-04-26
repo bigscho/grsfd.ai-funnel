@@ -31,6 +31,8 @@ const buttonGhost = {
 function Nav() {
   const w = useWindowWidth();
   const isMobile = w < 640;
+  const linkStyle = { color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none', whiteSpace: 'nowrap' };
+  const mobileLinkStyle = { ...linkStyle, fontSize: 13 };
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 50,
@@ -38,29 +40,38 @@ function Nav() {
       borderBottom: '1px solid var(--border)',
       backdropFilter: 'blur(10px)',
     }}>
-      <div style={{
-        maxWidth: 1240, margin: '0 auto',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: isMobile ? '14px 20px' : '14px 32px',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
-          <a href="/" style={{ borderBottom: 'none', display: 'flex', alignItems: 'center' }}>
-            <img src="/assets/logos/trimmed/grsfd-ai.png" alt="grsfd.ai" style={{ height: 22, width: 'auto', display: 'block' }} />
-          </a>
-          {!isMobile && (
-            <nav style={{ display: 'flex', gap: 28 }}>
-              <a href="#how" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>How it works</a>
-              <a href="/pricing" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>Pricing</a>
-              <a href="/farm" style={{ color: 'var(--fg)', fontSize: 14, fontWeight: 500, opacity: 0.75, borderBottom: 'none' }}>For brokerages</a>
-            </nav>
-          )}
+      <div style={{ maxWidth: 1240, margin: '0 auto', padding: isMobile ? '12px 20px 0' : '14px 32px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+            <a href="/" style={{ borderBottom: 'none', display: 'flex', alignItems: 'center' }}>
+              <img src="/assets/logos/trimmed/grsfd-ai.png" alt="grsfd.ai" style={{ height: 22, width: 'auto', display: 'block' }} />
+            </a>
+            {!isMobile && (
+              <nav style={{ display: 'flex', gap: 28 }}>
+                <a href="#how" style={linkStyle}>How it works</a>
+                <a href="/pricing" style={linkStyle}>Pricing</a>
+                <a href="/farm" style={linkStyle}>For brokerages</a>
+              </nav>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+            {!isMobile && <a href="#" style={{ color: 'var(--fg)', fontSize: 14, opacity: 0.75, borderBottom: 'none' }}>Sign in</a>}
+            <a href="#aha" style={{ ...buttonPrimary, padding: '9px 16px', fontSize: 13, borderBottom: 'none', color: '#fff' }}>
+              Get started <Icon.ArrowRight size={14} />
+            </a>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          {!isMobile && <a href="#" style={{ color: 'var(--fg)', fontSize: 14, opacity: 0.75, borderBottom: 'none' }}>Sign in</a>}
-          <a href="#aha" style={{ ...buttonPrimary, padding: '9px 16px', fontSize: 13, borderBottom: 'none', color: '#fff' }}>
-            Get started <Icon.ArrowRight size={14} />
-          </a>
-        </div>
+        {isMobile && (
+          <nav style={{
+            display: 'flex', gap: 20, overflowX: 'auto', WebkitOverflowScrolling: 'touch',
+            padding: '8px 0 10px', borderTop: '1px solid var(--border)', marginTop: 10,
+          }}>
+            <a href="#how" style={mobileLinkStyle}>How it works</a>
+            <a href="/pricing" style={mobileLinkStyle}>Pricing</a>
+            <a href="/farm" style={mobileLinkStyle}>For brokerages</a>
+            <a href="#" style={mobileLinkStyle}>Sign in</a>
+          </nav>
+        )}
       </div>
     </header>
   );
