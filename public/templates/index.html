@@ -36,10 +36,20 @@
     .lede { font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: var(--fg-muted);
       max-width: 540px; margin: 0 auto; }
 
-    /* Email list */
-    .emails-wrap { max-width: 680px; margin: 56px auto 0; padding: 0 24px 80px;
-      display: flex; flex-direction: column; gap: 20px; }
+    /* Campaign groups */
+    .campaigns-wrap { max-width: 720px; margin: 56px auto 0; padding: 0 24px 80px;
+      display: flex; flex-direction: column; gap: 48px; }
 
+    .campaign-group { display: flex; flex-direction: column; gap: 16px; }
+
+    .campaign-label { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+    .campaign-label .pill { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--primary);
+      padding: 4px 10px; border-radius: 999px; background: var(--muted); }
+    .campaign-label h2 { font-family: var(--font-display); font-size: 22px; font-weight: 500;
+      letter-spacing: -0.015em; margin: 0; }
+
+    /* Email cards */
     .email-card { background: var(--bg-elevated); border: 1.5px solid var(--border);
       border-radius: 20px; overflow: hidden; position: relative;
       transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s cubic-bezier(.22,1,.36,1), border-color .2s; }
@@ -49,11 +59,12 @@
 
     .email-header { padding: 16px 24px 14px; display: flex; align-items: center; gap: 12px;
       border-bottom: 1px solid var(--border); }
-    .email-num { font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+    .email-step { font-family: var(--font-mono); font-size: 10px; font-weight: 700;
       letter-spacing: .16em; text-transform: uppercase; color: var(--fg-subtle);
-      min-width: 44px; flex-shrink: 0; }
+      min-width: 52px; flex-shrink: 0; }
     .email-subject { font-family: var(--font-display); font-size: 17px; font-weight: 500;
       letter-spacing: -0.01em; color: var(--fg); }
+    .email-subject .subject-var { font-style: italic; color: var(--fg-muted); font-weight: 400; }
 
     .email-body { padding: 20px 24px 0; font-size: 14px; line-height: 1.7;
       color: var(--fg); white-space: pre-wrap; }
@@ -73,7 +84,7 @@
       .nav { padding: 14px 20px; }
       .nav .links { gap: 14px; font-size: 13px; }
       .hero { padding: 56px 16px 40px; }
-      .emails-wrap { padding: 0 16px 64px; }
+      .campaigns-wrap { padding: 0 16px 64px; }
       .email-header { padding: 14px 18px 12px; }
       .email-body { padding: 16px 18px 0; }
       .email-signature { padding: 12px 18px 16px; }
@@ -94,318 +105,111 @@
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="eyebrow">Pre-demo sequence · 12 emails</div>
+    <div class="eyebrow">2-step sequences · neighbors &amp; homeowners</div>
     <h1>The emails your neighbors <em>actually reply to</em>.</h1>
     <p class="lede">
-      Tested across millions of sends. Under 70 words each — easy for a homeowner to say yes or no.
+      Two steps per campaign. Under 75 words each. Subject line is the recipient's
+      own street — easy to open, easy to reply yes or no.
     </p>
   </div>
 </section>
 
-<div class="emails-wrap">
+<div class="campaigns-wrap">
 
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">01 / 12</span>
-      <span class="email-subject">Grassfed Email Templates</span>
+  <!-- JUST LISTED -->
+  <div class="campaign-group">
+    <div class="campaign-label">
+      <span class="pill">Just Listed</span>
+      <h2>New listing in the neighborhood</h2>
     </div>
-    <div class="email-body">Homeowner,
 
-Ahead of our call, most agents want to see what our email templates look like.
+    <div class="email-card">
+      <div class="email-header">
+        <span class="email-step">Step 1</span>
+        <span class="email-subject"><span class="subject-var">123 Elm St</span> &mdash; recipient's street</span>
+      </div>
+      <div class="email-body">Hi Sarah — we just listed 456 Oak Ave right over here in the neighborhood.
 
-These have been tested across MILLIONS of emails sent, and are optimized for a high response rate.
+Have you ever wondered what you could get for 123 Elm St in today's market?
 
-Rule: under 70 words, easy for the homeowner to reply "yes" or "no" to
+We're close by so we're happy to share what we're seeing and run the numbers for you.
 
-Checkout the editable templates here: grsfd.ai/templates</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
+Either way, let us know if you'd like to stop by the open house coming up.</div>
+      <div class="email-signature">Sincerely,
+
+{Agent Name} | Assistant
+{Agent Name} | {Brokerage}
+Real Estate Agent | {Phone}
+{Office Address}
+
+If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+    </div>
+
+    <div class="email-card">
+      <div class="email-header">
+        <span class="email-step">Step 2</span>
+        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span> &mdash; threads step 1</span>
+      </div>
+      <div class="email-body">Hi Sarah — we're offering private showings for the nearby neighbors of 456 Oak Ave.
+
+We just listed it, so shoot us a message anytime and we'll find a time that fits.
+
+By the way — would you ever consider selling 123 Elm St in today's market?</div>
+      <div class="email-signature">Sincerely,
+
+{Agent Name} | Assistant
+{Agent Name} | {Brokerage}
+Real Estate Agent | {Phone}
+{Office Address}
+
+If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+    </div>
   </div>
 
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">02 / 12</span>
-      <span class="email-subject">Just Listed/Just Sold or Farming</span>
+  <!-- JUST SOLD -->
+  <div class="campaign-group">
+    <div class="campaign-label">
+      <span class="pill">Just Sold</span>
+      <h2>Recent sale in the neighborhood</h2>
     </div>
-    <div class="email-body">Homeowner,
 
-Real estate agents will use Grassfed in two ways:
+    <div class="email-card">
+      <div class="email-header">
+        <span class="email-step">Step 1</span>
+        <span class="email-subject"><span class="subject-var">123 Elm St</span> &mdash; recipient's street</span>
+      </div>
+      <div class="email-body">Hi Sarah — you might have seen we just sold 456 Oak Ave just down the street.
 
-Just Listed/Just Sold campaigns
-1. Provide us your MLS ID
-2. Grassfed's AI detects a new listing or sale
-3. Grassfed pulls the nearest 250, 500, or 1000 neighbors' emails
-4. Campaign Launches
+As a courtesy to the neighbors, we can offer a competitive market analysis while we're in the area.
 
-Territory Farming
-1. Provide us your territory (zip, city, county) + filters (min. price, last sale date, etc.)
-2. Grassfed's AI pulls the most active emails in the area
-3. Campaign Launches
+If you were to sell your property at 123 Elm St this year, what would your number be?</div>
+      <div class="email-signature">Sincerely,
 
-Some agents pick one or the other, and some do both.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
+{Agent Name} | Assistant
+{Agent Name} | {Brokerage}
+Real Estate Agent | {Phone}
+{Office Address}
 
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">03 / 12</span>
-      <span class="email-subject">Avoiding spam</span>
+If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
     </div>
-    <div class="email-body">Homeowner,
 
-You know how you can use a blast software like MailChimp/ConstantContact/etc. to email clients?
+    <div class="email-card">
+      <div class="email-header">
+        <span class="email-step">Step 2</span>
+        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span> &mdash; threads step 1</span>
+      </div>
+      <div class="email-body">Hi Sarah — we're officially wrapping up with the recent sale over here at 456 Oak Ave.
 
-A lot of agents are curious why they can't just cold email with those types of tools.
+Before we move on, reply anytime if you'd like that analysis of your home at 123 Elm St. Happy to share what we're seeing.</div>
+      <div class="email-signature">Sincerely,
 
-Those tools are really good for what they're designed for:
-1. Newsletters
-2. Drip campaigns
-3. Promos
+{Agent Name} | Assistant
+{Agent Name} | {Brokerage}
+Real Estate Agent | {Phone}
+{Office Address}
 
-BUT only to your past clients. These people engage, and are way less likely to opt-out.
-
-If we blast a cold list of strangers, we will go to spam. Plain and simple.
-
-Grassfed's sending platform is different in a couple ways:
-1. No blasting: We randomize sending and spread it out across days instead of minutes...
-2. Rotating sender accounts: Never override a singular sender account
-
-This is how we respect Google's sending guidelines and spam restrictions at a large scale.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">04 / 12</span>
-      <span class="email-subject">Secret</span>
+If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
     </div>
-    <div class="email-body">Homeowner,
-
-Want to know why everyone fails with B2C (consumer) cold email?
-
-Legacy ISPs.
-
-Think Hotmail, Yahoo, MSN, AOL, etc.
-
-When your list is polluted with these:
-- High bounce rate
-- Low deliverability rate
-- Send reputation tanks
-- Eventually sent to spam 100% of the time
-
-The real secret? We only send to Gmail &amp; Google Business emails.
-
-That's why our data-sourcing process is so difficult. But don't worry, we do this for you.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">05 / 12</span>
-      <span class="email-subject">Getting homeowner emails</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-Now you understand why we only send to Gmail &amp; Google Business emails.
-
-But how do we actually source these homeowner emails at scale?
-
-If you've ever pulled a list from a title company or skip tracer, you've probably noticed the emails are pretty hit or miss...
-
-The answer? We aggregate from several different B2C and B2B data providers who we've deemed the best for EMAILS specifically.
-
-If you rely on just one data provider, you will literally get 10-30% coverage in any given area.
-
-We boast anywhere from 60-80% homeowner email coverage nationwide.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">06 / 12</span>
-      <span class="email-subject">Response rates</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-Numbers don't lie.
-
-Average Response Rates:
-
-Postcard Campaign: 0.2%
-Grassfed Just Listed/Just Sold Campaign: 4.5%
-Grassfed Farm Campaign: 3.8%
-
-We're currently in 41 states. These are the numbers. This is why agents view cold email to be a game worth playing, instead of postcards.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">07 / 12</span>
-      <span class="email-subject">Another secret</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-You know how emails will bounce sometimes?
-
-That's due to an invalid email address.
-
-Now imagine we're going to email a whole town or city for you. There will be a lot of invalid emails that we don't want to touch...
-
-A HUGE missed step in B2C cold email is email validation.
-
-Before we send, we need to have the cleanest list possible of active emails and get rid of any inactive emails.
-
-We call this "List Hygiene" and we do this before we ever move contacts into your account.
-
-Low bounce rates = high response rates...</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">08 / 12</span>
-      <span class="email-subject">How we make this safe for you</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-No long term contracts. Those are predatory and high risk when starting with any company.
-
-Inside of our 2 options, most agents can find something that suits them:
-
-1. Grassfed Just Listed/Just Sold:
-   Pay per campaign ($175/campaign+)
-   No subscription
-   No long term contract
-
-2. Grassfed Farm:
-   Subscription ($2,000/mo+) (monthly)
-   No long term contract
-
-Option #1 is great for agents with a lower budget who like the idea of trying cold email because they're looking for a postcard alternative.
-
-Option #2 is great for agents with a larger budget and a larger territory who like the idea of large-scale territory farming.</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">09 / 12</span>
-      <span class="email-subject">Reply examples</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-We find people are nicer and more formal on email. Here are some examples (copy/pasted from real campaigns):
-
-Farm Campaign:
-"Thank you for the email. We actually are considering moving in the next 1-2 years. The unit at [redacted] is a 3 bd/3bth and I can send you some professional photos we had taken last year. Feel free to call me at [redacted]"
-
-Just Listed Campaign:
-"I would love to see [redacted] at the open house. We have talked about downsizing, so I'd be open to scheduling a call with you before or after the open house!"
-
-Just Sold Campaign:
-"I think we'd be looking to get a little more, but it's been on our mind now since the winter. Perhaps good timing. Can chat Friday"
-
-These types of replies aren't rare. We just have to play the numbers game!</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">10 / 12</span>
-      <span class="email-subject">Grassfed Email Templates (in case you missed)</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-In case you missed it, most agents want to see what our email templates look like before the call.
-
-These have been tested across MILLIONS of emails sent, and are optimized for a high response rate.
-
-Rule: under 70 words, easy for the homeowner to reply "yes" or "no" to
-
-Checkout the editable templates here: grsfd.ai/templates</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">11 / 12</span>
-      <span class="email-subject">Compliance &amp; Brand</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-Agents who love sending cold emails with Grassfed are still mindful of their brand.
-
-We make it easy.
-
-Brand
-
-1. You can edit the email templates to your brand voice
-2. You can provide a suppression list of anybody who you want us to avoid emailing
-3. We use separate sending domains and infrastructure from your personal/business accounts
-
-Compliance
-
-1. We follow the CAN-SPAM compliance laws:
-   - Don't be deceptive or scammy
-   - Provide proper opt-out/unsubscribe method
-   - Honor the opt-outs and don't continue emailing them
-   - List your office address in the signature
-
-2. State specific sending guidelines (ex. In California we also require you include your DRE# in the signature)</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
-  </div>
-
-  <div class="email-card">
-    <div class="email-header">
-      <span class="email-num">12 / 12</span>
-      <span class="email-subject">Inbox</span>
-    </div>
-    <div class="email-body">Homeowner,
-
-Once you're sending with Grassfed, you get your own account where you can see everything.
-
-Some of the better feedback we get is it's very simple once we're actively sending:
-
-1. Master Inbox login (will show on our call)
-2. Dashboard to see metrics
-3. Push notifications so you don't miss anything</div>
-    <div class="email-signature">Sincerely,
-Colin Schofield
-Founder
-Grassfed</div>
   </div>
 
 </div>
