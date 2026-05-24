@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Grassfed Email Templates</title>
+  <title>Grassfed Template Copy</title>
   <link rel="stylesheet" href="/colors_and_type.css">
   <style>
     * { box-sizing: border-box; }
@@ -21,73 +21,90 @@
       font-weight: 600; opacity: 1 !important; }
 
     /* Hero */
-    .hero { padding: 72px 24px 56px; text-align: center; position: relative; }
+    .hero { padding: 72px 24px 64px; text-align: center; position: relative; }
     .hero::before { content: ''; position: absolute; inset: 0;
       background: radial-gradient(ellipse at 50% 0%, hsla(93,55%,42%,.08), transparent 60%); pointer-events: none; }
     .hero-inner { position: relative; max-width: 680px; margin: 0 auto; }
-
     .eyebrow { font-family: var(--font-mono); font-size: 12px; font-weight: 700;
       letter-spacing: .14em; text-transform: uppercase; color: var(--primary); margin-bottom: 20px; }
-
     h1 { font-family: var(--font-display); font-size: clamp(36px, 5vw, 56px);
       font-weight: 500; letter-spacing: -0.024em; line-height: 1.05; margin: 0 0 20px; color: var(--fg); }
-    h1 em { font-style: italic; color: var(--primary); }
-
     .lede { font-size: clamp(16px, 1.6vw, 18px); line-height: 1.55; color: var(--fg-muted);
-      max-width: 540px; margin: 0 auto; }
+      max-width: 520px; margin: 0 auto; }
 
-    /* Campaign groups */
-    .campaigns-wrap { max-width: 720px; margin: 56px auto 0; padding: 0 24px 80px;
-      display: flex; flex-direction: column; gap: 48px; }
+    /* Three-column grid */
+    .grid-wrap { max-width: 1240px; margin: 56px auto 0; padding: 0 24px 80px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; align-items: start; }
 
-    .campaign-group { display: flex; flex-direction: column; gap: 16px; }
+    /* Column */
+    .col { display: flex; flex-direction: column; gap: 14px; }
 
-    .campaign-label { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
-    .campaign-label .pill { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase; color: var(--primary);
-      padding: 4px 10px; border-radius: 999px; background: var(--muted); }
-    .campaign-label h2 { font-family: var(--font-display); font-size: 22px; font-weight: 500;
+    .col-label { display: flex; align-items: center; gap: 10px; padding-bottom: 4px; }
+    .pill { font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 999px; }
+    .pill-lite { color: var(--primary); background: var(--muted); }
+    .pill-farm { color: var(--dark); background: var(--accent); }
+    .col-title { font-family: var(--font-display); font-size: 20px; font-weight: 500;
       letter-spacing: -0.015em; margin: 0; }
+    .col-farm .col-title { color: var(--fg); }
 
-    /* Email cards */
+    /* Lite email cards */
     .email-card { background: var(--bg-elevated); border: 1.5px solid var(--border);
       border-radius: 20px; overflow: hidden; position: relative;
-      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s cubic-bezier(.22,1,.36,1), border-color .2s; }
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s, border-color .2s; }
     .email-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--primary); opacity: .9; }
+      background: var(--primary); }
     .email-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
 
-    .email-header { padding: 16px 24px 14px; display: flex; align-items: center; gap: 12px;
+    /* Farm email cards — dark */
+    .col-farm .email-card { background: var(--dark); border-color: transparent; color: var(--dark-fg); }
+    .col-farm .email-card::before { background: var(--accent); }
+    .col-farm .email-card:hover { box-shadow: 0 0 0 1.5px var(--accent), var(--shadow-lg); border-color: transparent; }
+
+    .email-header { padding: 14px 18px 12px; display: flex; align-items: center; gap: 10px;
       border-bottom: 1px solid var(--border); }
+    .col-farm .email-header { border-bottom-color: rgba(255,255,255,.08); }
+
     .email-step { font-family: var(--font-mono); font-size: 10px; font-weight: 700;
       letter-spacing: .16em; text-transform: uppercase; color: var(--fg-subtle);
-      min-width: 52px; flex-shrink: 0; }
-    .email-subject { font-family: var(--font-display); font-size: 17px; font-weight: 500;
-      letter-spacing: -0.01em; color: var(--fg); }
-    .email-subject .subject-var { font-style: italic; color: var(--fg-muted); font-weight: 400; }
+      min-width: 48px; flex-shrink: 0; }
+    .col-farm .email-step { color: rgba(255,255,255,.4); }
 
-    .email-body { padding: 20px 24px 0; font-size: 14px; line-height: 1.7;
+    .email-subject { font-family: var(--font-display); font-size: 15px; font-weight: 500;
+      letter-spacing: -0.01em; color: var(--fg); line-height: 1.25; }
+    .col-farm .email-subject { color: var(--dark-fg); }
+    .subject-var { font-style: italic; color: var(--fg-muted); font-weight: 400; }
+    .col-farm .subject-var { color: rgba(255,255,255,.5); }
+
+    .email-body { padding: 16px 18px 0; font-size: 13.5px; line-height: 1.7;
       color: var(--fg); white-space: pre-wrap; }
+    .col-farm .email-body { color: var(--dark-fg); opacity: .9; }
 
-    .email-signature { padding: 14px 24px 20px; font-size: 14px; line-height: 1.7;
+    .email-signature { padding: 12px 18px 16px; font-size: 13px; line-height: 1.65;
       color: var(--fg-muted); white-space: pre-wrap; margin-top: 4px;
       border-top: 1px solid var(--muted); }
+    .col-farm .email-signature { color: rgba(255,255,255,.45); border-top-color: rgba(255,255,255,.08); }
 
     /* Footer */
     .footer { background: var(--dark); color: var(--dark-fg); padding: 32px;
-      display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+      display: flex; align-items: center; justify-content: space-between; }
     .footer img { height: 22px; opacity: .8; }
     .footer-right { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
       text-transform: uppercase; color: rgba(255,255,255,.4); }
 
-    @media (max-width: 680px) {
+    @media (max-width: 960px) {
+      .grid-wrap { grid-template-columns: 1fr 1fr; }
+      .col-farm { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto; gap: 14px; }
+      .col-farm .col-label { grid-column: 1 / -1; }
+    }
+    @media (max-width: 620px) {
       .nav { padding: 14px 20px; }
       .nav .links { gap: 14px; font-size: 13px; }
       .hero { padding: 56px 16px 40px; }
-      .campaigns-wrap { padding: 0 16px 64px; }
-      .email-header { padding: 14px 18px 12px; }
-      .email-body { padding: 16px 18px 0; }
-      .email-signature { padding: 12px 18px 16px; }
+      .grid-wrap { grid-template-columns: 1fr; padding: 0 16px 64px; }
+      .col-farm { grid-column: auto; display: flex; }
       .footer { padding: 24px 20px; }
     }
   </style>
@@ -106,27 +123,26 @@
 <section class="hero">
   <div class="hero-inner">
     <div class="eyebrow">2-step sequences · neighbors &amp; homeowners</div>
-    <h1>The emails your neighbors <em>actually reply to</em>.</h1>
+    <h1>Grassfed template copy.</h1>
     <p class="lede">
-      Three campaign types, two steps each. Under 75 words per email. Subject line is the recipient's
-      own street — easy to open, easy to reply yes or no.
+      Two-step sequences under 100 words. Easy for the homeowner to reply yes or no.
     </p>
   </div>
 </section>
 
-<div class="campaigns-wrap">
+<div class="grid-wrap">
 
   <!-- JUST LISTED -->
-  <div class="campaign-group">
-    <div class="campaign-label">
-      <span class="pill">Just Listed</span>
-      <h2>New listing in the neighborhood</h2>
+  <div class="col">
+    <div class="col-label">
+      <span class="pill pill-lite">Just Listed</span>
+      <h2 class="col-title">New listing nearby</h2>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 1</span>
-        <span class="email-subject"><span class="subject-var">123 Elm St</span> &mdash; recipient's street</span>
+        <span class="email-subject"><span class="subject-var">123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah — we just listed 456 Oak Ave right over here in the neighborhood.
 
@@ -137,18 +153,16 @@ We're close by so we're happy to share what we're seeing and run the numbers for
 Either way, let us know if you'd like to stop by the open house coming up.</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 2</span>
-        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span> &mdash; threads step 1</span>
+        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah — we're offering private showings for the nearby neighbors of 456 Oak Ave.
 
@@ -157,26 +171,24 @@ We just listed it, so shoot us a message anytime and we'll find a time that fits
 By the way — would you ever consider selling 123 Elm St in today's market?</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
   </div>
 
   <!-- JUST SOLD -->
-  <div class="campaign-group">
-    <div class="campaign-label">
-      <span class="pill">Just Sold</span>
-      <h2>Recent sale in the neighborhood</h2>
+  <div class="col">
+    <div class="col-label">
+      <span class="pill pill-lite">Just Sold</span>
+      <h2 class="col-title">Recent sale nearby</h2>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 1</span>
-        <span class="email-subject"><span class="subject-var">123 Elm St</span> &mdash; recipient's street</span>
+        <span class="email-subject"><span class="subject-var">123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah — you might have seen we just sold 456 Oak Ave just down the street.
 
@@ -185,44 +197,40 @@ As a courtesy to the neighbors, we can offer a competitive market analysis while
 If you were to sell your property at 123 Elm St this year, what would your number be?</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 2</span>
-        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span> &mdash; threads step 1</span>
+        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah — we're officially wrapping up with the recent sale over here at 456 Oak Ave.
 
 Before we move on, reply anytime if you'd like that analysis of your home at 123 Elm St. Happy to share what we're seeing.</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
   </div>
 
   <!-- FARM -->
-  <div class="campaign-group">
-    <div class="campaign-label">
-      <span class="pill">Farm</span>
-      <h2>Territory farming</h2>
+  <div class="col col-farm">
+    <div class="col-label">
+      <span class="pill pill-farm">Farm</span>
+      <h2 class="col-title">Territory farming</h2>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 1</span>
-        <span class="email-subject"><span class="subject-var">123 Elm St</span> &mdash; recipient's street</span>
+        <span class="email-subject"><span class="subject-var">123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah -- I was reviewing homes near 123 Elm St and wanted to reach out.
 
@@ -231,18 +239,16 @@ A lot of owners are curious what their home could be worth in the current market
 If you would like, I can put together a quick opinion of value for 123 Elm St. No pressure either way.</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
 
     <div class="email-card">
       <div class="email-header">
         <span class="email-step">Step 2</span>
-        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span> &mdash; threads step 1</span>
+        <span class="email-subject"><span class="subject-var">Re: 123 Elm St</span></span>
       </div>
       <div class="email-body">Hi Sarah -- just following up on my note about 123 Elm St.
 
@@ -251,12 +257,10 @@ If you have ever been curious what the home could sell for, I am happy to take a
 Reply here if you would like me to send that over.</div>
       <div class="email-signature">Sincerely,
 
-{Agent Name} | Assistant
-{Agent Name} | {Brokerage}
-Real Estate Agent | {Phone}
-{Office Address}
-
-If your property is currently listed on the MLS please disregard this email as solicitation. It is not our intention to solicit listings of other brokers.</div>
+{Agent} | Assistant
+{Agent} | {Brokerage}
+{Title} | {Phone}
+{Office Address}</div>
     </div>
   </div>
 
