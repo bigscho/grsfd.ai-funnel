@@ -9,6 +9,35 @@
   body { margin: 0; background: var(--bg); }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    .pricing-hero { padding: 64px 24px 40px !important; }
+    .pricing-h1 { font-size: 52px !important; }
+    .pricing-lede { font-size: 17px !important; }
+    .pricing-tiers-grid { grid-template-columns: 1fr !important; gap: 16px !important; max-width: 520px !important; }
+    .pricing-tier-card.recommended { transform: none !important; }
+    .pricing-tier-card { padding: 28px !important; }
+    .campaign-math { padding: 72px 24px !important; }
+    .math-h2 { font-size: 32px !important; }
+    .math-compare { grid-template-columns: 1fr !important; gap: 14px !important; }
+    .faq-section { padding: 72px 24px !important; }
+  }
+
+  /* Phone */
+  @media (max-width: 480px) {
+    .pricing-hero { padding: 48px 16px 32px !important; }
+    .pricing-h1 { font-size: 40px !important; }
+    .pricing-lede { font-size: 16px !important; }
+    .no-sub-badge { font-size: 11px !important; padding: 10px 16px !important; gap: 8px !important; }
+    .pricing-tiers-section { padding: 0 16px 64px !important; }
+    .pricing-tier-card { padding: 24px !important; }
+    .tier-price { font-size: 48px !important; }
+    .campaign-math { padding: 56px 16px !important; }
+    .math-h2 { font-size: 26px !important; }
+    .faq-section { padding: 56px 16px !important; }
+    .faq-h2 { font-size: 30px !important; }
+  }
 </style>
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
