@@ -51,27 +51,27 @@ function HowItWorks() {
 
 function PricingSnapshot() {
   const tiers = [
-    { name: 'Starter', sub: '250 nearest', emails: '~500 emails / campaign', mo: 150, camp: 175, recommended: false },
-    { name: 'Growth', sub: '500 nearest', emails: '~1,000 emails / campaign', mo: 250, camp: 275, recommended: true },
-    { name: 'Pro', sub: '1,000 nearest', emails: '~2,000 emails / campaign', mo: 525, camp: 550, recommended: false },
+    { name: 'Starter', sub: '250 nearest', emails: '~500 emails / campaign', camp: 175, recommended: false },
+    { name: 'Growth', sub: '500 nearest', emails: '~1,000 emails / campaign', camp: 275, recommended: true },
+    { name: 'Pro', sub: '1,000 nearest', emails: '~2,000 emails / campaign', camp: 550, recommended: false },
   ];
   return (
-    <section style={{ padding: '120px 32px', background: 'var(--bg)' }}>
+    <section className="home-pricing-snapshot" style={{ padding: '120px 32px', background: 'var(--bg)' }}>
       <div style={{ maxWidth: 1240, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 48, flexWrap: 'wrap', gap: 20 }}>
           <div style={{ maxWidth: 640 }}>
             <div className="eyebrow" style={{ marginBottom: 12 }}>Pricing</div>
-            <h2 style={{ fontSize: 48, margin: 0, letterSpacing: '-0.03em', lineHeight: 1.05 }}>
-              Subscription + per-campaign.<br/>No retainer, no seats, no BS.
+            <h2 className="home-pricing-h2" style={{ fontSize: 48, margin: 0, letterSpacing: '-0.03em', lineHeight: 1.05 }}>
+              Per-campaign pricing.<br/>No subscription, no term, no BS.
             </h2>
           </div>
           <a href="/pricing" style={{ fontSize: 14, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             Full pricing details <Icon.ArrowRight size={14} />
           </a>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
+        <div className="home-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 18 }}>
           {tiers.map((t, i) => (
-            <div key={i} style={{
+            <div key={i} className={`home-pricing-card${t.recommended ? ' recommended' : ''}`} style={{
               background: t.recommended ? 'var(--dark)' : 'var(--bg-elevated)',
               color: t.recommended ? 'var(--dark-fg)' : 'var(--fg)',
               border: t.recommended ? '1px solid var(--dark)' : '1px solid var(--border)',
@@ -89,14 +89,14 @@ function PricingSnapshot() {
               <div style={{ fontSize: 14, fontWeight: 600, opacity: 0.7, marginBottom: 4 }}>{t.name}</div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: 26, fontWeight: 600, letterSpacing: '-0.02em', marginBottom: 24 }}>{t.sub}</div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 4 }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 52, fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1 }}>${t.mo}</span>
-                <span style={{ fontSize: 14, opacity: 0.65 }}>/mo</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: 52, fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1 }}>${t.camp}</span>
+                <span style={{ fontSize: 14, opacity: 0.65 }}>per campaign</span>
               </div>
               <div style={{
                 fontSize: 13, opacity: 0.65, fontFamily: 'var(--font-mono)',
                 marginBottom: 24,
               }}>
-                + ${t.camp} per campaign
+                Only when a campaign fires
               </div>
               <div style={{ height: 1, background: t.recommended ? 'hsla(155,40%,30%,.5)' : 'var(--border)', margin: '0 0 20px' }} />
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 28 }}>
