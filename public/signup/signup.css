@@ -1823,36 +1823,181 @@ body[data-screen="reveal"] .screen-reveal {
 }
 .success-skip a:hover { text-decoration: underline; }
 
-@media (max-width: 640px) {
-  .calendly-grid { grid-template-columns: repeat(3, 1fr); padding: 16px; }
-  .calendly-header { padding: 14px 16px; flex-direction: column; align-items: flex-start; }
-  .calendly-host { align-self: flex-end; }
-  .step { grid-template-columns: 32px 1fr; }
-  .step-icon { display: none; }
-}
-
 /* ============================================================
-   Responsive
+   Responsive — tablet + below
    ============================================================ */
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: 1fr; gap: 36px; }
-  .feed-frame { transform: none; max-width: 520px; }
+  .feed-frame { transform: none; max-width: 560px; }
   .hero-left { max-width: 640px; }
 }
 
 @media (max-width: 960px) {
-  .reveal-grid { grid-template-columns: 1fr; gap: 28px; }
+  .reveal-grid { grid-template-columns: 1fr; gap: 24px; }
   .reveal-left { gap: 20px; }
-  .counter { font-size: clamp(64px, 14vw, 96px); }
+  .counter { font-size: clamp(64px, 14vw, 104px); }
+  .reveal-wrap { max-width: 640px; }
 }
 
+@media (max-width: 760px) {
+  .mock-grid { grid-template-columns: 1fr; }
+  .mock-summary { border-right: 0; border-bottom: 1px solid var(--border); padding: 24px; }
+  .mock-form { padding: 24px; }
+  .mock-price-big { font-size: 44px; }
+}
+
+/* ============================================================
+   Responsive — phone (≤640px)
+   ============================================================ */
 @media (max-width: 640px) {
-  .addr-row { flex-direction: column; padding: 12px; border-radius: var(--radius-xl); }
-  .addr-row input { padding: 14px 12px; font-size: var(--text-base); }
-  .btn-primary { width: 100%; justify-content: center; }
-  .nav { padding: 14px 18px; }
-  .hit-map { grid-template-columns: repeat(16, 1fr); aspect-ratio: 16 / 12; }
-  .trust-stats { gap: 16px; }
+  /* iOS Safari dynamic viewport height — keeps content from being cut by URL bar */
+  .stage { min-height: calc(100dvh - 60px); }
+  .screen { min-height: calc(100dvh - 60px); padding: 24px 16px; }
+
+  /* Nav */
+  .nav { padding: 12px 16px; }
+  .nav-link { font-size: 13px; }
+  .nav-right { gap: 16px; }
+  .nav-logo img { height: 22px; }
+
+  /* ---- Screen 1 (Hook) ---- */
+  .hero-h1 { font-size: clamp(28px, 8vw, 38px); line-height: 1.1; margin-bottom: 14px; }
+  .hero-sub { font-size: var(--text-base); margin-bottom: 28px; }
+  .live-badge { font-size: 10px; padding: 5px 12px 5px 10px; margin-bottom: 18px; }
+  .pulse-dot { width: 7px; height: 7px; }
+
+  .addr-row { flex-direction: column; padding: 10px; border-radius: var(--radius-xl); gap: 8px; }
+  .addr-row input { padding: 14px 16px; font-size: 16px; } /* 16px prevents iOS autozoom */
+  .btn-primary { width: 100%; justify-content: center; padding: 14px 20px; font-size: var(--text-base); }
+  .addr-trust { gap: 6px; margin-top: 14px; }
+  .trust-pill { font-size: 10px; padding: 4px 8px; }
+
+  .trust-stats { gap: 12px; margin-top: 28px; padding-top: 22px; flex-wrap: wrap; }
   .trust-stat-num { font-size: var(--text-xl); }
-  .feed-stack { min-height: 320px; }
+  .trust-stat-label { font-size: 10px; letter-spacing: 0.05em; }
+  .trust-stat-divider { height: 24px; }
+
+  /* Feed (right column when stacked) */
+  .feed-frame { padding: 14px 14px 0; border-radius: var(--radius-xl); }
+  .feed-header { padding: 2px 4px 12px; }
+  .feed-stack { min-height: 280px; padding: 12px 0 24px; gap: 8px; }
+  .feed-card { padding: 10px 12px; grid-template-columns: 30px 1fr auto; gap: 10px; }
+  .feed-avatar { width: 30px; height: 30px; font-size: 11px; }
+  .feed-name { font-size: var(--text-sm); }
+  .feed-loc { display: none; }
+  .feed-snippet { font-size: var(--text-xs); -webkit-line-clamp: 2; }
+  .feed-reply-badge { font-size: 9px; padding: 2px 6px; }
+  .feed-time { font-size: 9px; margin-top: 2px; }
+
+  /* Hero background — lighter pattern on phones */
+  .hero-bg-grid { background-size: 24px 24px; opacity: 0.6; }
+
+  /* ---- Screen 2 (Reveal) ---- */
+  .counter { font-size: clamp(56px, 18vw, 88px); }
+  .count-label { font-size: var(--text-lg); }
+  .count-sub { font-size: var(--text-xs); }
+
+  .hit-map-wrap { padding: 14px; border-radius: var(--radius-lg); }
+  .hit-map { grid-template-columns: repeat(16, 1fr); aspect-ratio: 16 / 12; gap: 5px; }
+  .hit-map-header { margin-bottom: 10px; }
+
+  .addr-list { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .addr-row-item { padding: 11px 14px; gap: 10px; font-size: var(--text-sm); }
+  .addr-row-item .check { width: 18px; height: 18px; font-size: 10px; }
+  .addr-row-item .addr-text { font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .addr-row-item .badge { font-size: 10px; padding: 2px 6px; }
+  .addr-list-footer { padding: 12px 16px; font-size: var(--text-xs); }
+
+  .reveal-cta-block { padding: 18px 18px 20px; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
+  .reveal-cta-block .btn-primary { font-size: var(--text-base); padding: 16px 22px; }
+  .btn-jumbo { font-size: var(--text-base); padding: 16px 24px; }
+
+  /* ---- Screen 3 (Promo) ---- */
+  .promo-h1 { font-size: clamp(28px, 7vw, 38px); margin-bottom: 12px; }
+  .promo-sub { font-size: var(--text-base); margin-bottom: 28px; }
+  .listings { gap: 8px; margin-bottom: 22px; }
+  .listing { padding: 12px 14px; grid-template-columns: 30px 1fr auto; gap: 12px; border-radius: var(--radius-lg); }
+  .listing-num { width: 28px; height: 28px; font-size: var(--text-sm); }
+  .listing-label { font-size: 9px; }
+  .listing-addr { font-size: var(--text-sm); }
+  .listing-hint { font-size: 10px; }
+  .listing-add-btn { font-size: var(--text-sm); }
+  .listing-input { padding: 7px 10px; font-size: 15px; }
+  .price-val { font-size: var(--text-lg); }
+  .price-free-pill { font-size: 9px; padding: 2px 6px; }
+
+  .price-block { padding: 18px 20px; border-radius: var(--radius-lg); margin-bottom: 22px; }
+  .price-line-label { font-size: var(--text-sm); }
+  .price-line-val { font-size: var(--text-lg); }
+  .price-line-new .price-gradient { font-size: var(--text-3xl); }
+  .price-line-save .price-save { font-size: var(--text-base); }
+
+  .objection summary { padding: 14px 16px; font-size: var(--text-sm); }
+  .objection-body { padding: 0 16px 16px; font-size: var(--text-xs); }
+  .email-preview { font-size: var(--text-xs); }
+  .email-meta { padding: 8px 12px; }
+  .email-body { padding: 12px 14px; font-size: var(--text-xs); }
+
+  .autobill-disclosure { font-size: var(--text-xs); padding: 12px 14px; }
+  .btn-full { font-size: var(--text-base); padding: 16px 22px; }
+  .checkout-trust { gap: 8px; }
+
+  /* ---- Screen 4 (Mock Checkout) ---- */
+  .screen-checkout { padding: 16px !important; }
+  .mock-checkout { border-radius: var(--radius-lg); }
+  .mock-topbar { padding: 10px 16px; }
+  .mock-back { font-size: var(--text-xs); }
+  .mock-secure { font-size: 10px; }
+  .mock-summary { padding: 20px 18px; }
+  .mock-merchant { font-size: 10px; }
+  .mock-product { font-size: var(--text-base); margin-bottom: 16px; }
+  .mock-price-big { font-size: 36px; margin-bottom: 20px; }
+  .mock-currency { font-size: 22px; }
+  .mock-lineitems { font-size: var(--text-xs); gap: 8px; }
+  .mock-disclosure { font-size: 10px; padding: 11px 12px; }
+  .mock-form { padding: 20px 18px; gap: 14px; }
+  .mock-label { font-size: var(--text-xs); }
+  .mock-input { padding: 11px 12px; font-size: 16px; } /* 16px prevents iOS autozoom */
+  .mock-consent { font-size: var(--text-xs); }
+  .mock-pay-btn { font-size: var(--text-base); padding: 14px 20px; }
+  .mock-powered { font-size: 10px; }
+
+  /* ---- Screen 5 (Success) ---- */
+  .success-h1 { font-size: clamp(30px, 8vw, 44px); }
+  .success-sub { font-size: var(--text-base); margin-bottom: 28px; }
+  .next-steps { gap: 8px; margin-bottom: 28px; }
+  .step { padding: 12px 14px; gap: 12px; grid-template-columns: 32px 1fr; border-radius: var(--radius-lg); }
+  .step-icon { display: none; }
+  .step-num { width: 28px; height: 28px; font-size: var(--text-sm); }
+  .step-title { font-size: var(--text-sm); }
+  .step-desc { font-size: var(--text-xs); }
+
+  .calendly-frame { border-radius: var(--radius-lg); }
+  .calendly-header { padding: 14px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .calendly-host { align-self: flex-end; }
+  .calendly-title { font-size: var(--text-base); }
+  .calendly-grid { grid-template-columns: repeat(3, 1fr); padding: 14px; gap: 10px; }
+  .cal-day-num { font-size: var(--text-lg); }
+  .cal-day-dow { font-size: 10px; }
+  .cal-slot { padding: 7px 4px; font-size: 11px; }
+  .calendly-footer { padding: 14px 16px 18px; }
+  .calendly-tz { font-size: 10px; }
+  .calendly-frame .btn-primary { font-size: var(--text-sm); padding: 14px 18px; }
+
+  .success-skip { font-size: var(--text-xs); }
+}
+
+/* ============================================================
+   Responsive — narrow phone (≤400px)
+   ============================================================ */
+@media (max-width: 400px) {
+  .hero-h1 { font-size: clamp(24px, 8.5vw, 32px); }
+  .promo-h1 { font-size: clamp(24px, 7.5vw, 32px); }
+  .counter { font-size: clamp(48px, 18vw, 72px); }
+  .hit-map { grid-template-columns: repeat(14, 1fr); }
+  .calendly-grid { grid-template-columns: repeat(2, 1fr); }
+  .trust-stats { gap: 10px; }
+  .trust-stat-divider { display: none; }
+  .mock-card-row { grid-template-columns: 1fr 1fr; }
+  .nav-right .nav-link { font-size: 12px; }
 }
