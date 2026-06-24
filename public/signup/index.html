@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Grassfed — Just Listed / Just Sold</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/colors_and_type.css">
+<link rel="stylesheet" href="/signup/signup.css">
+</head>
+<body data-screen="hook">
+
+<nav class="nav">
+  <a href="/" class="nav-logo"><img src="/assets/logos/grsfd-ai-ondark.png" alt="Grassfed"></a>
+  <div class="nav-right">
+    <a href="/pricing" class="nav-link">Pricing</a>
+    <a href="/" class="nav-link">Home</a>
+  </div>
+</nav>
+
+<main class="stage">
+
+  <!-- ============ SCREEN 1 — HOOK ============ -->
+  <section class="screen screen-hook" data-screen-id="hook">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-bg-grid"></div>
+      <div class="hero-bg-glow"></div>
+      <div class="hero-bg-noise"></div>
+    </div>
+
+    <div class="hero-grid">
+
+      <!-- LEFT: copy + form -->
+      <div class="hero-left">
+        <div class="live-badge">
+          <span class="pulse-dot"></span>
+          <span class="pulse-text">LIVE — <span id="live-campaigns">27</span> campaigns sent this week</span>
+        </div>
+
+        <h1 class="hero-h1">
+          Get <span class="num-pop">25 replies</span> on every
+          <span class="nowrap">Just&nbsp;Listed&nbsp;/&nbsp;Just&nbsp;Sold</span>
+          campaign you run.
+        </h1>
+        <p class="hero-sub">The secret? Cold email — not postcards.</p>
+
+        <form class="addr-form" id="addr-form" novalidate>
+          <label class="addr-label" for="addr-input">
+            Drop your listing or sale address
+          </label>
+          <div class="addr-row">
+            <input
+              id="addr-input"
+              name="address"
+              type="text"
+              autocomplete="street-address"
+              placeholder="123 Main St, Austin, TX 78704"
+              required>
+            <button type="submit" class="btn-primary">
+              Show me my campaign
+              <span class="arrow">→</span>
+            </button>
+          </div>
+          <p class="addr-trust">
+            <span class="trust-pill">✓ 30 seconds</span>
+            <span class="trust-pill">✓ Real preview</span>
+            <span class="trust-pill">✓ Address stays private</span>
+          </p>
+        </form>
+
+        <div class="trust-stats">
+          <div class="trust-stat">
+            <div class="trust-stat-num">200<span class="plus">+</span></div>
+            <div class="trust-stat-label">active agents</div>
+          </div>
+          <div class="trust-stat-divider"></div>
+          <div class="trust-stat">
+            <div class="trust-stat-num">28</div>
+            <div class="trust-stat-label">states</div>
+          </div>
+          <div class="trust-stat-divider"></div>
+          <div class="trust-stat">
+            <div class="trust-stat-num">12,400<span class="plus">+</span></div>
+            <div class="trust-stat-label">replies generated</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: live reply feed (social proof) -->
+      <div class="hero-right">
+        <div class="feed-frame">
+          <div class="feed-header">
+            <div class="feed-title">
+              <span class="pulse-dot pulse-dot-sm"></span>
+              Reply feed
+            </div>
+            <div class="feed-meta">last 60 min</div>
+          </div>
+          <div class="feed-stack" id="feed-stack" aria-hidden="true">
+            <!-- cards injected by JS -->
+          </div>
+          <div class="feed-fade"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 2 — REVEAL ============ -->
+  <section class="screen screen-reveal" data-screen-id="reveal">
+
+    <!-- Loader phase -->
+    <div class="loader-wrap" data-phase="loading">
+      <div class="loader-ring"></div>
+      <h2 class="loader-h2" id="loader-status">Finding your neighbors…</h2>
+      <ul class="loader-steps" id="loader-steps">
+        <li data-step="1">Locating <span class="mono" id="loader-addr">your address</span></li>
+        <li data-step="2">Finding nearby homes</li>
+        <li data-step="3">Checking who's reachable by email</li>
+        <li data-step="4">Building your preview</li>
+      </ul>
+    </div>
+
+    <!-- Reveal phase -->
+    <div class="reveal-wrap" data-phase="reveal" hidden>
+      <div class="eyebrow eyebrow-success">Campaign preview</div>
+
+      <div class="reveal-grid">
+
+        <!-- LEFT: count + hit-map visualization -->
+        <div class="reveal-left">
+          <div class="count-block">
+            <div class="counter" id="neighbor-count">0</div>
+            <div class="count-label">neighbors with valid emails</div>
+            <div class="count-sub">around <span class="mono" id="reveal-addr">your address</span></div>
+          </div>
+
+          <div class="hit-map-wrap">
+            <div class="hit-map-header">
+              <span class="hit-map-title">Neighborhood scan</span>
+              <span class="hit-map-rate" id="hit-rate">— hit rate</span>
+            </div>
+            <div class="hit-map" id="hit-map" aria-hidden="true">
+              <!-- dots injected by JS -->
+            </div>
+            <div class="hit-map-legend">
+              <span class="legend-item"><span class="dot dot-hit"></span> Valid email</span>
+              <span class="legend-item"><span class="dot dot-miss"></span> No email</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: address list + tucked CTA -->
+        <div class="reveal-right">
+          <div class="addr-list" id="addr-list">
+            <!-- populated by JS -->
+          </div>
+
+          <div class="reveal-cta-block">
+            <div class="price-line">
+              <span class="price-strike">$275 per campaign</span>
+            </div>
+            <button type="button" class="btn-primary btn-jumbo" id="reveal-cta">
+              Get my first campaign free
+              <span class="arrow">→</span>
+            </button>
+            <p class="reveal-trust">Takes 60 seconds. Card required to lock your first campaign in.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 3 — PROMO / PRE-CHECKOUT ============ -->
+  <section class="screen screen-promo" data-screen-id="promo">
+    <div class="promo-wrap">
+
+      <div class="eyebrow eyebrow-success">One last step</div>
+      <h1 class="promo-h1">
+        Lock in 4 campaigns. <span class="num-pop">Get 1 free.</span>
+      </h1>
+      <p class="promo-sub">
+        Pay for 3 campaigns up front. Use them as new listings or sales hit your MLS — we'll run a Just&nbsp;Listed&nbsp;/&nbsp;Just&nbsp;Sold campaign automatically.
+      </p>
+
+      <!-- Listings stack -->
+      <div class="listings" id="listings">
+        <!-- row 1: their address, locked, free -->
+        <div class="listing locked free" data-slot="1">
+          <div class="listing-num">1</div>
+          <div class="listing-body">
+            <div class="listing-label">First campaign</div>
+            <div class="listing-addr" id="promo-addr-1">123 Main St</div>
+          </div>
+          <div class="listing-price">
+            <span class="price-free-pill">FREE</span>
+            <span class="price-val">$0</span>
+          </div>
+        </div>
+
+        <!-- rows 2-4: optional adds -->
+        <div class="listing empty" data-slot="2">
+          <div class="listing-num">2</div>
+          <div class="listing-body">
+            <button type="button" class="listing-add-btn" data-add="2">+ Add another listing</button>
+            <div class="listing-input-wrap" hidden>
+              <input type="text" class="listing-input" placeholder="Listing or sale address (optional)" data-slot-input="2">
+              <button type="button" class="listing-clear" data-clear="2" aria-label="Clear">×</button>
+            </div>
+            <div class="listing-hint">Or leave blank — we'll bill when MLS fires.</div>
+          </div>
+          <div class="listing-price">
+            <span class="price-val">$275</span>
+          </div>
+        </div>
+
+        <div class="listing empty" data-slot="3">
+          <div class="listing-num">3</div>
+          <div class="listing-body">
+            <button type="button" class="listing-add-btn" data-add="3">+ Add another listing</button>
+            <div class="listing-input-wrap" hidden>
+              <input type="text" class="listing-input" placeholder="Listing or sale address (optional)" data-slot-input="3">
+              <button type="button" class="listing-clear" data-clear="3" aria-label="Clear">×</button>
+            </div>
+            <div class="listing-hint">Or leave blank — we'll bill when MLS fires.</div>
+          </div>
+          <div class="listing-price">
+            <span class="price-val">$275</span>
+          </div>
+        </div>
+
+        <div class="listing empty" data-slot="4">
+          <div class="listing-num">4</div>
+          <div class="listing-body">
+            <button type="button" class="listing-add-btn" data-add="4">+ Add another listing</button>
+            <div class="listing-input-wrap" hidden>
+              <input type="text" class="listing-input" placeholder="Listing or sale address (optional)" data-slot-input="4">
+              <button type="button" class="listing-clear" data-clear="4" aria-label="Clear">×</button>
+            </div>
+            <div class="listing-hint">Or leave blank — we'll bill when MLS fires.</div>
+          </div>
+          <div class="listing-price">
+            <span class="price-val">$275</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price reveal -->
+      <div class="price-block">
+        <div class="price-line price-line-old">
+          <span class="price-line-label">4 campaigns × $275</span>
+          <span class="price-line-val price-strike">$1,100</span>
+        </div>
+        <div class="price-line price-line-new">
+          <span class="price-line-label">Your price today</span>
+          <span class="price-line-val price-gradient">$825</span>
+        </div>
+        <div class="price-line price-line-save">
+          <span class="price-line-label">You save</span>
+          <span class="price-line-val price-save">−$275</span>
+        </div>
+      </div>
+
+      <!-- Objection accordion -->
+      <div class="objections" id="objections">
+        <details class="objection">
+          <summary>
+            <span class="objection-q">What do the emails actually say?</span>
+            <span class="objection-arrow">▾</span>
+          </summary>
+          <div class="objection-body">
+            <p>Here's the first message we'll send to every neighbor on your Just&nbsp;Listed campaign:</p>
+            <div class="email-preview">
+              <div class="email-meta">
+                <div class="email-from">From: <span>Sarah Jenkins &lt;sarah@grassfed-mail.com&gt;</span></div>
+                <div class="email-subj">Subject: Quick question about your block</div>
+              </div>
+              <div class="email-body">
+                <p>Hi {first_name},</p>
+                <p>A new listing just hit the market right around the corner from you — I wanted to reach out to a few neighbors before it gets attention from the wider market.</p>
+                <p>Quick question: have you thought about what your place might be worth right now? Happy to send a free comp if you're curious.</p>
+                <p>— Sarah<br><span class="email-sig">Licensed agent · responds in 1 business day</span></p>
+              </div>
+            </div>
+            <p class="objection-foot">
+              <strong>Fully editable</strong> — once you create your account, you'll get a portal where you can rewrite every line, swap subject lines, and approve each campaign before it sends.
+            </p>
+          </div>
+        </details>
+
+        <details class="objection">
+          <summary>
+            <span class="objection-q">When am I charged?</span>
+            <span class="objection-arrow">▾</span>
+          </summary>
+          <div class="objection-body">
+            <p>Today: <strong>$825</strong> for your 4-campaign bundle (1 free + 3 prepaid).</p>
+            <p>After that: <strong>nothing automatic.</strong> When a new listing or sale hits your MLS, we'll email you 24 hours before kicking off a campaign — one click to pause.</p>
+            <p>When your prepaid 3 campaigns run out, you can either top up or pay $275 per campaign as MLS events come in. <strong>No subscription, no monthly fee.</strong></p>
+          </div>
+        </details>
+
+        <details class="objection">
+          <summary>
+            <span class="objection-q">Can I cancel?</span>
+            <span class="objection-arrow">▾</span>
+          </summary>
+          <div class="objection-body">
+            <p>Yes — anytime, from your portal. No term, no contract. Any unused prepaid campaigns stay on your account until you use them.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Auto-bill disclosure + CTA -->
+      <div class="checkout-block">
+        <p class="autobill-disclosure">
+          By continuing, you authorize Grassfed to securely save your card and charge <strong>$275</strong> each time a new listing/sale on your MLS triggers a campaign — after your 3 prepaid credits are used. We email you 24 hours before every charge.
+        </p>
+        <button type="button" class="btn-primary btn-jumbo btn-full" id="promo-cta">
+          Continue to secure checkout — $825
+          <span class="arrow">→</span>
+        </button>
+        <div class="checkout-trust">
+          <span class="trust-pill">🔒 Stripe-secured</span>
+          <span class="trust-pill">✓ Cancel anytime</span>
+          <span class="trust-pill">✓ No subscription</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 4 — MOCK STRIPE CHECKOUT ============ -->
+  <section class="screen screen-checkout" data-screen-id="checkout">
+    <div class="mock-checkout">
+
+      <div class="mock-topbar">
+        <button type="button" class="mock-back" id="mock-back">
+          <span class="mock-back-arrow">←</span>
+          Back to Grassfed
+        </button>
+        <div class="mock-secure">
+          <span class="mock-lock">🔒</span>
+          <span>Demo checkout</span>
+        </div>
+      </div>
+
+      <div class="mock-grid">
+
+        <!-- LEFT — order summary -->
+        <div class="mock-summary">
+          <div class="mock-merchant">Grassfed</div>
+          <div class="mock-product">
+            Just Listed/Just Sold — 4-Campaign Bundle
+          </div>
+          <div class="mock-price-big">
+            <span class="mock-currency">$</span><span>825.00</span>
+            <span class="mock-currency-code">USD</span>
+          </div>
+
+          <div class="mock-lineitems">
+            <div class="mock-line">
+              <div class="mock-line-name">First campaign — <span class="mono" id="mock-addr">your address</span></div>
+              <div class="mock-line-val mock-line-free">FREE</div>
+            </div>
+            <div class="mock-line">
+              <div class="mock-line-name">3 prepaid campaigns × $275</div>
+              <div class="mock-line-val">$825.00</div>
+            </div>
+            <div class="mock-line mock-line-divider"></div>
+            <div class="mock-line">
+              <div class="mock-line-name">Subtotal</div>
+              <div class="mock-line-val">$825.00</div>
+            </div>
+            <div class="mock-line">
+              <div class="mock-line-name">Tax</div>
+              <div class="mock-line-val">$0.00</div>
+            </div>
+            <div class="mock-line mock-line-total">
+              <div class="mock-line-name">Total due today</div>
+              <div class="mock-line-val">$825.00</div>
+            </div>
+          </div>
+
+          <div class="mock-disclosure">
+            By placing this order, you authorize Grassfed to securely save your card and charge <strong>$275</strong> each time a new listing or sale on your MLS triggers a campaign — after your 3 prepaid campaigns are used. We'll email you 24 hours before every charge.
+          </div>
+        </div>
+
+        <!-- RIGHT — payment form -->
+        <form class="mock-form" id="mock-form" novalidate>
+          <div class="mock-form-section">
+            <label class="mock-label" for="mock-email">Email</label>
+            <input type="email" id="mock-email" class="mock-input" placeholder="you@example.com" autocomplete="email">
+          </div>
+
+          <div class="mock-form-section">
+            <label class="mock-label">Card information</label>
+            <div class="mock-card-stack">
+              <input type="text" id="mock-card" class="mock-input mock-input-card" placeholder="1234 1234 1234 1234" autocomplete="cc-number">
+              <div class="mock-card-row">
+                <input type="text" id="mock-exp" class="mock-input" placeholder="MM / YY" autocomplete="cc-exp">
+                <input type="text" id="mock-cvc" class="mock-input" placeholder="CVC" autocomplete="cc-csc">
+              </div>
+            </div>
+          </div>
+
+          <div class="mock-form-section">
+            <label class="mock-label" for="mock-name">Cardholder name</label>
+            <input type="text" id="mock-name" class="mock-input" placeholder="Full name on card" autocomplete="cc-name">
+          </div>
+
+          <div class="mock-form-section">
+            <label class="mock-label">Billing address</label>
+            <div class="mock-addr-row">
+              <select class="mock-input mock-input-country" id="mock-country">
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+              </select>
+              <input type="text" id="mock-zip" class="mock-input" placeholder="ZIP" autocomplete="postal-code">
+            </div>
+          </div>
+
+          <label class="mock-consent">
+            <input type="checkbox" id="mock-save" checked>
+            <span>Save my card so Grassfed can charge $275 per future MLS-triggered campaign. I can pause anytime in my portal.</span>
+          </label>
+
+          <button type="submit" class="mock-pay-btn" id="mock-pay">
+            <span class="mock-pay-label">Pay $825.00</span>
+            <span class="mock-pay-spinner" hidden></span>
+          </button>
+
+          <div class="mock-powered">
+            Powered by <strong>stripe</strong> · Demo mode
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCREEN 5 — SUCCESS ============ -->
+  <section class="screen screen-success" data-screen-id="success">
+    <div class="success-wrap">
+
+      <div class="success-burst" aria-hidden="true">
+        <span class="confetti c1"></span>
+        <span class="confetti c2"></span>
+        <span class="confetti c3"></span>
+        <span class="confetti c4"></span>
+        <span class="confetti c5"></span>
+        <span class="confetti c6"></span>
+        <span class="confetti c7"></span>
+        <span class="confetti c8"></span>
+      </div>
+
+      <div class="success-check">
+        <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+          <circle cx="32" cy="32" r="30" fill="url(#sg)" />
+          <path d="M19 33 L28 42 L46 24" stroke="white" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="sg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#62A930"/>
+              <stop offset="100%" stop-color="#177851"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+
+      <div class="eyebrow eyebrow-success">You're in</div>
+      <h1 class="success-h1">Welcome to Grassfed.</h1>
+      <p class="success-sub">
+        Your first campaign on <span class="mono" id="success-addr">your address</span> goes live in the next few hours.
+        Here's what happens next.
+      </p>
+
+      <ol class="next-steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Check your email</div>
+            <div class="step-desc">Portal credentials + your editable email templates are on the way to <strong id="success-email">the address you just used</strong>.</div>
+          </div>
+          <div class="step-icon">📩</div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Check your texts</div>
+            <div class="step-desc">We'll text your portal link so you can open it on your phone before your first campaign sends.</div>
+          </div>
+          <div class="step-icon">📱</div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Book your 15-min onboarding</div>
+            <div class="step-desc">We'll walk you through editing your templates, MLS auto-trigger setup, and how replies hit your inbox.</div>
+          </div>
+          <div class="step-icon">📅</div>
+        </li>
+      </ol>
+
+      <div class="calendly-frame">
+        <div class="calendly-header">
+          <div>
+            <div class="calendly-title">Book 15 minutes with Grassfed onboarding</div>
+            <div class="calendly-meta">15 min · Zoom · pick a slot</div>
+          </div>
+          <div class="calendly-host">
+            <div class="calendly-avatar">SG</div>
+            <div class="calendly-host-name">Sam Greene<br><span>Onboarding</span></div>
+          </div>
+        </div>
+        <div class="calendly-grid" id="calendly-grid">
+          <!-- date columns + time slots injected by JS -->
+        </div>
+        <div class="calendly-footer">
+          <div class="calendly-tz">Times shown in your local timezone</div>
+          <button type="button" class="btn-primary btn-jumbo" id="calendly-confirm" disabled>
+            Pick a time to confirm
+          </button>
+        </div>
+      </div>
+
+      <p class="success-skip">
+        Or skip onboarding — your campaign runs either way.
+        <a href="#" id="skip-onboarding">Take me to my portal →</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<script src="/signup/signup.js"></script>
+</body>
+</html>

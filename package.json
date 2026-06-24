@@ -2,8 +2,12 @@
   "name": "grsfd-ai-funnel",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "grsfd.ai marketing site + opt-in funnel.",
   "engines": {
     "node": ">=18"
+  },
+  "scripts": {
+    "dev": "node devserver.js"
   }
 }
