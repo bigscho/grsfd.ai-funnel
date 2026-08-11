@@ -168,21 +168,30 @@
 
 <!-- ===================== RESULTS ===================== -->
 <section class="px-5 py-16 md:px-8 md:py-20" style="background:var(--card)" id="results">
-  <div class="mx-auto flex max-w-[1280px] flex-col gap-8">
-    <div class="flex flex-col gap-3">
-      <p class="text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">Last updated <span id="last-updated"></span></p>
-      <h2 class="text-balance text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">Real results across every kind of market</h2>
-      <p class="max-w-[560px] lead text-lg">Response rates by market type — no names, no addresses.</p>
+  <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-10 text-center">
+    <div class="flex flex-col items-center gap-3">
+      <p class="text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">The numbers</p>
+      <h2 class="text-balance text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">Cold email that actually pencils out</h2>
     </div>
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Suburban</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">4.3%</p><p class="lead text-sm">avg reply · 180+ campaigns</p></div>
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Luxury</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">3.6%</p><p class="lead text-sm">avg reply · 60+ campaigns</p></div>
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Urban</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">3.9%</p><p class="lead text-sm">avg reply · 90+ campaigns</p></div>
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Second-home</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">4.1%</p><p class="lead text-sm">avg reply · 40+ campaigns</p></div>
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Land &amp; ranch</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">4.6%</p><p class="lead text-sm">avg reply · 35+ campaigns</p></div>
-      <div class="rounded-xl p-6" style="background:var(--bg-alt); border:1px solid var(--border)"><p class="font-semibold" style="color:var(--text)">Rural</p><p class="mt-1 text-2xl font-bold" style="color:var(--primary)">4.8%</p><p class="lead text-sm">avg reply · 50+ campaigns</p></div>
+    <div class="grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">4%</p>
+        <p class="mt-2 lead text-sm">average reply rate</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">20×</p>
+        <p class="mt-2 lead text-sm">the reach of a postcard drop</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">~$14</p>
+        <p class="mt-2 lead text-sm">per reply — postcards run ~$600</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">50</p>
+        <p class="mt-2 lead text-sm">states covered</p>
+      </div>
     </div>
-    <p class="lead text-xs">Sample figures — swap for real per-segment numbers.</p>
+    <p class="max-w-[640px] lead text-base">Proven across every market type — <span style="color:var(--text); font-weight:600">suburban, luxury, urban, second-home, land &amp; ranch, and rural</span>.</p>
   </div>
 </section>
 
@@ -641,8 +650,6 @@
     }, 2200);
   })();
 
-  /* results last-updated date — refreshes to today every day the page loads */
-  document.getElementById('last-updated').textContent = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
 
   /* ROI calculator */
   (function(){
