@@ -64,13 +64,14 @@
         <a href="#pricing" class="hover:text-[color:var(--dark-fg)]">Pricing</a>
         <a href="#results" class="hover:text-[color:var(--dark-fg)]">Results</a>
         <a href="#how" class="hover:text-[color:var(--dark-fg)]">How it works</a>
-        <a href="#templates" class="hover:text-[color:var(--dark-fg)]">Emails</a>
+        <a href="#templates" class="hover:text-[color:var(--dark-fg)]">Templates</a>
         <a href="#faq" class="hover:text-[color:var(--dark-fg)]">FAQ</a>
       </div>
     </div>
     <div class="hidden items-center gap-4 lg:flex">
       <a href="https://calendly.com/colin-grsfd/demo-grassfed" target="_blank" rel="noopener noreferrer" class="rounded-full px-[18px] py-3 text-base font-semibold tracking-[-0.48px] transition-colors" style="background:var(--lime); color:var(--dark)">Start a campaign</a>
     </div>
+    <a href="https://calendly.com/colin-grsfd/demo-grassfed" target="_blank" rel="noopener noreferrer" class="rounded-full px-4 py-2 text-sm font-semibold lg:hidden" style="background:var(--lime); color:var(--dark)">Book a call</a>
   </nav>
 </header>
 
@@ -293,14 +294,9 @@
       <p class="lead text-lg">Two-step sequences under 100 words — easy for the homeowner to reply yes or no. Every one references the real <mark>listing</mark>, <mark>sale</mark>, and <mark>address</mark>.</p>
     </div>
 
-    <!-- tabs -->
-    <div class="inline-flex rounded-full p-1" style="background:var(--bg-alt); border:1px solid var(--border)">
-      <button class="tmpl-tab rounded-full px-5 py-2 text-sm font-semibold" data-tab="jl">Just Listed</button>
-      <button class="tmpl-tab rounded-full px-5 py-2 text-sm font-semibold" data-tab="js">Just Sold</button>
-    </div>
-
     <!-- JUST LISTED -->
-    <div id="tmpl-jl" class="grid w-full max-w-[900px] gap-5 md:grid-cols-2">
+    <p class="w-full max-w-[900px] text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">Just Listed</p>
+    <div id="tmpl-jl" class="grid w-full max-w-[900px] gap-5 md:grid-cols-2 -mt-5">
       <div class="flex flex-col overflow-hidden rounded-2xl" style="border:1px solid var(--border)">
         <div class="flex items-center justify-between px-5 py-3" style="background:var(--bg-alt); border-bottom:1px solid var(--border)">
           <span class="text-xs font-semibold uppercase tracking-wide lead">Step 1</span>
@@ -329,7 +325,8 @@
     </div>
 
     <!-- JUST SOLD -->
-    <div id="tmpl-js" class="grid w-full max-w-[900px] gap-5 md:grid-cols-2" hidden>
+    <p class="mt-2 w-full max-w-[900px] text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">Just Sold</p>
+    <div id="tmpl-js" class="grid w-full max-w-[900px] gap-5 md:grid-cols-2 -mt-5">
       <div class="flex flex-col overflow-hidden rounded-2xl" style="border:1px solid var(--border)">
         <div class="flex items-center justify-between px-5 py-3" style="background:var(--bg-alt); border-bottom:1px solid var(--border)">
           <span class="text-xs font-semibold uppercase tracking-wide lead">Step 1</span>
@@ -690,17 +687,6 @@
     update();
   })();
 
-  /* template tabs */
-  (function(){
-    const tabs = document.querySelectorAll('.tmpl-tab');
-    function show(which){
-      tabs.forEach(function(t){ t.classList.toggle('active', t.dataset.tab === which); });
-      document.getElementById('tmpl-jl').hidden = which !== 'jl';
-      document.getElementById('tmpl-js').hidden = which !== 'js';
-    }
-    tabs.forEach(function(t){ t.addEventListener('click', function(){ show(t.dataset.tab); }); });
-    show('jl');
-  })();
 </script>
 </body>
 </html>
