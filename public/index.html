@@ -233,32 +233,24 @@
   </div>
 </section>
 
-<!-- ===================== RESULTS ===================== -->
-<section class="px-5 py-16 md:px-8 md:py-20" style="background:var(--card)" id="results">
-  <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-10 text-center">
-    <div class="flex flex-col items-center gap-3">
-      <p class="text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">The numbers</p>
-      <h2 class="text-balance text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">Cold email that actually pencils out</h2>
-    </div>
-    <div class="grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
-        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">4%</p>
-        <p class="mt-2 lead text-sm">average reply rate</p>
-      </div>
-      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
-        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">20×</p>
-        <p class="mt-2 lead text-sm">the reach of a postcard drop</p>
-      </div>
-      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
-        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">~$14</p>
-        <p class="mt-2 lead text-sm">per reply — postcards run ~$600</p>
-      </div>
-      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
-        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">50</p>
-        <p class="mt-2 lead text-sm">states covered</p>
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="px-5 py-16 md:px-8 md:py-20" style="background:var(--card)" id="testimonials">
+  <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-10">
+    <!-- brokerage marquee -->
+    <div class="marquee w-full">
+      <div class="marquee__track text-lg font-semibold" style="color:var(--muted)">
+        <span>Keller Williams</span><span>RE/MAX</span><span>Coldwell Banker</span><span>eXp Realty</span><span>Compass</span><span>Century 21</span><span>Berkshire Hathaway</span><span>Sotheby's</span>
+        <span>Keller Williams</span><span>RE/MAX</span><span>Coldwell Banker</span><span>eXp Realty</span><span>Compass</span><span>Century 21</span><span>Berkshire Hathaway</span><span>Sotheby's</span>
       </div>
     </div>
-    <p class="max-w-[640px] lead text-base">Proven across every market type — <span style="color:var(--text); font-weight:600">suburban, luxury, urban, second-home, land &amp; ranch, and rural</span>.</p>
+    <h2 class="text-center text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">What agents say</h2>
+    <!-- Carousel is rendered from the TESTIMONIALS array in the <script> at the bottom of this file.
+         To add a video: append one { media, aspect, blurb, tag } entry there — nothing else to touch. -->
+    <div class="carousel w-full">
+      <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous testimonials">‹</button>
+      <div id="testimonial-track" class="carousel-track"></div>
+      <button class="carousel-arrow carousel-next" type="button" aria-label="More testimonials">›</button>
+    </div>
   </div>
 </section>
 
@@ -305,24 +297,32 @@
   </div>
 </section>
 
-<!-- ===================== TESTIMONIALS ===================== -->
-<section class="px-5 py-16 md:px-8 md:py-20" style="background:var(--card)" id="testimonials">
-  <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-10">
-    <!-- brokerage marquee -->
-    <div class="marquee w-full">
-      <div class="marquee__track text-lg font-semibold" style="color:var(--muted)">
-        <span>Keller Williams</span><span>RE/MAX</span><span>Coldwell Banker</span><span>eXp Realty</span><span>Compass</span><span>Century 21</span><span>Berkshire Hathaway</span><span>Sotheby's</span>
-        <span>Keller Williams</span><span>RE/MAX</span><span>Coldwell Banker</span><span>eXp Realty</span><span>Compass</span><span>Century 21</span><span>Berkshire Hathaway</span><span>Sotheby's</span>
+<!-- ===================== RESULTS ===================== -->
+<section class="px-5 py-16 md:px-8 md:py-20" style="background:var(--card)" id="results">
+  <div class="mx-auto flex max-w-[1280px] flex-col items-center gap-10 text-center">
+    <div class="flex flex-col items-center gap-3">
+      <p class="text-xs font-semibold uppercase tracking-[0.12em]" style="color:var(--lime)">The numbers</p>
+      <h2 class="text-balance text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">Cold email that actually pencils out</h2>
+    </div>
+    <div class="grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">4%</p>
+        <p class="mt-2 lead text-sm">average reply rate</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">20×</p>
+        <p class="mt-2 lead text-sm">the reach of a postcard drop</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">~$14</p>
+        <p class="mt-2 lead text-sm">per reply — postcards run ~$600</p>
+      </div>
+      <div class="rounded-2xl p-7" style="background:var(--bg-alt); border:1px solid var(--border)">
+        <p class="text-[46px] font-bold leading-none" style="color:var(--primary)">50</p>
+        <p class="mt-2 lead text-sm">states covered</p>
       </div>
     </div>
-    <h2 class="text-center text-[34px] font-semibold leading-[1.04] tracking-[-0.02em]" style="color:var(--text)">What agents say</h2>
-    <!-- Carousel is rendered from the TESTIMONIALS array in the <script> at the bottom of this file.
-         To add a video: append one { media, aspect, blurb, tag } entry there — nothing else to touch. -->
-    <div class="carousel w-full">
-      <button class="carousel-arrow carousel-prev" type="button" aria-label="Previous testimonials">‹</button>
-      <div id="testimonial-track" class="carousel-track"></div>
-      <button class="carousel-arrow carousel-next" type="button" aria-label="More testimonials">›</button>
-    </div>
+    <p class="max-w-[640px] lead text-base">Proven across every market type — <span style="color:var(--text); font-weight:600">suburban, luxury, urban, second-home, land &amp; ranch, and rural</span>.</p>
   </div>
 </section>
 
